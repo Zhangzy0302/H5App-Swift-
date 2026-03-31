@@ -86,8 +86,8 @@ function handleAction(isDelete) {
   position: relative;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 1);
-  background-image: url('@/assets/pagebgc.png');
+  background-color: rgba(1, 1, 1, 1);
+  
   background-size: cover; /* 等比缩放覆盖 */
   background-position: center; /* 居中显示 */
   background-repeat: no-repeat;
@@ -102,14 +102,14 @@ function handleAction(isDelete) {
   display: flex;
   align-items: center;
   gap: calc(100vw * 16 / 375);
-  padding: calc(100vh * 58 / 812) calc(100vw * 20 / 375) 0;
+  padding: calc(env(safe-area-inset-top) + 10px) calc(100vw * 20 / 375) 0;
 }
 
 .title {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
+  font-weight: 600;
+  background: rgba(255, 255, 255, 1);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -126,9 +126,9 @@ function handleAction(isDelete) {
 
 .option {
   height: calc(100vh * 52 / 812);
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(23, 23, 23, 1);
   border-radius: calc(100vw * 20 / 375);
-  box-shadow: 0 calc(100vw * 2 / 375) calc(100vw * 4 / 375) rgba(0, 0, 0, 0.06);
+  /* box-shadow: 0 calc(100vw * 2 / 375) calc(100vw * 4 / 375) rgba(0, 0, 0, 0.06); */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -136,7 +136,7 @@ function handleAction(isDelete) {
 }
 
 .option-text {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Poppins', sans-serif;
   color: #fff;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
@@ -157,27 +157,26 @@ function handleAction(isDelete) {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: calc(100vh * 20 / 812);
+  gap: calc(100vh * 16 / 812);
   padding-bottom: calc(100vh * 83 / 812);
 }
 
 .btn {
-  width: calc(100vw * 229 / 375);
-  height: calc(100vh * 62 / 812);
+  width: calc(100vw * 190 / 375);
+  height: calc(100vh * 54 / 812);
   border-radius: calc(100vw * 40 / 375);
-  font-family: 'YesevaOne', sans-serif;
-  font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  box-shadow:inset calc(100vw * -2 / 375) calc(100vw * -2 / 375) calc(100vw * 2 / 375)  rgba(255, 255, 255, 0.6),inset calc(100vw * 2 / 375) calc(100vw * 2 / 375) calc(100vw * 2 / 375)  rgba(255, 255, 255, 0.5);
+  font-family: 'Poppins', sans-serif;
+  font-size: 16;
+  font-weight: 600;
 }
 
 .delete-btn {
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
-  color: rgba(74, 32, 25, 1);
+  background: rgba(137, 255, 135, 1);
+  color: rgba(0, 0, 0, 1);
 }
 
 .logout-btn {
-  background: rgba(74, 32, 25, 1);
-  color: rgba(255, 255, 255, 1);
+  background: linear-gradient(90deg, rgba(56, 243, 222, 1) 0%, rgba(27, 254, 134, 1) 100%);
+  color: rgba(0, 0, 0, 1);
 }
 </style>

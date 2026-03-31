@@ -2,10 +2,12 @@
 import { useUIStore } from '@/stores/ui'
 
 const uiStore = useUIStore()
+
 </script>
 
 <template>
   <div>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <router-view />
 
     <!-- 全局 loading -->

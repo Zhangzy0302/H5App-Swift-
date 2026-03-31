@@ -84,8 +84,8 @@ function hangup() {
 
 .avatar-outer {
   margin-top: calc(100vh * 257 / 812);
-  width: calc(100vw * 166 / 375);
-  height: calc(100vw * 166 / 375);
+  width: calc(100vw * 80 / 375);
+  height: calc(100vw * 80 / 375);
   border-radius: calc(100vw * 50 / 375);
   background: rgba(255, 255, 255, 0.3);
   display: flex;
@@ -94,11 +94,11 @@ function hangup() {
 }
 
 .avatar-inner {
-  width: calc(100vw * 144 / 375);
-  height: calc(100vw * 144 / 375);
+  width: calc(100vw * 80 / 375);
+  height: calc(100vw * 80 / 375);
   border-radius: calc(100vw * 40 / 375);
-  padding: calc(100vw * 3 / 375);
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
+  padding: calc(100vw * 2 / 375);
+  background: rgba(255, 255, 255, 0.6);
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -110,19 +110,19 @@ function hangup() {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: calc(100vw * 37 / 375);
+  
+  border-radius: calc(100vw * 99 / 375);
   display: block;
 }
 
 /* Bottom call panel */
 .call-panel {
   position: absolute;
-  bottom: calc(100vh * 40 / 812);
+  bottom: calc(100vh * 60 / 812);
   width: calc(100% - (calc(100vw * 50 / 375)));
-  height: calc(100vh * 80 / 812);
   border-radius: calc(100vw * 40 / 375);
-  background: rgba(255, 255, 255, 1);
-  display: flex;
+  display: flex ;
+  flex-direction: column;
   align-items: center;
   justify-content: space-between;
   padding: 0 calc(100vw * 20 / 375);
@@ -137,11 +137,11 @@ function hangup() {
 }
 
 .user-name {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: calc(100vw * 20 / 375);
   font-weight: 400;
   line-height: calc(100vw * 23.1 / 375);
-  color: rgba(74, 32, 25, 1);
+  color: rgba(255, 255, 255, 1);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -151,14 +151,15 @@ function hangup() {
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 15.23 / 375);
-  color: rgba(74, 32, 25, 1);
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: calc(100vh * 50 / 812);
 }
 
 .hangup-btn {
   width: calc(100vw * 60 / 375);
   height: calc(100vw * 60 / 375);
   border-radius: calc(100vw * 214 / 375);
-  background: rgba(255, 28, 100, 1);
+  background: rgba(255, 87, 51, 1);
   display: flex;
   align-items: center;
   justify-content: center;

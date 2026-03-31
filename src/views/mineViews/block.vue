@@ -19,7 +19,9 @@
                     </div>
                     <div class="user-intro">{{ item.about }}</div>
                 </div>
-                <div class="block-right" @click="removeBlock(item.userId)">Remove</div>
+                <div class="block-right" @click="removeBlock(item.userId)">
+                  <img src="@/assets/xjwialkjc_close.png" alt="" width="24px">
+                </div>
             </div>
         </div>
         <Empty v-else class="empty" />
@@ -76,8 +78,8 @@ function removeBlock(userId) {
   position: relative;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 1);
-  background-image: url('@/assets/pagebgc.png');
+  background-color: rgba(1, 1, 1, 1);
+  
   background-size: cover; /* 等比缩放覆盖 */
   background-position: center; /* 居中显示 */
   background-repeat: no-repeat;
@@ -91,14 +93,14 @@ function removeBlock(userId) {
   display: flex;
   align-items: center;
   gap: calc(100vw * 16 / 375);
-  padding: calc(100vh * 58 / 812) calc(100vw * 20 / 375) 0;
+  padding: calc(env(safe-area-inset-top) + 10px) calc(100vw * 20 / 375) 0;
 }
 
 .edit-title {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
+  font-weight: 600;
+  background: rgba(255, 255, 255, 1);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -122,10 +124,9 @@ function removeBlock(userId) {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: calc(100vh * 76 / 812);
+  height: calc(100vh * 82 / 812);
   border-radius: calc(100vw * 20 / 375);
-  background: rgba(255, 255, 255, 0.2);
-  box-shadow: 0px calc(100vw * 2 / 375) calc(100vw * 4 / 375) rgba(0, 0, 0, 0.06);
+  background: rgba(23, 23, 23, 1);
   padding: 0 calc(100vw * 16 / 375);
   box-sizing: border-box;
 }
@@ -150,8 +151,6 @@ function removeBlock(userId) {
   width: calc(100vw * 32 / 375);
   height: calc(100vw * 32 / 375);
   border-radius: 50%;
-  padding: calc(100vw * 1 / 375);
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -167,7 +166,7 @@ function removeBlock(userId) {
 }
 
 .user-name {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
   line-height: calc(100vw * 18.48 / 375);
@@ -178,7 +177,7 @@ function removeBlock(userId) {
 }
 
 .user-intro {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 15.23 / 375);
@@ -189,15 +188,15 @@ function removeBlock(userId) {
 }
 
 .block-right {
-  width: calc(100vw * 63 / 375);
-  height: calc(100vh * 28 / 812);
+  width: calc(100vw * 24 / 375);
+  height: calc(100vw * 24 / 375);
   border-radius: calc(100vw * 20 / 375);
-  background: #fff;
-  font-family: 'Archivo', sans-serif;
+  /* background: #fff; */
+  font-family: 'Poppins', sans-serif;
   font-size: calc(100vw * 12 / 375);
   font-weight: 400;
   line-height: calc(100vw * 13.06 / 375);
-  color: rgba(105, 71, 65, 1);
+  color: rgba(255, 255, 255, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;

@@ -1,7 +1,11 @@
 <template>
-  <div class="coinnot-box">
+  <div class="wrapper">
+    <div class="coinnot-box">
+      <img src="@/assets/coinnot.png" alt="" />
+    </div>
     <div class="recharge-button" @click="handleRecharge">Recharge</div>
   </div>
+  
 </template>
 
 <script setup>
@@ -15,36 +19,49 @@ function handleRecharge() {
 </script>
 
 <style scoped>
+/* 外层容器 */
+.wrapper {
+  width: 100%;
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;  /* 垂直居中 */
+  align-items: center;      /* 水平居中 */
+}
+
 .coinnot-box {
-  width: calc(100vw * 338.5 / 375);
-  height: calc(100vh * 391 / 812);
-  background-image: url('@/assets/coinnot.png');
+  width: calc(100vw * 280 / 375);
+  /* height: calc(100vh * 190 / 812); */
+  /* background-image: url('@/assets/coinnot.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  position: relative;
+  position: relative; */
+}
+
+.coinnot-box img {
+  width: 100%;
+  height: auto;   /* ✅ 关键：高度自适应 */
+  display: block;
 }
 
 .recharge-button {
-  position: absolute;
-  bottom: calc(100vh * 34 / 812);
-  left: 50%;
-  transform: translateX(-50%);
-  width: calc(100vw * 164 / 375);
-  height: calc(100vh * 56 / 812);
+  margin-top: calc(100vh * 20 / 812); /* 控制两个元素间距 */
+
+  width: calc(100vw * 190 / 375);
+  height: calc(100vh * 54 / 812);
   border-radius: calc(100vw * 40 / 375);
-  background: rgba(255, 255, 255, 0.4);
-  box-shadow: inset calc(100vw * 1 / 375) calc(100vw * 1 / 375) calc(100vw * 1 / 375) rgba(255, 255, 255, 0.6), inset calc(100vw * 1 / 375) calc(100vw * 1 / 375) calc(100vw * 1 / 375) rgba(255, 255, 255, 0.5);
+  background: linear-gradient(90deg, rgba(56, 243, 222, 1) 0%, rgba(27, 254, 134, 1) 100%);
   backdrop-filter: blur(10px);
 
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'YesevaOne', sans-serif;
-  font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 23.1 / 375);
-  letter-spacing: 0;
-  color: rgba(74, 32, 25, 1);
+
+  font-family: 'Poppins', sans-serif;
+  font-size: calc(100vw * 16 / 375);
+  font-weight: 600;
+  color: rgba(0, 0, 0, 1);
 }
 </style>

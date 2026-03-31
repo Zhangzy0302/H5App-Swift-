@@ -8,8 +8,11 @@ export const useCurrentUserStore = defineStore('currentUser', {
     actions: {
         setCurrentUser(user) {
             this.currentUser = user
-            window.currentUser = user
-        }
+        window.currentUser = user
+        console.log("currentUser:", window.currentUser)
+      }
+      
+      
     }
 })
 

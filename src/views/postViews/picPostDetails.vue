@@ -56,9 +56,7 @@
       </div>
       <!-- Comments -->
       <div class="comments-title">
-        <div class="comments-box1"></div>
         <div class="comments-title-text">Comments</div>
-        <div class="comments-box2"></div>
       </div>
       <!-- 评论列表 -->
       <div class="comments-list">
@@ -282,7 +280,7 @@ function sendComment() {
   position: relative;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 1);
+  background-color: rgba(1, 1, 1, 1);
   overflow: hidden;
 }
 
@@ -362,7 +360,7 @@ function sendComment() {
 
 .top-btn {
   position: absolute;
-  top: calc(100vh * 56 / 812);
+  top: calc(env(safe-area-inset-top) + 10px);
   left: calc(100vw * 20 / 375);
   right: calc(100vw * 20 / 375);
   display: flex;
@@ -403,7 +401,7 @@ function sendComment() {
 
 .post-desc {
   margin-right: auto; /* 第二个靠左 */
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: calc(100vw * 14 / 375);
   color: #fff;
   line-height: calc(100vw * 18 / 375);
@@ -418,13 +416,7 @@ function sendComment() {
   display: inline-flex; /* 内容撑开宽度 */
   height: calc(100vh * 26 / 812);
   border-radius: calc(100vw * 40 / 375);
-  background: linear-gradient(
-    135deg,
-    rgba(255, 159, 142, 1) 0%,
-    rgba(241, 213, 160, 1) 32.13%,
-    rgba(201, 255, 221, 1) 67.84%,
-    rgba(157, 255, 255, 1) 100%
-  );
+  background: linear-gradient(90deg, rgba(56, 243, 222, 1) 0%, rgba(27, 254, 134, 1) 100%);
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -432,7 +424,7 @@ function sendComment() {
 
 .tag-text {
   font-size: calc(100vw * 12 / 375);
-  color: rgba(74, 32, 25, 1);
+  color: rgba(0, 0, 0, 1);
   padding: 0 calc(100vw * 10 / 375);
   text-align: center;
 }
@@ -447,13 +439,7 @@ function sendComment() {
   height: calc(100vw * 36 / 375);
   border-radius: 50%;
   padding: calc(100vw * 1 / 375); /* 渐变边框宽度 */
-  background: linear-gradient(
-    135deg,
-    rgba(255, 159, 142, 1) 0%,
-    rgba(241, 213, 160, 1) 32.13%,
-    rgba(201, 255, 221, 1) 67.84%,
-    rgba(157, 255, 255, 1) 100%
-  );
+  background: linear-gradient(90deg, rgba(56, 243, 222, 1) 0%, rgba(27, 254, 134, 1) 100%);
   box-sizing: border-box;
 }
 
@@ -468,7 +454,7 @@ function sendComment() {
 .user-name {
   width: calc(100vw * 46 / 375);
   height: calc(100vw * 19 / 375);
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
   line-height: calc(100vw * 18.48 / 375);
@@ -493,7 +479,7 @@ function sendComment() {
 }
 
 .like-count {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: calc(100vw * 14 / 375);
   color: #fff;
   text-align: center;
@@ -513,11 +499,11 @@ function sendComment() {
 }
 
 .comments-title-text {
-  font-family: 'YesevaOne', sans-serif;
-  font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
+  font-family: 'Poppins', sans-serif;
+  font-size: calc(100vw * 20 / 375);
+  font-weight: 600;
   line-height: calc(100vw * 18.48 / 375);
-  color: rgba(255, 255, 255, 1);
+  color: rgba(137, 255, 135, 1);
 }
 
 .comments-box2 {
@@ -554,7 +540,7 @@ function sendComment() {
 }
 
 .comment-list-bottom {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: calc(100vw * 12 / 375);
   width: 400;
   color: rgba(255, 255, 255, 1);
@@ -566,7 +552,7 @@ function sendComment() {
   height: calc(100vw * 32 / 375);
   border-radius: 50%;
   padding: calc(100vw * 1 / 375); /* border width */
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
+  background: linear-gradient(90deg, rgba(56, 243, 222, 1) 0%, rgba(27, 254, 134, 1) 100%);
   box-sizing: border-box;
   display: flex;
 }
@@ -580,7 +566,7 @@ function sendComment() {
 }
 
 .comment-user-name {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
   line-height: calc(100vw * 18.48 / 375);
@@ -598,22 +584,22 @@ function sendComment() {
   background-position: center;
   background-repeat: no-repeat;
 }
-
 /* 输入框样式 */
 .input-box {
-  position: fixed;
+  position: absolute;
   left: calc(100vw * 20 / 375);
   right: calc(100vw * 20 / 375);
   bottom: calc(100vh * 29 / 812);
-  width: auto;
-  height: calc(100vh * 54 / 812);
-  background: rgba(201, 255, 221, 1);
+  height: calc(100vw * 46 / 375);
   border-radius: calc(100vw * 40 / 375);
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0px calc(100vw * 2 / 375) calc(100vw * 4 / 375) rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(calc(100vw * 32 / 375));
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0 calc(100vw * 16 / 375);
-  z-index: 20;
+  gap: calc(100vw * 16 / 375);
+  padding: 0 0 0 calc(100vw * 16 / 375);
+  box-sizing: border-box;
 }
 
 .input-field {
@@ -622,7 +608,7 @@ function sendComment() {
   border: none;
   outline: none;
   background: transparent;
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400; /* 可选字体粗细 */
   color: #000; /* 输入文本颜色 */
@@ -630,15 +616,15 @@ function sendComment() {
 }
 
 .input-field::placeholder {
-  color: rgba(105, 71, 65, 1); /* 提示文本颜色 */
-  font-family: 'Archivo', sans-serif;
+  color: rgba(0, 0, 0, 0.4); /* 提示文本颜色 */
+  font-family: 'Poppins', sans-serif;
   font-size: calc(100vw * 14 / 375); /* 提示文本大小 */
   font-weight: 400; /* 可选字体粗细 */
 }
 
 .send-btn {
-  width: calc(100vw * 30 / 375);
-  height: calc(100vw * 30 / 375);
+  width: calc(100vw * 46 / 375);
+  height: calc(100vw * 46 / 375);
 
   background-size: cover;
   background-position: center;

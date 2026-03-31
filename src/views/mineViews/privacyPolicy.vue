@@ -10,12 +10,12 @@
     <!-- content -->
     <div class="agreement-content">
 
-      <h1>Luvie Privacy Policy</h1>
+      <h1>Sien Privacy Policy</h1>
       <p class="update-time">Last updated: 2026</p>
 
       <p>
-        Welcome to <strong>Luvie</strong>. Your privacy is very important to us.
-        This Privacy Policy explains how Luvie collects, uses, and protects
+        Welcome to <strong>Sien</strong>. Your privacy is very important to us.
+        This Privacy Policy explains how Sien collects, uses, and protects
         your information when you use our application and services.
       </p>
 
@@ -35,7 +35,7 @@
       <p>The information we collect may be used to:</p>
 
       <ul>
-        <li>Provide and improve Luvie services</li>
+        <li>Provide and improve Sien services</li>
         <li>Personalize user experience</li>
         <li>Ensure platform safety and prevent fraud</li>
         <li>Process payments and virtual item purchases</li>
@@ -45,7 +45,7 @@
       <h2>3. Information Sharing</h2>
 
       <p>
-        Luvie does not sell or rent your personal information. We may share
+        Sien does not sell or rent your personal information. We may share
         information only in the following situations:
       </p>
 
@@ -73,7 +73,7 @@
       <h2>6. Children's Privacy</h2>
 
       <p>
-        Luvie is not intended for individuals under the age required by
+        Sien is not intended for individuals under the age required by
         applicable law. We do not knowingly collect personal information
         from children.
       </p>
@@ -91,7 +91,7 @@
       <h2>8. Changes to This Policy</h2>
 
       <p>
-        Luvie may update this Privacy Policy from time to time.
+        Sien may update this Privacy Policy from time to time.
         Continued use of the service after changes indicates
         acceptance of the updated policy.
       </p>
@@ -101,7 +101,7 @@
       <p>
         If you have questions about this Privacy Policy,
         please contact us through the support channel
-        provided within the Luvie application.
+        provided within the Sien application.
       </p>
 
     </div>
@@ -118,7 +118,6 @@ import BackButton from '@/components/back.vue'
   height:100vh;
   display:flex;
   flex-direction:column;
-  background-image:url('@/assets/pagebgc.png');
   background-size:cover;
   background-position:center;
   color:white;
@@ -129,21 +128,16 @@ import BackButton from '@/components/back.vue'
   display:flex;
   align-items:center;
   gap:calc(100vw * 16 / 375);
-  padding:calc(100vh * 58 / 812) calc(100vw * 20 / 375) calc(100vh * 20 / 812);
+  padding:calc(env(safe-area-inset-top) + 10px) calc(100vw * 20 / 375) calc(100vh * 20 / 812);
 }
 
-.title{
-  font-family: 'YesevaOne', sans-serif;
+.title {
+  font-family: 'Poppins', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  background:linear-gradient(
-    135deg,
-    rgba(255,159,142,1),
-    rgba(241,213,160,1),
-    rgba(201,255,221,1),
-    rgba(157,255,255,1)
-  );
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 /* 内容 */
@@ -158,7 +152,7 @@ import BackButton from '@/components/back.vue'
 
 /* 标题 */
 .agreement-content h1{
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size:calc(100vw * 24 / 375);
   margin-bottom:calc(100vh * 10 / 812);
 }
@@ -166,14 +160,14 @@ import BackButton from '@/components/back.vue'
 /* 更新时间 */
 .update-time{
   opacity:0.7;
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size:calc(100vw * 12 / 375);
   margin-bottom:calc(100vh * 20 / 812);
 }
 
 /* 小标题 */
 .agreement-content h2{
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size:calc(100vw * 18 / 375);
   margin-top:calc(100vh * 24 / 812);
   margin-bottom:calc(100vh * 10 / 812);
@@ -182,7 +176,7 @@ import BackButton from '@/components/back.vue'
 
 /* 正文 */
 .agreement-content p{
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size:calc(100vw * 14 / 375);
   line-height:1.7;
   margin-bottom:calc(100vh * 10 / 812);
@@ -195,7 +189,7 @@ import BackButton from '@/components/back.vue'
 
 .agreement-content li{
   margin-bottom:calc(100vh * 6 / 812);
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size:calc(100vw * 14 / 375);
 }
 </style>

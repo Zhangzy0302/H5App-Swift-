@@ -19,7 +19,9 @@
                     </div>
                     <div class="user-intro">{{ item.about }}</div>
                 </div>
-                <div class="fan-right" @click="addFollow(item.userId)">Follow</div>
+                <div class="fan-right" @click="addFollow(item.userId)">
+                  <img src="@/assets/follow.png" alt="" width="24px">
+                </div>
             </div>
         </div>
         <Empty class="empty" v-else />
@@ -46,6 +48,38 @@ const fans = computed(() => {
     return userStore.getUserById(userId)
   }) || []
 })
+
+function cancelFollow(userId) {
+  if (uiStore.loading) return
+  uiStore.showLoading()
+  const currentUserId = currentUserStore.currentUser.userId
+
+  // Remove userId from current user's follow list if it exists
+  const currentUserFollow = currentUserStore.currentUser.follow ? [...currentUserStore.currentUser.follow] : []
+  const index = currentUserFollow.indexOf(userId)
+  if (index !== -1) {
+    currentUserFollow.splice(index, 1)
+  }
+
+  // Update post user's fans list
+  const otherUser = userStore.getUserById(userId)
+  const otherUserFans = otherUser.fans ? [...otherUser.fans] : []
+  const index2 = otherUserFans.indexOf(currentUserId)
+  if (index2 !== -1) {
+    otherUserFans.splice(index2, 1)
+  }
+
+  const delay = Math.floor(Math.random() * 1500) + 500
+
+  setTimeout(() => {
+
+    userStore.updateUser(currentUserStore.currentUser.userId, { follow: currentUserFollow })
+    userStore.updateUser(userId, { fans: otherUserFans })
+
+    uiStore.hideLoading()
+    uiStore.showToast('Unfollow successfully')
+  }, delay)
+}
 
 function addFollow(userId) {
   if (currentUserStore.currentUser.follow?.includes(userId)) {
@@ -88,8 +122,8 @@ function addFollow(userId) {
   position: relative;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 1);
-  background-image: url('@/assets/pagebgc.png');
+  background-color: rgba(1, 1, 1, 1);
+  
   background-size: cover; /* 等比缩放覆盖 */
   background-position: center; /* 居中显示 */
   background-repeat: no-repeat;
@@ -103,14 +137,14 @@ function addFollow(userId) {
   display: flex;
   align-items: center;
   gap: calc(100vw * 16 / 375);
-  padding: calc(100vh * 58 / 812) calc(100vw * 20 / 375) 0;
+  padding: calc(env(safe-area-inset-top) + 10px) calc(100vw * 20 / 375) 0;
 }
 
 .edit-title {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
+  font-weight: 600;
+  background: rgba(255, 255, 255, 1);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -134,10 +168,9 @@ function addFollow(userId) {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: calc(100vh * 76 / 812);
+  height: calc(100vh * 82 / 812);
   border-radius: calc(100vw * 20 / 375);
-  background: rgba(255, 255, 255, 0.2);
-  box-shadow: 0px calc(100vw * 2 / 375) calc(100vw * 4 / 375) rgba(0, 0, 0, 0.06);
+  background: rgba(23, 23, 23, 1);
   padding: 0 calc(100vw * 16 / 375);
   box-sizing: border-box;
 }
@@ -162,8 +195,7 @@ function addFollow(userId) {
   width: calc(100vw * 32 / 375);
   height: calc(100vw * 32 / 375);
   border-radius: 50%;
-  padding: calc(100vw * 1 / 375);
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -179,7 +211,7 @@ function addFollow(userId) {
 }
 
 .user-name {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
   line-height: calc(100vw * 18.48 / 375);
@@ -190,7 +222,7 @@ function addFollow(userId) {
 }
 
 .user-intro {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 15.23 / 375);
@@ -201,15 +233,15 @@ function addFollow(userId) {
 }
 
 .fan-right {
-  width: calc(100vw * 63 / 375);
-  height: calc(100vh * 28 / 812);
+  width: calc(100vw * 24 / 375);
+  height: calc(100vw * 24 / 375);
   border-radius: calc(100vw * 20 / 375);
-  background: #fff;
-  font-family: 'Archivo', sans-serif;
+  /* background: #fff; */
+  font-family: 'Poppins', sans-serif;
   font-size: calc(100vw * 12 / 375);
   font-weight: 400;
   line-height: calc(100vw * 13.06 / 375);
-  color: rgba(105, 71, 65, 1);
+  color: rgba(255, 255, 255, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;

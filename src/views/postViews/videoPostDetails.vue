@@ -25,6 +25,9 @@
 
     <!-- 底部阴影区域 -->
     <div class="bottom-shadow"></div>
+    <div class="bottom-bar">
+      <!-- 喜欢、评论数 -->
+    
     <!-- 内容部分 -->
     <div class="content">
       <!-- 顶部按钮 -->
@@ -52,19 +55,22 @@
         </div>
       </div>
     </div>
-
-    <!-- 喜欢、评论数 -->
     <div class="action-buttons">
+      
+      <div class="action-button" @click="uiStore.openComment()">
+        <img src="@/assets/chaticon.png" alt="comment" />
+        <span>{{ post.dynamicCommentCount }}</span>
+      </div>
       <div class="action-button" @click="toggleLike">
         <img v-if="currentUserStore.currentUser.postLikeIds.includes(post.dynamicId)" src="@/assets/likepic.png" alt="like" />
         <img v-else src="@/assets/dislikepic.png" alt="like" />
         <span>{{post.dynamicLikeCount + (currentUserStore.currentUser.postLikeIds.includes(post.dynamicId) ? 1 : 0) }}</span>
       </div>
-      <div class="action-button" @click="uiStore.openComment()">
-        <img src="@/assets/chaticon.png" alt="comment" />
-        <span>{{ post.dynamicCommentCount }}</span>
-      </div>
     </div>
+    </div>
+    
+
+    
 
     <!-- 评论弹窗（底部弹出） -->
     <div v-if="uiStore.showComment" class="comment-overlay" @click.self="uiStore.closeComment()">
@@ -248,7 +254,7 @@ function commentReportSelect(value) {
   position: relative;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 1);
+  background-color: rgba(1, 1, 1, 1);
   overflow: hidden;
 }
 
@@ -281,20 +287,31 @@ function commentReportSelect(value) {
   pointer-events: none;
   transform: rotate(180deg);
 }
+
+.bottom-bar {
+  display: flex;
+  flex-direction: column;   /* 👈 关键 */
+  justify-content: space-between;
+  height: 100%;
+}
  
 .content {
   position: absolute;
-  top: 0;
+  top: 0;   /* ✅ 改这里 */
   left: 0;
   width: 100%;
   height: 100%;
+
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: calc(100vh * 56 / 812) calc(100vw * 20 / 375) calc(100vh * 34 / 812);
+
+  padding: calc(env(safe-area-inset-top) + 10px)
+           calc(100vw * 20 / 375)
+           calc(100vh * 120 / 812); /* 👈 把 bottom 偏移放到 padding */
+
   box-sizing: border-box;
-  z-index: 3;
-  pointer-events: none; /* allow clicks to pass through */
+  pointer-events: none;
 }
 
 /* Overlay pseudo-element for pass-through area */
@@ -320,6 +337,7 @@ function commentReportSelect(value) {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  z-index: 10;
 }
 
 .bottom-info {
@@ -338,13 +356,7 @@ function commentReportSelect(value) {
   height: calc(100vw * 48 / 375);
   border-radius: 50%;
   padding: calc(100vw * 1 / 375); /* border thickness */
-  background: linear-gradient(
-    135deg,
-    rgba(255, 159, 142, 1) 0%,
-    rgba(241, 213, 160, 1) 32.13%,
-    rgba(201, 255, 221, 1) 67.84%,
-    rgba(157, 255, 255, 1) 100%
-  );
+  background: rgba(255, 255, 255, 0.6);
   box-sizing: border-box;
   overflow: hidden;
   display: flex;
@@ -362,7 +374,7 @@ function commentReportSelect(value) {
 .avatar-wrap {
   position: relative;
   width: calc(100vw * 48 / 375);
-  height: calc(100vw * 52 / 375); /* avatar 48 + gap 4 */
+  height: calc(100vw * 57 / 375); /* avatar 48 + gap 4 */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -373,21 +385,20 @@ function commentReportSelect(value) {
   left: 50%;
   bottom: 0;
   transform: translateX(-50%);
-  width: calc(100vw * 36 / 375);
-  height: calc(100vw * 14 / 375);
+  width: calc(100vw * 20 / 375);
+  height: calc(100vw * 20 / 375);
   border-radius: calc(100vw * 40 / 375);
-  background: rgba(255, 255, 255, 1);
+  /* background: rgba(255, 255, 255, 1); */
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: inset calc(100vw * -1 / 375) calc(100vw * -1 / 375) calc(100vw * 1 / 375) rgba(255, 255, 255, 0.6), inset calc(100vw * 1 / 375) calc(100vw * 1 / 375) calc(100vw * 1 / 375) rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(10px);
   cursor: pointer;
 }
 
 .follow img {
-  width: calc(100vw * 12 / 375);
-  height: calc(100vw * 12 / 375);
+  width: calc(100vw * 20 / 375);
+  height: calc(100vw * 20 / 375);
 }
 
 .user-text {
@@ -397,7 +408,7 @@ function commentReportSelect(value) {
 }
 
 .username {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
   line-height: calc(100vw * 18.48 / 375);
@@ -409,7 +420,7 @@ function commentReportSelect(value) {
 }
 
 .video-desc {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   letter-spacing: 0px;
@@ -423,36 +434,43 @@ function commentReportSelect(value) {
 
 .action-buttons {
   position: absolute;
-  bottom: calc(100vh * 86 / 812);
-  right: calc(100vw * 20 / 375);
+  bottom: calc(100vh * 37 / 812);
+  left: 0;
+  width: 100%;
+  padding: 0 calc(100vw * 20 / 375);
+  box-sizing: border-box;
+  z-index: 5;
+
   display: flex;
-  gap: calc(100vh * 14 / 812);
+  gap: calc(100vw * 14 / 812);
 }
 
 .action-button {
-  width: calc(100vw * 91 / 375);
-  height: calc(100vh * 39 / 812);
-  border-radius: calc(100vw * 40 / 375);
-  background: rgba(255, 255, 255, 0.4);
-  box-shadow: inset calc(100vw * -1 / 375) calc(100vw * -1 / 375) calc(100vw * 1 / 375) rgba(255, 255, 255, 0.6), inset calc(100vw * 1 / 375) calc(100vw * 1 / 375) calc(100vw * 1 / 375) rgba(255, 255, 255, 0.5);
+  width: 100%;
+  flex: 1; 
+  height: calc(100vh * 53 / 812);
+  border-radius: calc(100vw * 20 / 375);
+  background: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(calc(100vw * 10 / 375));
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: end;
   gap: calc(100vw * 10 / 375);
 }
 
 .action-button img {
-  width: calc(100vw * 24 / 375);
-  height: calc(100vw * 24 / 375);
+  width: calc(100vw * 40 / 375);
+  height: calc(100vw * 40 / 375);
 }
 
 .action-button span {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
+  font-weight: 600;
   line-height: calc(100vw * 17.41 / 375);
-  color: rgba(255, 255, 255, 1);
+  color: rgba(255, 255, 255, 0.6);
+  padding-bottom: 2px;
 }
 
 .comment-overlay {

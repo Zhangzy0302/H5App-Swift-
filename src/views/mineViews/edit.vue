@@ -90,10 +90,10 @@ const saveProfile = async () => {
     return
   }
 
-  if (!aboutMe.value.trim()) {
-    uiStore.showToast('Please enter about me')
-    return
-  }
+  // if (!aboutMe.value.trim()) {
+  //   uiStore.showToast('Please enter about me')
+  //   return
+  // }
 
   if (uiStore.loading) return
   uiStore.showLoading()
@@ -146,8 +146,8 @@ onMounted(() => {
   position: relative;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 1);
-  background-image: url('@/assets/pagebgc.png');
+  background-color: rgba(1, 1, 1, 1);
+  
   background-size: cover; /* 等比缩放覆盖 */
   background-position: center; /* 居中显示 */
   background-repeat: no-repeat;
@@ -161,14 +161,14 @@ onMounted(() => {
   display: flex;
   align-items: center;
   gap: calc(100vw * 16 / 375);
-  padding: calc(100vh * 58 / 812) calc(100vw * 20 / 375) 0;
+  padding: calc(env(safe-area-inset-top) + 10px) calc(100vw * 20 / 375) 0;
 }
 
 .edit-title {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
+  font-weight: 600;
+  background: rgba(255, 255, 255, 1);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -200,7 +200,7 @@ onMounted(() => {
 
 .camera-corner {
   position: absolute;
-  top: 0;
+  bottom: 0;
   right: 0;
   width: calc(100vw * 28 / 375);
   height: calc(100vw * 28 / 375);
@@ -212,8 +212,8 @@ onMounted(() => {
 }
 
 .camera-corner img {
-  width: calc(100vw * 14 / 375);
-  height: calc(100vw * 14 / 375);
+  width: calc(100vw * 28 / 375);
+  height: calc(100vw * 28 / 375);
 }
 
 .second-section {
@@ -226,9 +226,9 @@ onMounted(() => {
 }
 
 .label {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
+  font-weight: 600;
   line-height: calc(100vw * 23.1 / 375);
   color: rgba(255, 255, 255, 1);
 }
@@ -237,7 +237,7 @@ onMounted(() => {
   width: 100%;
   height: calc(100vh * 54 / 812);
   border-radius: calc(100vw * 16 / 375);
-  background: rgba(255, 255, 255, 1);
+  background: rgba(23, 23, 23, 1);
   backdrop-filter: blur(calc(100vw * 12 / 375));
   display: flex;
   align-items: center;
@@ -249,17 +249,17 @@ onMounted(() => {
   width: 100%;
   border: none;
   outline: none;
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 15.23 / 375);
   letter-spacing: 0;
-  color: #000;
+  color: #fff;
   background: transparent;
 }
 
 .input-box input::placeholder {
-  color: rgba(105, 71, 65, 1);
+  color: rgba(255, 255, 255, 0.4);
 }
 
 .third-section {
@@ -281,12 +281,12 @@ onMounted(() => {
   border: none;
   outline: none;
   resize: none;
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 15.23 / 375);
   letter-spacing: 0;
-  color: #000;
+  color: #fff;
   background: transparent;
   padding: calc(100vh * 16 / 812) 0; /* top-left padding */
   box-sizing: border-box;
@@ -303,16 +303,15 @@ onMounted(() => {
   width: calc(100vw * 229 / 375);
   height: calc(100vh * 62 / 812);
   border-radius: calc(100vw * 40 / 375);
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
-  box-shadow: inset calc(100vw * -2 / 375) calc(100vw * -2 / 375) calc(100vw * 2 / 375) rgba(255, 255, 255, 0.6), inset calc(100vw * 2 / 375) calc(100vw * 2 / 375) calc(100vw * 2 / 375) rgba(255, 255, 255, 0.5);
+  background: linear-gradient(90deg, rgba(56, 243, 222, 1) 0%, rgba(27, 254, 134, 1) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'YesevaOne', sans-serif;
-  font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
+  font-family: 'Poppins', sans-serif;
+  font-size: calc(100vw * 16 / 375);
+  font-weight: 600;
   line-height: calc(100vw * 23.1 / 375);
   letter-spacing: 0;
-  color: rgba(74, 32, 25, 1);
+  color: rgba(0, 0, 0, 1);
 }
 </style>

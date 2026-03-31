@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class="aiusermodel"></div>
-    <div class="aichatmodel"></div>
+    <!-- <div class="aichatmodel"></div> -->
     <div class="page-container">
       <!-- top -->
       <div class="top-section">
@@ -9,14 +9,17 @@
       </div>
       <!-- center -->
       <div class="center-section">
-        <div
+        <div class="center-title">
+          Hi, I'm Sien AI—your singing buddy! Let’s make some music together.
+        </div>
+        <!-- <div
           v-for="(item, index) in messages"
           :key="index"
           class="message-box"
           @click="handleMessageClick(item)"
         >
           <span>{{ item }}</span>
-        </div>
+        </div> -->
       </div>
       <!-- bottom -->
       <div class="bottom-section">
@@ -25,7 +28,7 @@
             <div class="chat-choose" v-if="item.sendId === '0'">
                 <div class="chat-time">{{ item.time }}</div>
                     <div class="chat-content">
-                    <img class="chat-avatar" src="@/assets/aiavator.png" alt="AI Avatar" />
+                    <!-- <img class="chat-avatar" src="@/assets/aiavator.png" alt="AI Avatar" /> -->
                     <div class="chat-message">{{ item.message }}</div>
                 </div>
             </div>
@@ -46,7 +49,7 @@
     <!-- bottom input box -->
     <div class="bottom-input">
       <input type="text" placeholder="Say something" v-model="chatInput" />
-      <img class="send-icon" src="@/assets/commentsend.png" alt="Send" @click="sendMessage" />
+      <img class="send-btn" src="@/assets/commentsend.png" alt="Send" @click="sendMessage" />
     </div>
   </div>
 </template>
@@ -82,7 +85,7 @@ const getFirstTime = () => {
 }
 
 const bottomItems = ref([
-  { sendId: '0', time: getFirstTime(), message: 'Hi there! I’m Kico, your AI buddy for all things fun and creative.' },
+  { sendId: '0', time: getFirstTime(), message: 'Hi there! I’m Sien, your AI buddy for all things fun and.' },
 ])
 
 async function handleMessageClick(message) {
@@ -179,9 +182,10 @@ async function sendMessage() {
   height: 100vh;
   overflow: hidden; /* prevent scrolling */
   background-color: #000; /* black background */
-  background-image: url('@/assets/aibgc.png'); /* replace with your asset filename */
-  background-size: cover;
-  background-position: center;
+  background-image: url('@/assets/ruqoijaA.png'); /* replace with your asset filename */
+  background-size: 100% auto;
+  /* background-size: cover; */
+  background-position: top;
   background-repeat: no-repeat;
 }
 
@@ -192,10 +196,10 @@ async function sendMessage() {
   width: calc(100vw * 179 / 375);
   height: calc(100vh * 314 / 812);
   opacity: 1;
-  background-image: url('@/assets/aiusermodel.png'); 
+  /* background-image: url('@/assets/aiusermodel.png'); 
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;
+  background-repeat: no-repeat; */
   z-index: 1;
 }
 
@@ -215,18 +219,24 @@ async function sendMessage() {
 
 .top-section {
   position: relative;
-  margin-top: calc(100vh * 56 / 812);
+  margin-top: calc(env(safe-area-inset-top) + 10px);
   margin-left: calc(100vw * 20 / 375);
   z-index: 100;
 }
 
 .center-section {
   margin-top: calc(100vh * 41 / 812);
-  margin-left: calc(100vw * 187 / 375);
-  margin-right: calc(100vw * 28 / 375);
+  margin-left: calc(100vw * 23 / 375);
+  margin-right: calc(100vw * 155 / 375);
   display: flex;
   flex-direction: column;
   gap: calc(100vh * 12 / 812);
+}
+
+.center-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: calc(100vw * 14 / 375);
+  color: white;
 }
 
 .message-box {
@@ -237,7 +247,7 @@ async function sendMessage() {
   border-radius: calc(100vw * 40 / 375);
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(calc(100vw * 4 / 375));
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 15.23 / 375);
@@ -256,7 +266,7 @@ async function sendMessage() {
   right: 0;
   bottom: 0;
   top: calc(100vh * 325 / 812); /* adjust top spacing as needed */
-  background: rgba(255, 255, 255, 1);
+  /* background: rgba(255, 255, 255, 1); */
   border-radius: calc(100vw * 40 / 375) calc(100vw * 40 / 375) 0 0;
   z-index: 2;
 }
@@ -294,12 +304,12 @@ async function sendMessage() {
 
 .chat-time {
   text-align: center;
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
   line-height: calc(100vw * 17.41 / 375);
   letter-spacing: 0;
-  color: rgba(105, 71, 65, 1);
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .chat-content {
@@ -331,7 +341,7 @@ async function sendMessage() {
   flex-shrink: 0;
   border-radius: 50%; /* fully circular */
   padding: calc(100vw * 1 / 375); /* border thickness */
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
+  background: linear-gradient(90deg, rgba(56, 243, 222, 1) 0%, rgba(27, 254, 134, 1) 100%);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -350,14 +360,30 @@ async function sendMessage() {
 }
 
 .chat-message {
-  border-radius: 0 calc(100vw * 10 / 375) calc(100vw * 10 / 375) calc(100vw * 10 / 375);
-  background: rgba(255, 159, 142, 1);
+  border-radius: calc(100vw * 16 / 375);
+  background: linear-gradient(90deg, rgba(56, 243, 222, 1) 0%, rgba(27, 254, 134, 1) 100%);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  padding: calc(100vh * 10 / 812) calc(100vw * 10 / 375);
-  font-family: 'Archivo', sans-serif;
+  padding: calc(100vh * 13 / 812) calc(100vw * 16 / 375);
+  font-family: 'Poppins', sans-serif;
+  font-size: calc(100vw * 14 / 375);
+  font-weight: 400;
+  line-height: calc(100vw * 15.23 / 375);
+  letter-spacing: 0;
+  color: rgba(0, 0, 0, 1);
+}
+
+.chat-message-rigth {
+  border-radius: calc(100vw * 16 / 375);
+  background: rgba(67, 64, 68, 1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: calc(100vh * 13 / 812) calc(100vw * 16 / 375);
+  font-family: 'Poppins', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 15.23 / 375);
@@ -365,36 +391,21 @@ async function sendMessage() {
   color: rgba(255, 255, 255, 1);
 }
 
-.chat-message-rigth {
-  border-radius: calc(100vw * 10 / 375) 0 calc(100vw * 10 / 375) calc(100vw * 10 / 375);
-  background: rgba(201, 255, 221, 1);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  padding: calc(100vh * 10 / 812) calc(100vw * 10 / 375);
-  font-family: 'Archivo', sans-serif;
-  font-size: calc(100vw * 14 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 15.23 / 375);
-  letter-spacing: 0;
-  color: rgba(105, 71, 65, 1);
-}
-
 .bottom-input {
   position: absolute;
   left: calc(100vw * 20 / 375);
   right: calc(100vw * 20 / 375);
   bottom: calc(100vh * 29 / 812);
-  height: calc(100vh * 54 / 812);
+  height: calc(100vw * 46 / 375);
+  border-radius: calc(100vw * 40 / 375);
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0px calc(100vw * 2 / 375) calc(100vw * 4 / 375) rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(calc(100vw * 32 / 375));
   display: flex;
   align-items: center;
-  gap: calc(100vw * 10 / 375);
-  background: rgba(201, 255, 221, 1);
-  border-radius: calc(100vw * 40 / 375);
-  backdrop-filter: blur(calc(100vw * 32 / 375));
+  gap: calc(100vw * 16 / 375);
+  padding: 0 0 0 calc(100vw * 16 / 375);
   box-sizing: border-box;
-  padding: 0 calc(100vw * 16 / 375);
   z-index: 200;
 }
 
@@ -403,26 +414,25 @@ async function sendMessage() {
   border: none;
   outline: none;
   background: transparent;
+  font-family: 'Poppins', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 15.23 / 375);
   letter-spacing: 0;
-  font-family: 'Archivo', sans-serif;
-  color: rgba(0,0,0,1);
+  color: #000;
 }
 
 .bottom-input input::placeholder {
+  font-family: 'Poppins', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 15.23 / 375);
-  letter-spacing: 0;
-  font-family: 'Archivo', sans-serif;
-  color: rgba(105, 71, 65, 1);
+  color: rgba(0, 0, 0, 0.4);
 }
 
-.send-icon {
-  width: calc(100vw * 30 / 375);
-  height: calc(100vw * 30 / 375);
+.send-btn {
+  width: calc(100vw * 46 / 375);
+  height: calc(100vw * 46 / 375);
   cursor: pointer;
 }
 </style>
