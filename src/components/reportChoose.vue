@@ -2,7 +2,7 @@
   <div class="dialog-mask" @click.self="$emit('close')">
     <div class="dialog-container" :style="{ backgroundImage: `url(${bgcImage})` }">
       <div class="dialog-content">
-        <div class="dialog-options" :style="{ backgroundImage: `url(${optionsBgImage})` }">
+        <div class="dialog-options">
           <div class="option" @click="$emit('select', 0)">Report</div>
           <div class="option" @click="$emit('select', 1)">Shield</div>
         </div>
@@ -36,9 +36,10 @@ import optionsBgImage from '@/assets/reportchoosebgc.png'
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%); /* 居中 */
-  width: calc(100vw * 313 / 375);
-  height: calc(100vh * 369 / 812);
-  margin-left: calc(100vw * 14 / 375);
+  width: auto;
+  height: calc(100vw * 330 / 375);
+  aspect-ratio: 244 / 331;
+  /* margin-left: calc(100vw * 14 / 375); */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -56,32 +57,35 @@ import optionsBgImage from '@/assets/reportchoosebgc.png'
   align-items: center;       /* 水平居中 */
   height: 100%;
   width: auto;
-  margin-right: calc(100vw * 28 / 375);
-  padding-bottom: calc(100vh * 36 / 812); /* 底部间距 */
-  gap: calc(100vh * 26 / 812); /* 上下间距26 */
+  padding-bottom: calc(100vw * 32 / 375); /* 底部间距 */
+
 }
 
 .dialog-options {
-  width: calc(100vw * 220 / 375);
-  height: calc(100vh * 164 / 812);
+  width: calc(100vw * 148 / 375);
+  /* height: calc(100vh * 164 / 812); */
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: calc(100vh * 26 / 812); /* 上下间距26 */
+  gap: calc(100vw * 16 / 375); /* 上下间距26 */
   align-items: center;
   background-image: url(''); /* 先空，实际绑定在模板 */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  padding-bottom: calc(100vw * 30 / 375);
 }
 
 .option {
   width: calc(100vw * 148 / 375);
-  height: calc(100vh * 46 / 812);
+  height: calc(100vw * 46 / 375);
   border-radius: calc(100vw * 40 / 375);
   background: rgba(255, 255, 255, 1);
-  box-shadow: 0px calc(100vw * 2 / 375) calc(100vw * 4 / 375) rgba(0, 0, 0, 0.1);
-  font-family: 'Archivo', sans-serif;
+
+  border: calc(100vw * 1 / 375) solid rgba(44, 44, 44, 1);
+  box-shadow: 0px 0px 4px  rgba(0, 0, 0, 0.1);
+
+  font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
   color: rgba(74, 32, 25, 1);
@@ -93,19 +97,18 @@ import optionsBgImage from '@/assets/reportchoosebgc.png'
 }
 
 .cancel {
-  width: calc(100vw * 164 / 375);
-  height: calc(100vh * 56 / 812);
+  width: calc(100vw * 148 / 375);
+  height: calc(100vw * 53 / 375);
   border-radius: calc(100vw * 40 / 375);
-  background: rgba(255, 255, 255, 0.4);
-  box-shadow: inset calc(100vw * -1 / 375) calc(100vw * -1 / 375) calc(100vw * 1 / 375) rgba(255, 255, 255, 0.6), inset calc(100vw * 1 / 375) calc(100vw * 1 / 375) calc(100vw * 1 / 375) rgba(255, 255, 255, 0.5);
+  background: rgba(221, 123, 15, 1);
   backdrop-filter: blur(calc(100vw * 10 / 375));
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  color: rgba(74, 32, 25, 1);
+  font-weight: 700;
+  color: rgba(255, 255, 255, 1);
   text-align: center;
 }
 </style>

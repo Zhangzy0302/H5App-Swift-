@@ -137,7 +137,7 @@ function hangup() {
 }
 
 .user-name {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 20 / 375);
   font-weight: 400;
   line-height: calc(100vw * 23.1 / 375);

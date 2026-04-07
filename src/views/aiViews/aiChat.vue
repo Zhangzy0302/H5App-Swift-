@@ -237,7 +237,7 @@ async function sendMessage() {
   border-radius: calc(100vw * 40 / 375);
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(calc(100vw * 4 / 375));
-  font-family: 'Archivo', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 15.23 / 375);
@@ -294,7 +294,7 @@ async function sendMessage() {
 
 .chat-time {
   text-align: center;
-  font-family: 'Archivo', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
   line-height: calc(100vw * 17.41 / 375);
@@ -357,7 +357,7 @@ async function sendMessage() {
   justify-content: center;
   align-items: flex-start;
   padding: calc(100vh * 10 / 812) calc(100vw * 10 / 375);
-  font-family: 'Archivo', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 15.23 / 375);
@@ -367,13 +367,13 @@ async function sendMessage() {
 
 .chat-message-rigth {
   border-radius: calc(100vw * 10 / 375) 0 calc(100vw * 10 / 375) calc(100vw * 10 / 375);
-  background: rgba(201, 255, 221, 1);
+  background: rgba(245, 205, 98, 1);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
   padding: calc(100vh * 10 / 812) calc(100vw * 10 / 375);
-  font-family: 'Archivo', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 15.23 / 375);
@@ -390,7 +390,7 @@ async function sendMessage() {
   display: flex;
   align-items: center;
   gap: calc(100vw * 10 / 375);
-  background: rgba(201, 255, 221, 1);
+  background: rgba(245, 205, 98, 1);
   border-radius: calc(100vw * 40 / 375);
   backdrop-filter: blur(calc(100vw * 32 / 375));
   box-sizing: border-box;
@@ -407,7 +407,7 @@ async function sendMessage() {
   font-weight: 400;
   line-height: calc(100vw * 15.23 / 375);
   letter-spacing: 0;
-  font-family: 'Archivo', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   color: rgba(0,0,0,1);
 }
 
@@ -416,7 +416,7 @@ async function sendMessage() {
   font-weight: 400;
   line-height: calc(100vw * 15.23 / 375);
   letter-spacing: 0;
-  font-family: 'Archivo', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   color: rgba(105, 71, 65, 1);
 }
 

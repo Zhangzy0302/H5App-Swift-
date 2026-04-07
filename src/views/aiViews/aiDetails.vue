@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class="aiusermodel"></div>
-    <div class="aichatmodel"></div>
+    <div class="aichatmodel">Kael<br>AI</div>
 
     <!-- 页面内容 -->
     <div class="page-content">
@@ -10,8 +10,8 @@
       </div>
       <div class="bottom-section">
         <div class="bottom-container">
-          <div class="bottom-title">Luvie AI</div>
-          <div class="bottom-text">Hi! I’m Kico, your friendly AI companion here to chat about all your passions and interests. Whether you love fashion, art, music, or anything in between, I’m here to explore ideas, share tips, and keep the conversation fun and inspiring. Ready to dive into your favorite hobbies together? Let’s talk and discover something new every day!</div>
+          <!-- <div class="bottom-title">Luvie AI</div> -->
+          <div class="bottom-text">Hi! I'm Kael AI, your personal cycling companion. Whether you’re a casual rider enjoying the breeze or a serious cyclist chasing new records, I’m here to inspire your rides, share useful tips, and make every journey safer and more enjoyable. Are you ready to ride together?</div>
         <!-- 购买 -->
         <div class="purchase-container" @click="handlePurchaseClick">
           <div class="purchase-info">
@@ -81,9 +81,9 @@ function handleRechargeEvent(value) {
   height: 100vh;
   overflow: hidden; /* prevent scrolling */
   background-color: #000; /* black background */
-  background-image: url('@/assets/aibgc.png'); /* replace with your asset filename */
+  background-image: url('@/assets/ai_wlkajbg.png'); /* replace with your asset filename */
   background-size: cover;
-  background-position: center;
+  background-position: top;
   background-repeat: no-repeat;
 }
 
@@ -94,23 +94,29 @@ function handleRechargeEvent(value) {
   width: calc(100vw * 229 / 375);
   height: calc(100vh * 402 / 812);
   opacity: 1;
-  background-image: url('@/assets/aiusermodel.png'); 
+  /* background-image: url('@/assets/aiusermodel.png'); 
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;
+  background-repeat: no-repeat; */
 }
 
 .aichatmodel {
   position: absolute;
-  left: calc(100vw * 197 / 375);
-  top: calc(100vh * 134 / 812);
-  width: calc(100vw * 104 / 375);
-  height: calc(100vh * 38 / 812);
+  right: calc(100vw * 33 / 375);
+  top: calc(100vh * 162 / 812);
   opacity: 1;
-  background-image: url('@/assets/aichatmodel.png'); 
+  font-family: 'JetBrainsMono', sans-serif;
+  font-size: calc(100vw * 60 / 375);
+  font-weight: 700;
+  line-height: calc(100vw * 74 / 375);
+  letter-spacing: 0;
+  color: #fff;
+  text-align: right;
+  font-style: italic;
+  /* background-image: url('@/assets/aichatmodel.png'); 
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;
+  background-repeat: no-repeat; */
 }
 
 .page-content {
@@ -136,8 +142,6 @@ function handleRechargeEvent(value) {
 
 .bottom-container { 
   width: 100%;
-  background: rgba(255, 255, 255, 1);
-  border-radius: calc(100vw * 40 / 375) calc(100vw * 40 / 375) 0 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -146,7 +150,7 @@ function handleRechargeEvent(value) {
 }
 
 .bottom-title {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 24 / 375);
   font-weight: 400;
   line-height: calc(100vw * 27.72 / 375);
@@ -157,12 +161,15 @@ function handleRechargeEvent(value) {
 }
 
 .bottom-text {
-  font-family: 'Archivo', sans-serif;
-  font-size: calc(100vw * 16 / 375);
+  font-family: 'JetBrainsMono', sans-serif;
+  font-size: 16;
   font-weight: 400;
-  line-height: calc(100vw * 24 / 375);
+  /* line-height: calc(100vw * 30 / 375); */
   letter-spacing: 0;
-  color: rgba(74, 32, 25, 1);
+  background-color: rgba(44, 44, 44, 1);
+  border-radius: calc(100vw * 20 / 375);
+  padding: calc(100vh * 10 / 812);
+  color: rgba(255, 255, 255, 0.6);
   text-align: center;
   margin: 0 calc(100vw * 28 / 375) 0 calc(100vw * 28 / 375); /* horizontal padding */
 }
@@ -170,16 +177,14 @@ function handleRechargeEvent(value) {
 .purchase-container {
   margin-top: calc(100vh * 15 / 812);
   margin-bottom: calc(100vh * 25 / 812);
-  width: calc(100vw * 281 / 375);
-  height: calc(100vh * 62 / 812);
-  border-radius: calc(100vw * 40 / 375);
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
-  box-shadow: inset calc(100vw * -2 / 375) calc(100vw * -2 / 375) calc(100vw * 2 / 375) rgba(255, 255, 255, 0.6), inset calc(100vw * 2 / 375) calc(100vw * 2 / 375) calc(100vw * 2 / 375) rgba(255, 255, 255, 0.5);
+  width: calc(100vw * 246 / 375);
+  height: calc(100vh * 66 / 812);
+  border-radius: calc(100vw * 30 / 375);
+  background: rgba(221, 123, 15, 1);
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
   gap: calc(100vw * 46 / 375);
-  padding-right: calc(100vw * 11 / 375);
   box-sizing: border-box;
 }
 
@@ -199,28 +204,28 @@ function handleRechargeEvent(value) {
 }
 
 .purchase-count {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 20 / 375);
   font-weight: 400;
   line-height: calc(100vw * 23.1 / 375);
   letter-spacing: 0;
-  color: rgba(74, 32, 25, 1);
+  color: rgba(255, 255, 255, 1);
 }
 
 .chat-box {
   width: calc(100vw * 73 / 375);
   height: calc(100vh * 38 / 812);
   border-radius: calc(100vw * 40 / 375);
-  background: rgba(74, 32, 25, 1);
+  background: rgba(255, 255, 255, 1);
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'Archivo', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
   line-height: calc(100vw * 17.41 / 375);
   letter-spacing: 0;
-  color: rgba(255, 255, 255, 1);
+  color: rgba(0, 0, 0, 1);
   box-sizing: border-box;
 }
 

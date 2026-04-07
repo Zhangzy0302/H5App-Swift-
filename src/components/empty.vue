@@ -16,13 +16,13 @@
 }
 
 .empty-image {
-  width: calc(100vw * 118 / 375);
-  height: calc(100vw * 118 / 375);
+  width: calc(100vw * 200 / 375);
+  height: calc(100vw * 200 / 375);
 }
 
 .empty-text {
   margin-top: calc(100vh * 38 / 812); /* 上下间距 */
-  font-family: 'Archivo', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
   letter-spacing: 0px;

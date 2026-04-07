@@ -282,7 +282,7 @@ function sendComment() {
   position: relative;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 1);
+  background-color: rgba(253, 250, 213, 1);
   overflow: hidden;
 }
 
@@ -403,9 +403,9 @@ function sendComment() {
 
 .post-desc {
   margin-right: auto; /* 第二个靠左 */
-  font-family: 'Archivo', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 14 / 375);
-  color: #fff;
+  color: rgba(51, 51, 51, 1);
   line-height: calc(100vw * 18 / 375);
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -418,13 +418,7 @@ function sendComment() {
   display: inline-flex; /* 内容撑开宽度 */
   height: calc(100vh * 26 / 812);
   border-radius: calc(100vw * 40 / 375);
-  background: linear-gradient(
-    135deg,
-    rgba(255, 159, 142, 1) 0%,
-    rgba(241, 213, 160, 1) 32.13%,
-    rgba(201, 255, 221, 1) 67.84%,
-    rgba(157, 255, 255, 1) 100%
-  );
+  background: rgba(44, 44, 44, 1);
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -432,7 +426,7 @@ function sendComment() {
 
 .tag-text {
   font-size: calc(100vw * 12 / 375);
-  color: rgba(74, 32, 25, 1);
+  color: rgba(255, 255, 255, 1);
   padding: 0 calc(100vw * 10 / 375);
   text-align: center;
 }
@@ -447,13 +441,7 @@ function sendComment() {
   height: calc(100vw * 36 / 375);
   border-radius: 50%;
   padding: calc(100vw * 1 / 375); /* 渐变边框宽度 */
-  background: linear-gradient(
-    135deg,
-    rgba(255, 159, 142, 1) 0%,
-    rgba(241, 213, 160, 1) 32.13%,
-    rgba(201, 255, 221, 1) 67.84%,
-    rgba(157, 255, 255, 1) 100%
-  );
+  background: lrgba(221, 123, 15, 1);
   box-sizing: border-box;
 }
 
@@ -468,11 +456,11 @@ function sendComment() {
 .user-name {
   width: calc(100vw * 46 / 375);
   height: calc(100vw * 19 / 375);
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
   line-height: calc(100vw * 18.48 / 375);
-  color: rgba(255, 255, 255, 1);
+  color: rgba(44, 44, 44, 1);
 
   overflow: hidden;
   white-space: nowrap;
@@ -493,9 +481,9 @@ function sendComment() {
 }
 
 .like-count {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 14 / 375);
-  color: #fff;
+  color: rgba(0, 0, 0, 1);
   text-align: center;
 }
 
@@ -509,21 +497,21 @@ function sendComment() {
 .comments-box1 {
   width: calc(100vw * 31 / 375);
   height: calc(100vh * 1 / 812);
-  background-color: #fff;
+  background-color: rgba(44, 44, 44, 1);
 }
 
 .comments-title-text {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
   line-height: calc(100vw * 18.48 / 375);
-  color: rgba(255, 255, 255, 1);
+  color: rgba(44, 44, 44, 1);
 }
 
 .comments-box2 {
   flex: 1; /* 自动填充剩余宽度 */
   height: calc(100vh * 1 / 812);
-  background-color: #fff;
+  background-color: rgba(44, 44, 44, 1);
 }
 
 .comments-list {
@@ -539,7 +527,7 @@ function sendComment() {
   gap: calc(100vh * 4 / 812); /* 评论上下间隔10 */
   padding: calc(100vh * 14 / 812) calc(100vw * 16 / 375);
   border-radius: calc(100vw * 20 / 375);
-  background: rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 1);
 }
 
 .comment-list-top {
@@ -554,10 +542,10 @@ function sendComment() {
 }
 
 .comment-list-bottom {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 12 / 375);
   width: 400;
-  color: rgba(255, 255, 255, 1);
+  color: rgba(44, 44, 44, 1);
   text-align: left;
 }
 
@@ -566,7 +554,7 @@ function sendComment() {
   height: calc(100vw * 32 / 375);
   border-radius: 50%;
   padding: calc(100vw * 1 / 375); /* border width */
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
+  background: linear-gradient(90deg, rgba(129, 255, 255, 1) 0%, rgba(110, 110, 255, 1) 100%);
   box-sizing: border-box;
   display: flex;
 }
@@ -580,11 +568,11 @@ function sendComment() {
 }
 
 .comment-user-name {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
   line-height: calc(100vw * 18.48 / 375);
-  color: rgba(255, 255, 255, 1);
+  color: rgba(44, 44, 44, 1);
   text-align: left;
   display: flex;
   align-items: center;
@@ -607,7 +595,7 @@ function sendComment() {
   bottom: calc(100vh * 29 / 812);
   width: auto;
   height: calc(100vh * 54 / 812);
-  background: rgba(201, 255, 221, 1);
+  background: rgba(245, 205, 98, 1);
   border-radius: calc(100vw * 40 / 375);
   display: flex;
   align-items: center;
@@ -622,7 +610,7 @@ function sendComment() {
   border: none;
   outline: none;
   background: transparent;
-  font-family: 'Archivo', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400; /* 可选字体粗细 */
   color: #000; /* 输入文本颜色 */
@@ -631,7 +619,7 @@ function sendComment() {
 
 .input-field::placeholder {
   color: rgba(105, 71, 65, 1); /* 提示文本颜色 */
-  font-family: 'Archivo', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 14 / 375); /* 提示文本大小 */
   font-weight: 400; /* 可选字体粗细 */
 }

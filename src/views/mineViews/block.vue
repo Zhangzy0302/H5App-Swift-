@@ -76,8 +76,7 @@ function removeBlock(userId) {
   position: relative;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 1);
-  background-image: url('@/assets/pagebgc.png');
+  background-color: rgba(253, 250, 213, 1);
   background-size: cover; /* 等比缩放覆盖 */
   background-position: center; /* 居中显示 */
   background-repeat: no-repeat;
@@ -95,10 +94,10 @@ function removeBlock(userId) {
 }
 
 .edit-title {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
+  font-weight: 700;
+  background: rgba(0, 0, 0, 1);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -124,9 +123,9 @@ function removeBlock(userId) {
   align-items: center;
   height: calc(100vh * 76 / 812);
   border-radius: calc(100vw * 20 / 375);
-  background: rgba(255, 255, 255, 0.2);
-  box-shadow: 0px calc(100vw * 2 / 375) calc(100vw * 4 / 375) rgba(0, 0, 0, 0.06);
-  padding: 0 calc(100vw * 16 / 375);
+  background: rgba(255, 255, 255, 1);
+  /* box-shadow: 0px calc(100vw * 2 / 375) calc(100vw * 4 / 375) rgba(0, 0, 0, 0.06); */
+  padding: calc(100vw * 10 / 375) calc(100vw * 16 / 375);
   box-sizing: border-box;
 }
 
@@ -150,14 +149,20 @@ function removeBlock(userId) {
   width: calc(100vw * 32 / 375);
   height: calc(100vw * 32 / 375);
   border-radius: 50%;
+  background: rgba(221, 123, 15, 1);
   padding: calc(100vw * 1 / 375);
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
   overflow: hidden;
 }
+
+.avatar-inner {
+  width: 100%;
+  height: 100%;
+}
+
 
 .avatar-inner img {
   width: 100%;
@@ -167,22 +172,22 @@ function removeBlock(userId) {
 }
 
 .user-name {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
   line-height: calc(100vw * 18.48 / 375);
-  color: #fff;
+  color: rgba(44, 44, 44, 1);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .user-intro {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 15.23 / 375);
-  color: #fff;
+  color: rgba(51, 51, 51, 1);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -192,12 +197,12 @@ function removeBlock(userId) {
   width: calc(100vw * 63 / 375);
   height: calc(100vh * 28 / 812);
   border-radius: calc(100vw * 20 / 375);
-  background: #fff;
-  font-family: 'Archivo', sans-serif;
+  background: rgba(44, 44, 44, 1);
+  font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 12 / 375);
   font-weight: 400;
   line-height: calc(100vw * 13.06 / 375);
-  color: rgba(105, 71, 65, 1);
+  color: rgba(255, 255, 255, 1);
   display: flex;
   align-items: center;
   justify-content: center;

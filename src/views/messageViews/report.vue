@@ -60,8 +60,7 @@ function handleSubmit() {
   position: relative;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 1);
-  background-image: url('@/assets/pagebgc.png');
+background-color: rgba(253, 250, 213, 1);
   background-size: cover; /* 等比缩放覆盖 */
   background-position: center; /* 居中显示 */
   background-repeat: no-repeat;
@@ -105,11 +104,11 @@ function handleSubmit() {
   width: calc(100vw * 32 / 375);
   height: calc(100vw * 32 / 375);
   border-radius: calc(100vw * 8 / 375) 0px calc(100vw * 20 / 375) 0px;
-  background: rgba(0, 0, 0, 0.12);
+  background: rgba(153, 153, 153, 1);
 }
 
 .grid-item.selected .choose-box {
-  background: rgba(255, 159, 142, 1);
+  background: rgba(245, 205, 98, 1);
 }
 
 .check-icon {
@@ -128,7 +127,7 @@ function handleSubmit() {
 .report-content {
   padding: calc(100vh * 12 / 812) calc(100vw * 12 / 375) 0;
   color: rgba(74, 32, 25, 1);
-  font-family: 'Archivo', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
   line-height: calc(100vw * 17.41 / 375);
@@ -137,11 +136,11 @@ function handleSubmit() {
 .input-title {
   padding-top: calc(100vh * 30 / 812);
   padding-left: calc(100vw * 20 / 375);
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
+  font-weight: 700;
   line-height: calc(100vw * 23.1 / 375);
-  color: rgba(255, 255, 255, 1);
+  color: rgba(0, 0, 0, 1);
 }
 
 .input-box {
@@ -149,7 +148,7 @@ function handleSubmit() {
   margin: calc(100vh * 16 / 812) calc(100vw * 20 / 375) 0;
   height: calc(100vh * 103 / 812);
   border-radius: calc(100vw * 16 / 375);
-  background: rgba(255, 255, 255, 1);
+  background: rgba(44, 44, 44, 1);
   backdrop-filter: blur(12px);
   padding: calc(100vw * 12 / 375);
   box-sizing: border-box;
@@ -162,7 +161,7 @@ function handleSubmit() {
   resize: none;
   outline: none;
   background: transparent;
-  font-family: 'Archivo', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: normal;
   color: rgba(0,0,0,1); /* 输入文本颜色 */
@@ -170,8 +169,8 @@ function handleSubmit() {
 }
 
 .input-field::placeholder {
-  color: rgba(105, 71, 65, 1);
-  font-family: 'Archivo', sans-serif;
+  color: rgba(153, 153, 153, 1);
+  font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 14 / 375); /* 提示文本大小 */
   font-weight: 400; /* 提示文本粗细 */
   line-height: calc(100vw * 15.23 / 375);
@@ -181,9 +180,9 @@ function handleSubmit() {
   position: absolute;
   right: calc(100vw * 8 / 375);
   bottom: calc(100vh * 13 / 812);
-  font-family: 'Archivo', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 12 / 375);
-  color: rgba(74, 32, 25, 0.6);
+  color: rgba(153, 153, 153, 1);
 }
 
 .btn-box {
@@ -193,17 +192,16 @@ function handleSubmit() {
   width: calc(100vw * 229 / 375);
   height: calc(100vh * 62 / 812);
   border-radius: calc(100vw * 40 / 375);
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
-  box-shadow: inset calc(100vw * -2 / 375) calc(100vw * -2 / 375) calc(100vw * 2 / 375) rgba(255, 255, 255, 0.6), inset calc(100vw * 2 / 375) calc(100vw * 2 / 375) calc(100vw * 2 / 375) rgba(255, 255, 255, 0.5);
+  background: rgba(221, 123, 15, 1);
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
+  font-weight: 700;
   line-height: calc(100vw * 23.1 / 375);
-  color: rgba(74, 32, 25, 1);
+  color: rgba(255, 255, 255, 1);
   text-align: center;
   vertical-align: top;
 }

@@ -61,7 +61,7 @@
         <span>{{post.dynamicLikeCount + (currentUserStore.currentUser.postLikeIds.includes(post.dynamicId) ? 1 : 0) }}</span>
       </div>
       <div class="action-button" @click="uiStore.openComment()">
-        <img src="@/assets/chaticon.png" alt="comment" />
+        <img src="@/assets/comment.png" alt="comment" />
         <span>{{ post.dynamicCommentCount }}</span>
       </div>
     </div>
@@ -248,7 +248,7 @@ function commentReportSelect(value) {
   position: relative;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 1);
+  background-color: rgba(253, 250, 213, 1);
   overflow: hidden;
 }
 
@@ -397,7 +397,7 @@ function commentReportSelect(value) {
 }
 
 .username {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
   line-height: calc(100vw * 18.48 / 375);
@@ -409,7 +409,7 @@ function commentReportSelect(value) {
 }
 
 .video-desc {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   letter-spacing: 0px;
@@ -448,7 +448,7 @@ function commentReportSelect(value) {
 }
 
 .action-button span {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
   line-height: calc(100vw * 17.41 / 375);

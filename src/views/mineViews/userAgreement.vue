@@ -10,39 +10,39 @@
     <!-- 内容 -->
     <div class="agreement-content">
 
-      <h1>Luvie User Agreement</h1>
+      <h1>Kael User Agreement</h1>
 
       <p class="update-time">Last updated: 2026</p>
 
       <p>
-        Welcome to <strong>Luvie</strong>. Please read this User Agreement carefully before using the
-        Luvie application and services. By accessing or using the service, you agree to be bound
+        Welcome to <strong>Kael</strong>. Please read this User Agreement carefully before using the
+        Kael application and services. By accessing or using the service, you agree to be bound
         by this agreement.
       </p>
 
       <h2>1. Acceptance of Terms</h2>
 
       <p>
-        By creating an account or using Luvie, you confirm that you have read,
+        By creating an account or using Kael, you confirm that you have read,
         understood, and agreed to comply with this User Agreement and all applicable laws.
       </p>
 
       <h2>2. Description of Services</h2>
 
       <p>
-        Luvie provides online social interaction services including but not limited to
+        Kael provides online social interaction services including but not limited to
         messaging, video interaction, profile creation, and virtual item purchases.
       </p>
 
       <p>
-        Luvie reserves the right to modify, suspend, or discontinue any part of the
+        Kael reserves the right to modify, suspend, or discontinue any part of the
         services at any time without prior notice.
       </p>
 
       <h2>3. User Accounts</h2>
 
       <p>
-        You may be required to create an account to access certain features of Luvie.
+        You may be required to create an account to access certain features of Kael.
         You agree to provide accurate and complete information and keep your
         account credentials secure.
       </p>
@@ -65,7 +65,7 @@
       <h2>5. Virtual Items and Purchases</h2>
 
       <p>
-        Luvie may offer virtual items such as diamonds or coins which can be used
+        Kael may offer virtual items such as diamonds or coins which can be used
         within the platform. These items have no real-world monetary value and
         cannot be redeemed for cash.
       </p>
@@ -84,21 +84,21 @@
       <h2>7. Termination</h2>
 
       <p>
-        Luvie reserves the right to suspend or terminate your account if you violate
+        Kael reserves the right to suspend or terminate your account if you violate
         this agreement or engage in harmful activities.
       </p>
 
       <h2>8. Disclaimer</h2>
 
       <p>
-        The Luvie service is provided on an "as is" and "as available" basis without
+        The Kael service is provided on an "as is" and "as available" basis without
         warranties of any kind.
       </p>
 
       <h2>9. Changes to This Agreement</h2>
 
       <p>
-        Luvie may update this agreement from time to time. Continued use of the
+        Kael may update this agreement from time to time. Continued use of the
         service after changes indicates acceptance of the updated terms.
       </p>
 
@@ -140,7 +140,7 @@ import BackButton from '@/components/back.vue'
 }
 
 .title{
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 20 / 375);
   background:linear-gradient(
     135deg,
@@ -165,7 +165,7 @@ import BackButton from '@/components/back.vue'
 
 /* 标题 */
 .agreement-content h1{
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size:calc(100vw * 24 / 375);
   margin-bottom:calc(100vh * 10 / 812);
 }
@@ -173,14 +173,14 @@ import BackButton from '@/components/back.vue'
 /* 更新时间 */
 .update-time{
   opacity:0.7;
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size:calc(100vw * 12 / 375);
   margin-bottom:calc(100vh * 20 / 812);
 }
 
 /* 小标题 */
 .agreement-content h2{
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size:calc(100vw * 18 / 375);
   margin-top:calc(100vh * 24 / 812);
   margin-bottom:calc(100vh * 10 / 812);
@@ -189,7 +189,7 @@ import BackButton from '@/components/back.vue'
 
 /* 正文 */
 .agreement-content p{
-  font-family: 'Archivo', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size:calc(100vw * 14 / 375);
   line-height:1.7;
   margin-bottom:calc(100vh * 10 / 812);
@@ -202,7 +202,7 @@ import BackButton from '@/components/back.vue'
 
 .agreement-content li{
   margin-bottom:calc(100vh * 6 / 812);
-  font-family: 'Archivo', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size:calc(100vw * 14 / 375);
 }
 
