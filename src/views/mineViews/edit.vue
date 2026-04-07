@@ -204,10 +204,14 @@ background-color: rgba(253, 250, 213, 1);
   width: calc(100vw * 28 / 375);
   height: calc(100vw * 28 / 375);
   border-radius: 50%;
-  background: rgba(255, 255, 255, 1);
+  background: rgba(44, 44, 44, 1);
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.camera-corner img {
+  filter: brightness(0) invert(1);
 }
 
 .camera-corner img {
@@ -302,16 +306,15 @@ background-color: rgba(253, 250, 213, 1);
   width: calc(100vw * 229 / 375);
   height: calc(100vh * 62 / 812);
   border-radius: calc(100vw * 40 / 375);
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
-  box-shadow: inset calc(100vw * -2 / 375) calc(100vw * -2 / 375) calc(100vw * 2 / 375) rgba(255, 255, 255, 0.6), inset calc(100vw * 2 / 375) calc(100vw * 2 / 375) calc(100vw * 2 / 375) rgba(255, 255, 255, 0.5);
+  background: rgba(221, 123, 15, 1);
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
+  font-weight: 700;
   line-height: calc(100vw * 23.1 / 375);
   letter-spacing: 0;
-  color: rgba(74, 32, 25, 1);
+  color: rgba(255, 255, 255, 1);
 }
 </style>

@@ -125,7 +125,7 @@ import BackButton from '@/components/back.vue'
   height:100vh;
   display:flex;
   flex-direction:column;
-  background-image:url('@/assets/pagebgc.png');
+  /* background-image:url('@/assets/pagebgc.png'); */
   background-size:cover;
   background-position:center;
   color:white;
@@ -142,13 +142,8 @@ import BackButton from '@/components/back.vue'
 .title{
   font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  background:linear-gradient(
-    135deg,
-    rgba(255,159,142,1),
-    rgba(241,213,160,1),
-    rgba(201,255,221,1),
-    rgba(157,255,255,1)
-  );
+  font-weight: 700;
+  background:rgba(44, 44, 44, 1);
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
 }
@@ -158,7 +153,7 @@ import BackButton from '@/components/back.vue'
   flex:1;
   overflow-y:auto;
   padding:calc(100vh * 20 / 812) calc(100vw * 20 / 375);
-  background:rgba(0,0,0,0.45);
+  background:rgba(44, 44, 44, 1);
   backdrop-filter:blur(calc(100vw * 10 / 375));
   border-radius:calc(100vw * 20 / 375) calc(100vw * 20 / 375) 0 0;
 }
@@ -184,7 +179,7 @@ import BackButton from '@/components/back.vue'
   font-size:calc(100vw * 18 / 375);
   margin-top:calc(100vh * 24 / 812);
   margin-bottom:calc(100vh * 10 / 812);
-  color:#ff9f8e;
+  color:rgba(221, 123, 15, 1);
 }
 
 /* 正文 */

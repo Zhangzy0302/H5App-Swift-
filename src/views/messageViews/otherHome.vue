@@ -567,7 +567,7 @@ function toPostDetail(dynamicId, dynamicType) {
 .post-report {
   width: calc(100vw * 24 / 375);
   height: calc(100vw * 24 / 375);
-  background-image: url('@/assets/postpiccommentreport.png');
+  background-image: url('@/assets/more.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

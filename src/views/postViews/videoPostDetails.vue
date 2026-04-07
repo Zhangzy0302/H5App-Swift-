@@ -277,7 +277,7 @@ function commentReportSelect(value) {
   bottom: 0;
   width: 100%;
   height: calc(100vh * 96 / 812);
-  background: linear-gradient(180deg, rgba(14, 8, 15, 0.8) 0%, rgba(14, 8, 15, 0) 100%);
+  background: linear-gradient(180deg, rgba(245, 205, 98, 1) 0%, rgba(245, 205, 98, 0) 100%);
   pointer-events: none;
   transform: rotate(180deg);
 }
@@ -338,13 +338,7 @@ function commentReportSelect(value) {
   height: calc(100vw * 48 / 375);
   border-radius: 50%;
   padding: calc(100vw * 1 / 375); /* border thickness */
-  background: linear-gradient(
-    135deg,
-    rgba(255, 159, 142, 1) 0%,
-    rgba(241, 213, 160, 1) 32.13%,
-    rgba(201, 255, 221, 1) 67.84%,
-    rgba(157, 255, 255, 1) 100%
-  );
+  background: rgba(221, 123, 15, 1);
   box-sizing: border-box;
   overflow: hidden;
   display: flex;
@@ -399,7 +393,7 @@ function commentReportSelect(value) {
 .username {
   font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
+  font-weight: 700;
   line-height: calc(100vw * 18.48 / 375);
   color: rgba(255, 255, 255, 1);
   white-space: nowrap;
@@ -426,33 +420,35 @@ function commentReportSelect(value) {
   bottom: calc(100vh * 86 / 812);
   right: calc(100vw * 20 / 375);
   display: flex;
+  flex-direction: column;
   gap: calc(100vh * 14 / 812);
 }
 
 .action-button {
-  width: calc(100vw * 91 / 375);
-  height: calc(100vh * 39 / 812);
+  width: calc(100vw * 43 / 375);
+  /* height: calc(100vh * 39 / 812); */
   border-radius: calc(100vw * 40 / 375);
-  background: rgba(255, 255, 255, 0.4);
-  box-shadow: inset calc(100vw * -1 / 375) calc(100vw * -1 / 375) calc(100vw * 1 / 375) rgba(255, 255, 255, 0.6), inset calc(100vw * 1 / 375) calc(100vw * 1 / 375) calc(100vw * 1 / 375) rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 1);
   backdrop-filter: blur(calc(100vw * 10 / 375));
+  padding: calc(100vw * 8 / 375) 0;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: calc(100vw * 10 / 375);
 }
 
 .action-button img {
-  width: calc(100vw * 24 / 375);
-  height: calc(100vw * 24 / 375);
+  width: calc(100vw * 36 / 375);
+  height: calc(100vw * 36 / 375);
 }
 
 .action-button span {
   font-family: 'JetBrainsMono', sans-serif;
-  font-size: calc(100vw * 16 / 375);
+  font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 17.41 / 375);
-  color: rgba(255, 255, 255, 1);
+  color: rgba(44, 44, 44, 1);
 }
 
 .comment-overlay {

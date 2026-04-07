@@ -27,6 +27,6 @@
   font-weight: 400;
   letter-spacing: 0px;
   line-height: calc(100vw * 17.41 / 375);
-  color: rgba(255, 255, 255, 1);
+  color: rgba(44, 44, 44, 1);
 }
 </style>

@@ -18,7 +18,7 @@
               </div>
               <div class="username">{{ userStore.getUserById(item.userId).name }}</div>
             </div>
-            <img @click="openComment(item.userId)" v-if="item.userId !== currentUserStore.currentUser.userId" class="report-btn" src="@/assets/postpiccommentreport.png" alt="report" />
+            <img @click="openComment(item.userId)" v-if="item.userId !== currentUserStore.currentUser.userId" class="report-btn" src="@/assets/more.png" alt="report" />
           </div>
           <div class="comment-text">{{ item.content }}</div>
         </div>
@@ -150,7 +150,7 @@ watch(
   width: 100%;
   height: 100%;
   border-radius: calc(100vh * 20 / 812) calc(100vh * 20 / 812) 0 0;
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
+  background: linear-gradient(180deg, rgba(253, 250, 213, 1) 0%, rgba(245, 205, 98, 1) 100%);
   box-sizing: border-box;
   overflow: hidden;
 }
@@ -164,17 +164,17 @@ watch(
 
 .header-line {
   flex: 1;
-  height: 1px;
-  background-color: #fff;
+  height: calc(100vw * 1 / 375);
+  background-color: rgba(44, 44, 44, 1);
 }
 
 .header-title {
   font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
+  font-weight: 700;
   line-height: calc(100vw * 18.48 / 375);
   letter-spacing: 0;
-  color: rgba(255, 255, 255, 1);
+  color: rgba(44, 44, 44, 1);
   white-space: nowrap;
 }
 
@@ -193,7 +193,7 @@ watch(
   gap: calc(100vh * 4 / 812);
   padding: calc(100vh * 14 / 812) calc(100vw * 16 / 375) calc(100vh * 18 / 812);
   border-radius: calc(100vw * 20 / 375);
-  background: rgba(0, 0, 0, 0.16);
+  background: rgba(255, 255, 255, 1);
   backdrop-filter: blur(calc(100vw * 12 / 375));
 }
 
@@ -214,13 +214,7 @@ watch(
   height: calc(100vw * 32 / 375);
   border-radius: 50%;
   padding: calc(100vw * 1 / 375); /* border thickness */
-  background: linear-gradient(
-    135deg,
-    rgba(255, 159, 142, 1) 0%,
-    rgba(241, 213, 160, 1) 32.13%,
-    rgba(201, 255, 221, 1) 67.84%,
-    rgba(157, 255, 255, 1) 100%
-  );
+  background: linear-gradient(90deg, rgba(129, 255, 255, 1) 0%, rgba(110, 110, 255, 1) 100%);
   box-sizing: border-box;
   overflow: hidden;
   display: flex;
@@ -240,7 +234,7 @@ watch(
   font-weight: 400;
   line-height: calc(100vw * 18.48 / 375);
   letter-spacing: 0;
-  color: rgba(255, 255, 255, 1);
+  color: rgba(44, 44, 44, 1);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -257,7 +251,7 @@ watch(
   font-weight: 400;
   line-height: calc(100vw * 13.06 / 375);
   letter-spacing: 0;
-  color: rgba(255, 255, 255, 1);
+  color: rgba(44, 44, 44, 1);
   text-align: left;
 }
 
@@ -269,7 +263,7 @@ watch(
   height: calc(100vh * 54 / 812);
   border-radius: calc(100vw * 40 / 375);
   background: rgba(245, 205, 98, 1);
-  box-shadow: 0px calc(100vw * 2 / 375) calc(100vw * 4 / 375) rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0px calc(100vw * 2 / 375) calc(100vw * 4 / 375) rgba(0, 0, 0, 0.1); */
   backdrop-filter: blur(calc(100vw * 32 / 375));
   display: flex;
   align-items: center;

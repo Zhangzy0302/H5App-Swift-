@@ -18,7 +18,7 @@
         <div class="theme-label">Theme</div>
         <!-- ThemeList -->
         <div class="theme-list">
-          <div v-for="(theme, index) in otherStore.other.postTheme" :key="index" class="theme-item" :class="{ selected: selectedTheme === index }" @click="selectedTheme = index"># {{ theme }}</div>
+          <div v-for="(theme, index) in otherStore.other.postTheme" :key="index" class="theme-item" :class="{ selected: selectedTheme === index }" @click="selectedTheme = index">{{ theme }}</div>
         </div>
         <!-- Upload（Pic） -->
         <div class="theme-label">Upload（Pic）</div>
@@ -166,7 +166,7 @@ background-color: rgba(253, 250, 213, 1);
   margin-right: calc(100vw * 20 / 375);
   height: calc(100vh * 174 / 812);
   border-radius: calc(100vw * 16 / 375);
-  background: rgba(255, 255, 255, 1);
+  background: rgba(44, 44, 44, 1);
   padding: calc(100vw * 12 / 375);
   box-sizing: border-box;
 }
@@ -182,7 +182,7 @@ background-color: rgba(253, 250, 213, 1);
   font-weight: 400;
   line-height: calc(100vw * 15.23 / 375);
   background: transparent;
-  color: #000;
+  color: #fff;
 }
 
 .post-textarea::placeholder {
@@ -190,7 +190,7 @@ background-color: rgba(253, 250, 213, 1);
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 15.23 / 375);
-  color: rgba(105, 71, 65, 1); /* 颜色可半透明 */
+  color: rgba(153, 153, 153, 1); /* 颜色可半透明 */
 }
 
 .text-count {
@@ -200,7 +200,7 @@ background-color: rgba(253, 250, 213, 1);
   font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: normal;
-  color: rgba(105, 71, 65, 1);
+  color: rgba(153, 153, 153, 1);
 }
 
 .theme-label {
@@ -208,9 +208,9 @@ background-color: rgba(253, 250, 213, 1);
   margin-left: calc(100vw * 20 / 375);
   font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
+  font-weight: 700;
   line-height: calc(100vw * 23.1 / 375);
-  color: rgba(255, 255, 255, 1);
+  color: rgba(0, 0, 0, 1);
   text-align: left;
 }
 
@@ -226,7 +226,9 @@ background-color: rgba(253, 250, 213, 1);
   width: calc(100vw * 94 / 375);
   height: calc(100vh * 44 / 812);
   border-radius: calc(100vw * 20 / 375);
-  background: rgba(255, 255, 255, 0.16);
+  background: rgba(44, 44, 44, 0.3);
+  box-shadow:inset 0px -2px 4px  rgba(255, 255, 255, 0.25),inset 0px 2px 4px  rgba(255, 255, 255, 0.25);
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -240,8 +242,8 @@ background-color: rgba(253, 250, 213, 1);
 }
 
 .theme-item.selected {
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
-  color: rgba(74, 32, 25, 1);
+  background: rgba(44, 44, 44, 1);
+  color: rgba(255, 255, 255, 1);
 }
 
 .upload-list {
@@ -263,7 +265,7 @@ background-color: rgba(253, 250, 213, 1);
   height: calc(100vw * 108 / 375);
   flex-shrink: 0;
   border-radius: calc(100vw * 20 / 375);
-  background: rgba(255, 255, 255, 0.16);
+  background: rgba(44, 44, 44, 1);
   backdrop-filter: blur(12px);
   display: flex;
   justify-content: center;
@@ -306,16 +308,15 @@ background-color: rgba(253, 250, 213, 1);
   width: calc(100vw * 229 / 375);
   height: calc(100vh * 62 / 812);
   border-radius: calc(100vw * 40 / 375);
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
-  box-shadow: inset calc(100vw * -2 / 375) calc(100vw * -2 / 375) calc(100vw * 2 / 375) rgba(255, 255, 255, 0.6), inset calc(100vw * 2 / 375) calc(100vw * 2 / 375) calc(100vw * 2 / 375) rgba(255, 255, 255, 0.5);
+  background: rgba(221, 123, 15, 1);
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
+  font-weight: 700;
   line-height: calc(100vw * 23.1 / 375);
-  color: rgba(74, 32, 25, 1);
+  color: rgba(255, 255, 255, 1);
   cursor: pointer;
   margin: calc(100vh * 117 / 812) auto calc(100vh * 34 / 812) auto;
 }

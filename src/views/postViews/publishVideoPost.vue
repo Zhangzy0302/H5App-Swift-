@@ -62,27 +62,55 @@ const videoFirstFrame = ref('') // store the preview image
 const handleAddVideo = async (event) => {
   const file = event.target.files[0];
   if (!file) return;
+
   uploadedVideo.value = file;
 
-  const video = document.createElement('video');
-  video.src = URL.createObjectURL(file);
-  video.muted = true;
-  video.playsInline = true;
+  // 使用 URL.createObjectURL(file) 创建临时 URL
+  const videoUrl = URL.createObjectURL(file);
 
-  // Wait until the video can play to draw the first frame
-  video.addEventListener('loadeddata', () => {
-    video.currentTime = 0;
-  }, { once: true });
+  console.log(videoUrl);
+  // 获取首帧封面
+  videoFirstFrame.value = await getVideoInfo(videoUrl);
 
-  video.addEventListener('seeked', () => {
-    const canvas = document.createElement('canvas');
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-    videoFirstFrame.value = canvas.toDataURL('image/png');
-  }, { once: true });
-}
+  // 释放 URL，防止内存泄漏
+  // URL.revokeObjectURL(videoUrl); // 可在确认首帧生成后释放
+};
+
+const getVideoInfo = async (videoUrl) => {
+  return new Promise((resolve) => {
+    let video = document.createElement("video");
+    video.src = videoUrl;
+    video.currentTime = 0.1; // 截取首帧
+    video.preload = "metadata";
+
+    video.addEventListener("loadeddata", async () => {
+      let canvas = document.createElement("canvas"),
+          width = video.videoWidth,
+          height = video.videoHeight;
+
+      canvas.width = width;
+      canvas.height = height;
+
+      // 等 100ms 渲染完成
+      await new Promise((r) => setTimeout(r, 100));
+
+      canvas.getContext("2d").drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      const thumb = canvas.toDataURL("image/jpeg");
+
+      // 释放资源
+      canvas.width = 0;
+      canvas.height = 0;
+      video.src = "";
+      video.load();
+      video.remove();
+      video = null;
+      canvas = null;
+
+      resolve(thumb);
+    });
+  });
+};
 
 const handleRemoveVideo = () => {
   uploadedVideo.value = null
@@ -176,7 +204,7 @@ background-color: rgba(253, 250, 213, 1);
   margin-right: calc(100vw * 20 / 375);
   height: calc(100vh * 174 / 812);
   border-radius: calc(100vw * 16 / 375);
-  background: rgba(255, 255, 255, 1);
+  background: rgba(44, 44, 44, 1);
   padding: calc(100vw * 12 / 375);
   box-sizing: border-box;
 }
@@ -192,7 +220,7 @@ background-color: rgba(253, 250, 213, 1);
   font-weight: 400;
   line-height: calc(100vw * 15.23 / 375);
   background: transparent;
-  color: #000;
+  color: #fff;
 }
 
 .post-textarea::placeholder {
@@ -200,7 +228,7 @@ background-color: rgba(253, 250, 213, 1);
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 15.23 / 375);
-  color: rgba(105, 71, 65, 1); /* 颜色可半透明 */
+  color: rgba(153, 153, 153, 1); /* 颜色可半透明 */
 }
 
 .text-count {
@@ -210,7 +238,7 @@ background-color: rgba(253, 250, 213, 1);
   font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: normal;
-  color: rgba(105, 71, 65, 1);
+  color: rgba(153, 153, 153, 1);
 }
 
 .theme-label {
@@ -218,9 +246,9 @@ background-color: rgba(253, 250, 213, 1);
   margin-left: calc(100vw * 20 / 375);
   font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
+  font-weight: 700;
   line-height: calc(100vw * 23.1 / 375);
-  color: rgba(255, 255, 255, 1);
+  color: rgba(44, 44, 44, 1);
   text-align: left;
 }
 
@@ -243,7 +271,7 @@ background-color: rgba(253, 250, 213, 1);
   height: calc(100vw * 108 / 375);
   flex-shrink: 0;
   border-radius: calc(100vw * 20 / 375);
-  background: rgba(255, 255, 255, 0.16);
+  background: rgba(44, 44, 44, 1);
   backdrop-filter: blur(12px);
   display: flex;
   justify-content: center;
@@ -281,19 +309,18 @@ background-color: rgba(253, 250, 213, 1);
 
 /* Release Button Styles */
 .release-button {
-  width: calc(100vw * 229 / 375);
+  width: calc(100vw * 246 / 375);
   height: calc(100vh * 62 / 812);
   border-radius: calc(100vw * 40 / 375);
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
-  box-shadow: inset calc(100vw * -2 / 375) calc(100vw * -2 / 375) calc(100vw * 2 / 375) rgba(255, 255, 255, 0.6), inset calc(100vw * 2 / 375) calc(100vw * 2 / 375) calc(100vw * 2 / 375) rgba(255, 255, 255, 0.5);
+  background: rgba(221, 123, 15, 1);
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
+  font-weight: 700;
   line-height: calc(100vw * 23.1 / 375);
-  color: rgba(74, 32, 25, 1);
+  color: rgba(255, 255, 255, 1);
   cursor: pointer;
   margin: calc(100vh * 148 / 812) auto calc(100vh * 34 / 812) auto;
 }
