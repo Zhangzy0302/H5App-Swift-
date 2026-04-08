@@ -150,7 +150,7 @@ watch(
   width: 100%;
   height: 100%;
   border-radius: calc(100vh * 20 / 812) calc(100vh * 20 / 812) 0 0;
-  background: linear-gradient(180deg, rgba(253, 250, 213, 1) 0%, rgba(245, 205, 98, 1) 100%);
+  background: linear-gradient(0deg, rgba(253, 250, 213, 1) 0%, rgba(245, 205, 98, 1) 100%);
   box-sizing: border-box;
   overflow: hidden;
 }

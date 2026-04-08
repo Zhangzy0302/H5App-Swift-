@@ -68,7 +68,7 @@ background-color: rgba(253, 250, 213, 1);
 }
 
 .back {
-  padding-top: calc(100vh * 56 / 812);
+  padding-top: calc(env(safe-area-inset-top) + 12px);
   padding-left: calc(100vw * 20 / 375);
 }
 
@@ -164,7 +164,7 @@ background-color: rgba(253, 250, 213, 1);
   font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: normal;
-  color: rgba(0,0,0,1); /* 输入文本颜色 */
+  color: rgba(255,255,255,1); /* 输入文本颜色 */
   line-height: calc(100vw * 15.23 / 375);
 }
 

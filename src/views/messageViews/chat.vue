@@ -258,7 +258,7 @@ function reportSelect(value) {
 }
 
 .top-content {
-  padding:calc(100vh * 56 / 812) calc(100vw * 20 / 375) 0;
+  padding:calc(env(safe-area-inset-top) + 12px) calc(100vw * 20 / 375) 0;
   display: flex;
   justify-content: space-between;
   align-items: center;

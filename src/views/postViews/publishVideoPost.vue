@@ -184,7 +184,7 @@ background-color: rgba(253, 250, 213, 1);
 }
 
 .back {
-    padding-top: calc(100vh * 56 / 812);
+    padding-top: calc(env(safe-area-inset-top) + 12px);
     padding-left: calc(100vw * 20 / 375);
 }
 

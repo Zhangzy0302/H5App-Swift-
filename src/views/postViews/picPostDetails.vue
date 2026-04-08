@@ -362,7 +362,7 @@ function sendComment() {
 
 .top-btn {
   position: absolute;
-  top: calc(100vh * 56 / 812);
+  top: calc(env(safe-area-inset-top) + 12px);
   left: calc(100vw * 20 / 375);
   right: calc(100vw * 20 / 375);
   display: flex;

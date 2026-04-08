@@ -327,10 +327,9 @@ function toPostDetail(dynamicId, dynamicType) {
   position: absolute;
   bottom: calc(-100vh * 4 / 812); /* 超出头像底部4 */
   width: calc(100vw * 36 / 375);
-  height: calc(100vh * 14 / 812);
+  height: calc(100vw * 14 / 375);
   border-radius: calc(100vw * 40 / 375);
-  background: rgba(44, 44, 44, 1);
-  box-shadow: inset -1px -1px 1px rgba(255, 255, 255, 0.6), inset 1px 1px 1px rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 1);
   backdrop-filter: blur(10px);
   display: flex;
   justify-content: center;
@@ -350,7 +349,7 @@ function toPostDetail(dynamicId, dynamicType) {
 .top-name {
   padding: calc(100vh * 12 / 812) calc(100vw * 20 / 375) 0;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
+  font-weight: 700;
   line-height: calc(100vw * 23.1 / 375);
   font-family: 'JetBrainsMono', sans-serif;
   color: rgba(44, 44, 44, 1);
@@ -381,7 +380,7 @@ function toPostDetail(dynamicId, dynamicType) {
 .stat-number {
   font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
+  font-weight: 700;
   line-height: calc(100vw * 23.1 / 375);
   color: rgba(44, 44, 44, 1);
 }
@@ -641,7 +640,7 @@ function toPostDetail(dynamicId, dynamicType) {
 
 .top-btn {
   position: absolute;
-  top: calc(100vh * 56 / 812);
+  top: calc(env(safe-area-inset-top) + 12px);
   left: calc(100vw * 20 / 375);
   right: calc(100vw * 20 / 375);
   display: flex;

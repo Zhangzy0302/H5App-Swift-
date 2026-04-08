@@ -16,7 +16,7 @@
         <div class="purchase-container" @click="handlePurchaseClick">
           <div class="purchase-info">
             <div class="purchase-icon"></div>
-            <div class="purchase-count">100</div>
+            <div class="purchase-count">200</div>
           </div>
           <div class="chat-box">Chat</div>
         </div>
@@ -48,11 +48,11 @@ const currentUserStore = useCurrentUserStore()
 const uiStore = useUIStore()
 const userStore =  useUserStore()
 function handlePurchaseClick() {
-  if (currentUserStore.currentUser.coins >= 100) {
+  if (currentUserStore.currentUser.coins >= 200) {
     if (uiStore.loading) return
     uiStore.showLoading()
 
-    const currentCoins = currentUserStore.currentUser.coins - 100
+    const currentCoins = currentUserStore.currentUser.coins - 200
     userStore.updateUser(currentUserStore.currentUser.userId, { coins: currentCoins })
 
     const delay = Math.floor(Math.random() * 1500) + 500
@@ -129,7 +129,7 @@ function handleRechargeEvent(value) {
 }
 
 .top-section {
-  margin-top: calc(100vh * 56 / 812);
+  margin-top: calc(env(safe-area-inset-top) + 12px);
   margin-left: calc(100vw * 20 / 375);
   z-index: 100;
 }

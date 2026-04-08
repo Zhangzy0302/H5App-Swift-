@@ -58,7 +58,7 @@
       <div class="action-button" @click="toggleLike">
         <img v-if="currentUserStore.currentUser.postLikeIds.includes(post.dynamicId)" src="@/assets/likepic.png" alt="like" />
         <img v-else src="@/assets/dislikepic.png" alt="like" />
-        <span>{{post.dynamicLikeCount + (currentUserStore.currentUser.postLikeIds.includes(post.dynamicId) ? 1 : 0) }}</span>
+        <span>{{post.dynamicLikeCount}}</span>
       </div>
       <div class="action-button" @click="uiStore.openComment()">
         <img src="@/assets/comment.png" alt="comment" />
@@ -217,20 +217,39 @@ function goOtherHome(userId) {
 // 点赞逻辑
 function toggleLike() {
   const postLikeIds = currentUserStore.currentUser.postLikeIds
-  // 判断当前用户是否已经点赞
   const likedIndex = postLikeIds.indexOf(postId)
 
+  let isLike = false
+
   if (likedIndex === -1) {
-    // 未点赞，添加postId到postLikeIds
     postLikeIds.push(postId)
+    isLike = true
   } else {
-    // 已点赞，移除postId
     postLikeIds.splice(likedIndex, 1)
-    // 点赞数不减少，保持原有逻辑
+    isLike = false
   }
 
-  // 同步更新userStore，并回传iOS
-  userStore.updateUser(currentUserStore.currentUser.userId, { postLikeIds: postLikeIds })
+  // ✅ 更新用户
+  userStore.updateUser(currentUserStore.currentUser.userId, { 
+    postLikeIds: postLikeIds 
+  })
+
+  // ✅ 更新帖子
+  const post = postStore.getPostById(postId)
+
+  if (post) {
+    let newCount = post.dynamicLikeCount || 0
+
+    if (isLike) {
+      newCount += 1
+    } else {
+      newCount -= 1   // 👈 如果你不想减，可以去掉
+    }
+
+    postStore.updatePostById(postId, {
+      dynamicLikeCount: newCount
+    })
+  }
 }
 
 //评论举报、拉黑显示
@@ -291,7 +310,7 @@ function commentReportSelect(value) {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: calc(100vh * 56 / 812) calc(100vw * 20 / 375) calc(100vh * 34 / 812);
+  padding: calc(env(safe-area-inset-top) + 12px) calc(100vw * 20 / 375) calc(100vh * 34 / 812);
   box-sizing: border-box;
   z-index: 3;
   pointer-events: none; /* allow clicks to pass through */

@@ -32,7 +32,7 @@ function handleRecharge() {
   left: 50%;
   transform: translateX(-50%);
   width: calc(100vw * 146 / 375);
-  height: calc(100vh * 56 / 812);
+  height: calc(env(safe-area-inset-top) + 12px);
   border-radius: calc(100vw * 40 / 375);
   background: rgba(221, 123, 15, 1);
   backdrop-filter: blur(10px);
