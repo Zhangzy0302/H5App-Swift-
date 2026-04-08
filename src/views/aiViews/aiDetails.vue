@@ -10,7 +10,7 @@
       </div>
       <div class="bottom-section">
         <div class="bottom-container">
-          <!-- <div class="bottom-title">Luvie AI</div> -->
+          <!-- <div class="bottom-title">Kael AI</div> -->
           <div class="bottom-text">Hi! I'm Kael AI, your personal cycling companion. Whether you’re a casual rider enjoying the breeze or a serious cyclist chasing new records, I’m here to inspire your rides, share useful tips, and make every journey safer and more enjoyable. Are you ready to ride together?</div>
         <!-- 购买 -->
         <div class="purchase-container" @click="handlePurchaseClick">
