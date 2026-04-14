@@ -118,7 +118,7 @@ import BackButton from '@/components/back.vue'
   height:100vh;
   display:flex;
   flex-direction:column;
-  background-image:url('@/assets/pagebgc.png');
+  background-image:url('@/assets/rutyauwc_bg.png');
   background-size:cover;
   background-position:center;
   color:white;
@@ -129,7 +129,7 @@ import BackButton from '@/components/back.vue'
   display:flex;
   align-items:center;
   gap:calc(100vw * 16 / 375);
-  padding:calc(100vh * 58 / 812) calc(100vw * 20 / 375) calc(100vh * 20 / 812);
+  padding:calc(env(safe-area-inset-top) + 12px) calc(100vw * 20 / 375) calc(100vh * 20 / 812);
 }
 
 .title{

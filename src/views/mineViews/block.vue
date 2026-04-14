@@ -77,7 +77,7 @@ function removeBlock(userId) {
   width: 100%;
   height: 100vh;
   background-color: rgba(0, 0, 0, 1);
-  background-image: url('@/assets/pagebgc.png');
+  background-image: url('@/assets/rutyauwc_bg.png');
   background-size: cover; /* 等比缩放覆盖 */
   background-position: center; /* 居中显示 */
   background-repeat: no-repeat;
@@ -91,7 +91,7 @@ function removeBlock(userId) {
   display: flex;
   align-items: center;
   gap: calc(100vw * 16 / 375);
-  padding: calc(100vh * 58 / 812) calc(100vw * 20 / 375) 0;
+  padding: calc(env(safe-area-inset-top) + 12px) calc(100vw * 20 / 375) 0;
 }
 
 .edit-title {

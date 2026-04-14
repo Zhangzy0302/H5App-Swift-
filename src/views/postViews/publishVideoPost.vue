@@ -149,7 +149,7 @@ const handleRelease = async () => {
   width: 100%;
   height: 100vh;
   background-color: rgba(0, 0, 0, 1);
-  background-image: url('@/assets/pagebgc.png');
+  background-image: url('@/assets/rutyauwc_bg.png');
   background-size: cover; /* 等比缩放覆盖 */
   background-position: center; /* 居中显示 */
   background-repeat: no-repeat;
