@@ -138,8 +138,8 @@ const handleRelease = async () => {
   position: relative;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 1);
-  background-image: url('@/assets/rutyauwc_bg.png');
+  /* background-color: rgba(0, 0, 0, 1);
+  background-image: url('@/assets/rutyauwc_bg.png'); */
   background-size: cover; /* 等比缩放覆盖 */
   background-position: center; /* 居中显示 */
   background-repeat: no-repeat;
@@ -147,7 +147,7 @@ const handleRelease = async () => {
 }
 
 .back {
-    padding-top: calc(100vh * 56 / 812);
+    padding-top: calc(env(safe-area-inset-top) + 12px);
     padding-left: calc(100vw * 20 / 375);
 }
 
@@ -167,7 +167,10 @@ const handleRelease = async () => {
   margin-right: calc(100vw * 20 / 375);
   height: calc(100vh * 174 / 812);
   border-radius: calc(100vw * 16 / 375);
-  background: rgba(255, 255, 255, 1);
+  border: calc(100vw * 1 / 375) solid rgba(255, 255, 255, 1);
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0px calc(100vw * 2 / 375) calc(100vw * 4 / 375)  rgba(0, 0, 0, 0.06);
+
   padding: calc(100vw * 12 / 375);
   box-sizing: border-box;
 }
@@ -178,7 +181,7 @@ const handleRelease = async () => {
   border: none;
   outline: none;
   resize: none;
-  font-family: 'Archivo', sans-serif;
+  font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 15.23 / 375);
@@ -187,31 +190,31 @@ const handleRelease = async () => {
 }
 
 .post-textarea::placeholder {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 15.23 / 375);
-  color: rgba(105, 71, 65, 1); /* 颜色可半透明 */
+  color: rgba(153, 153, 153, 1); /* 颜色可半透明 */
 }
 
 .text-count {
   position: absolute;
   right: calc(100vw * 14 / 375);
   bottom: calc(100vh * 19 / 812);
-  font-family: 'Archivo', sans-serif;
+  font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: normal;
-  color: rgba(105, 71, 65, 1);
+  color: rgba(153, 153, 153, 1);
 }
 
 .theme-label {
   margin-top: calc(100vh * 24 / 812);
   margin-left: calc(100vw * 20 / 375);
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
+  font-weight: 700;
   line-height: calc(100vw * 23.1 / 375);
-  color: rgba(255, 255, 255, 1);
+  color: rgba(0, 0, 0, 1);
   text-align: left;
 }
 
@@ -227,22 +230,24 @@ const handleRelease = async () => {
   width: calc(100vw * 94 / 375);
   height: calc(100vh * 44 / 812);
   border-radius: calc(100vw * 20 / 375);
+  border: calc(100vw * 1 / 375) solid rgba(255, 255, 255, 1);
   background: rgba(255, 255, 255, 0.16);
+  box-shadow: 0px calc(100vw * 2 / 375) calc(100vw * 4 / 375)  rgba(0, 0, 0, 0.06);
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'Archivo', sans-serif;
+  font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 15.23 / 375);
   letter-spacing: 0;
-  color: rgba(255, 255, 255, 1);
+  color: rgba(102, 102, 102, 1);
   cursor: pointer;
 }
 
 .theme-item.selected {
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
-  color: rgba(74, 32, 25, 1);
+  background: rgba(15, 124, 147, 1);
+  color: rgba(255, 255, 255, 1);
 }
 
 .upload-list {
@@ -264,7 +269,9 @@ const handleRelease = async () => {
   height: calc(100vw * 108 / 375);
   flex-shrink: 0;
   border-radius: calc(100vw * 20 / 375);
-  background: rgba(255, 255, 255, 0.16);
+  border: calc(100vw * 1 / 375) solid rgba(255, 255, 255, 1);
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0px calc(100vw * 2 / 375) calc(100vw * 4 / 375)  rgba(0, 0, 0, 0.06);
   backdrop-filter: blur(12px);
   display: flex;
   justify-content: center;
@@ -283,8 +290,8 @@ const handleRelease = async () => {
 }
 
 .upload-add {
-  width: calc(100vw * 21 / 375);
-  height: calc(100vw * 21 / 375);
+  width: calc(100vw * 35 / 375);
+  height: calc(100vw * 35 / 375);
   background-image: url('@/assets/uploadpic.png');
   background-size: cover;
   background-position: center;
@@ -304,19 +311,20 @@ const handleRelease = async () => {
 
 /* Release Button Styles */
 .release-button {
-  width: calc(100vw * 229 / 375);
-  height: calc(100vh * 62 / 812);
+  width: calc(100vw * 198 / 375);
+  height: calc(100vh * 55 / 812);
   border-radius: calc(100vw * 40 / 375);
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
-  box-shadow: inset calc(100vw * -2 / 375) calc(100vw * -2 / 375) calc(100vw * 2 / 375) rgba(255, 255, 255, 0.6), inset calc(100vw * 2 / 375) calc(100vw * 2 / 375) calc(100vw * 2 / 375) rgba(255, 255, 255, 0.5);
+  background: rgba(243, 96, 86, 1);
+
+  border: calc(100vw * 2 / 375) solid rgba(255, 255, 255, 1);
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
+  font-weight: 700;
   line-height: calc(100vw * 23.1 / 375);
-  color: rgba(74, 32, 25, 1);
+  color: rgba(255, 255, 255, 1);
   cursor: pointer;
   margin: calc(100vh * 117 / 812) auto calc(100vh * 34 / 812) auto;
 }

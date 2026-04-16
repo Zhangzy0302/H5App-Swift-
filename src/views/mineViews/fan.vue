@@ -107,7 +107,7 @@ function addFollow(userId) {
 }
 
 .edit-title {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 20 / 375);
   font-weight: 400;
   background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
@@ -179,7 +179,7 @@ function addFollow(userId) {
 }
 
 .user-name {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
   line-height: calc(100vw * 18.48 / 375);
@@ -190,7 +190,7 @@ function addFollow(userId) {
 }
 
 .user-intro {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 15.23 / 375);
@@ -205,11 +205,11 @@ function addFollow(userId) {
   height: calc(100vh * 28 / 812);
   border-radius: calc(100vw * 20 / 375);
   background: #fff;
-  font-family: 'Archivo', sans-serif;
+  font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 12 / 375);
   font-weight: 400;
   line-height: calc(100vw * 13.06 / 375);
-  color: rgba(105, 71, 65, 1);
+  color: rgba(153, 153, 153, 1);
   display: flex;
   align-items: center;
   justify-content: center;

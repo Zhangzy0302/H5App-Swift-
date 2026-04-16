@@ -1,15 +1,15 @@
 @font-face {
-    font-family: 'YesevaOne';
-    src: url('./YesevaOne-Regular.ttf') format('truetype');
-    font-weight: normal;
+    font-family: 'texgyreadventor';
+    src: url('./texgyreadventor-bold.otf') format('truetype');
+    font-weight: 700;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: 'Archivo';
-    src: url('./Archivo-Regular.ttf') format('truetype');
-    font-weight: normal;
+    font-family: 'texgyreadventor';
+    src: url('./texgyreadventor-regular.otf') format('truetype');
+    font-weight: 400;
     font-style: normal;
     font-display: swap;
 }

@@ -54,6 +54,7 @@
                     <div class="post-avatar-img" :style="{ backgroundImage: `url(${currentUser.avator})` }"></div>
                   </div>
                   <div class="post-username" :title="currentUser.name">{{ currentUser.name }}</div>
+                  <div class="post-type"># {{ otherStore.getTagByIndex(post.dynamicTitleType) }}</div>
                   </div>
                   <div class="post-report" v-if="userId !== currentUserStore.currentUser.userId" @click="showReport = true"></div>
               </div>
@@ -64,14 +65,12 @@
                     <div class="overlay-icon overlay-like"></div>
                     <div class="overlay-count">{{ post.dynamicLikeCount || 0 }}</div>
                   </div>
-                  <div class="overlay-item">
-                    <div class="overlay-icon overlay-comment"></div>
-                    <div class="overlay-count">{{ post.dynamicCommentCount || 0 }}</div>
-                  </div>
+                
+                  
                 </div>
               </div>
               <!-- Bottom: post type -->
-              <div class="post-type"># {{ otherStore.getTagByIndex(post.dynamicTitleType) }}</div>
+              
             </div>
           </div>
         </template>
@@ -248,7 +247,7 @@ function toPostDetail(dynamicId, dynamicType) {
   position: relative;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 1);
+  /* background-color: rgba(0, 0, 0, 1); */
   overflow: hidden;
 }
 
@@ -256,14 +255,27 @@ function toPostDetail(dynamicId, dynamicType) {
   position: absolute;
   left: 0;
   top: 0;
-  width: 100vw; /* 375px in design, scale to screen width */
-  height: calc(100vh * 348 / 812); /* 348px scaled */
-  opacity: 1;
-  background-image: linear-gradient(to top, rgba(0,0,0,0.82), rgba(0,0,0,0.14)), var(--avatar-url);
-  background-size: cover; /* 等比缩放覆盖 */
-  background-position: center; /* 居中显示 */
+  width: 100vw;
+  height: calc(100vh * 348 / 812);
+
+  background-image: var(--avatar-url);
+  background-size: cover;
+  background-position: center;
   background-repeat: no-repeat;
+
   pointer-events: none;
+
+  /* 👇 核心：透明度渐变 */
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.5) 0%,   /* 完全可见 */
+    rgba(0,0,0,0) 100%  /* 完全透明 */
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.5),
+    rgba(0,0,0,0)
+  );
 }
 
 .scroll-content {
@@ -286,7 +298,7 @@ function toPostDetail(dynamicId, dynamicType) {
   height: calc(100vw * 66 / 375);
   border-radius: 50%;
   padding: calc(100vw * 2 / 375); /* 给渐变边框留空间 */
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%); /* 外渐变 */
+  background: rgba(206, 254, 74, 1); /* 外渐变 */
   box-sizing: border-box;
   display: flex;
   justify-content: center;
@@ -310,7 +322,7 @@ function toPostDetail(dynamicId, dynamicType) {
   width: calc(100vw * 36 / 375);
   height: calc(100vh * 14 / 812);
   border-radius: calc(100vw * 40 / 375);
-  background: rgba(255, 255, 255, 1);
+  background: rgba(0, 0, 0, 1);
   box-shadow: inset -1px -1px 1px rgba(255, 255, 255, 0.6), inset 1px 1px 1px rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(10px);
   display: flex;
@@ -333,8 +345,8 @@ function toPostDetail(dynamicId, dynamicType) {
   font-size: calc(100vw * 20 / 375);
   font-weight: 400;
   line-height: calc(100vw * 23.1 / 375);
-  font-family: 'YesevaOne', sans-serif;
-  color: rgba(255, 255, 255, 1);
+  font-family: 'texgyreadventor', sans-serif;
+  color: rgba(0, 0, 0, 1);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -360,19 +372,19 @@ function toPostDetail(dynamicId, dynamicType) {
 }
 
 .stat-number {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 20 / 375);
   font-weight: 400;
   line-height: calc(100vw * 23.1 / 375);
-  color: rgba(255, 255, 255, 1);
+  color: rgba(0, 0, 0, 1);
 }
 
 .stat-label {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 15.23 / 375);
-  color: rgba(255, 255, 255, 1);
+  color: rgba(0, 0, 0, 1);
 }
 
 .intro-chat {
@@ -389,11 +401,11 @@ function toPostDetail(dynamicId, dynamicType) {
 
 .intro-text {
   flex: 1;
-  font-family: 'Archivo', sans-serif;
+  font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: normal;
   line-height: calc(100vw * 15.23 / 375);
-  color: rgba(255, 255, 255, 1);
+  color: rgba(0, 0, 0, 1);
   word-break: break-word;
 }
 
@@ -402,9 +414,9 @@ function toPostDetail(dynamicId, dynamicType) {
   justify-content: center;
   align-items: center;
   gap: calc(100vw * 10 / 375); /* 两个元素间距10 */
-  width: calc(100vw * 119 / 375);
+  width: calc(100vw * 122 / 375);
   height: calc(100vh * 53 / 812);
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(243, 96, 86, 1);
   border-radius: calc(100vw * 20 / 375);
   cursor: pointer;
 }
@@ -423,26 +435,30 @@ function toPostDetail(dynamicId, dynamicType) {
 }
 
 .chat-text {
-  font-family: 'YesevaOne', sans-serif;
-  font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
+  font-family: 'texgyreadventor', sans-serif;
+  font-size: calc(100vw * 18 / 375);
+  font-weight: 700;
   line-height: calc(100vw * 23.1 / 375);
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
+  background: rgba(255, 255, 255, 1);
   -webkit-background-clip: text;
   background-clip: text; /* 添加标准属性 */
   -webkit-text-fill-color: transparent;
 }
 
 .post-title {
-  font-family: 'YesevaOne', sans-serif;
-  font-size: calc(100vw * 24 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 27.72 / 375);
+  width: calc(100vw * 100 / 375);
+  height: calc(100vw * 48 / 375);
+  font-family: 'texgyreadventor', sans-serif;
+  font-size: calc(100vw * 18 / 375);
+  font-weight: 700;
+  line-height: calc(100vw * 48 / 375);
+  background: rgba(243, 96, 86, 1);
+  border-radius: calc(100vw * 20 / 375);
   color: rgba(255, 255, 255, 1);
-  text-align: left; /* 确保左对齐 */
+  border: calc(100vw * 1 / 375) solid rgba(255, 255, 255, 1);
+  text-align: center; /* 确保左对齐 */
   margin-top: calc(100vh * 38 / 812);
-  padding-left: calc(100vw * 20 / 375); /* 左间距，与页面内容对齐 */
-  width: 100%;
+  margin-left: calc(100vw * 20 / 375); /* 左间距，与页面内容对齐 */
   box-sizing: border-box;
 }
 
@@ -459,12 +475,12 @@ function toPostDetail(dynamicId, dynamicType) {
 /* Post Item new layout */
 .post-item {
   width: calc(100vw * 335 / 375);
-  height: calc(100vw * 272 / 375);
+  height: calc(100vw * 261 / 375);
   border-radius: calc(100vw * 20 / 375);
   background: rgba(255, 255, 255, 0.2);
   position: relative;
   overflow: hidden;
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'texgyreadventor', sans-serif;
   color: #fff;
   display: flex;
   flex-direction: column;
@@ -480,7 +496,7 @@ function toPostDetail(dynamicId, dynamicType) {
   inset: 0; /* top:0; right:0; bottom:0; left:0 */
   border-radius: inherit;
   padding: calc(100vw * 2 / 375); /* border thickness */
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
+  background: rgba(255, 255, 255, 1);
   -webkit-mask: 
     linear-gradient(#fff 0 0) content-box, 
     linear-gradient(#fff 0 0);
@@ -517,7 +533,7 @@ function toPostDetail(dynamicId, dynamicType) {
   height: calc(100vw * 35 / 375);
   border-radius: 50%;
   padding: calc(100vw * 1 / 375); /* gradient border thickness */
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
+  background: rgba(206, 254, 74, 1);
   box-sizing: border-box;
   display: flex;
 }
@@ -532,11 +548,11 @@ function toPostDetail(dynamicId, dynamicType) {
 }
 
 .post-username {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 14 / 375);
-  font-weight: 400;
+  font-weight: 700;
   line-height: calc(100vw * 16.17 / 375);
-  color: rgba(255, 255, 255, 1);
+  color: rgba(0, 0, 0, 1);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -554,7 +570,7 @@ function toPostDetail(dynamicId, dynamicType) {
 
 .post-image {
   width: 100%;
-  height: calc(100vw * 171 / 375);
+  height: calc(100vw * 193 / 375);
   border-radius: calc(100vw * 14 / 375);
   background-size: cover;
   background-position: center;
@@ -571,21 +587,42 @@ function toPostDetail(dynamicId, dynamicType) {
 }
 
 .overlay-item {
+  position: relative;
   width: calc(100vw * 91 / 375);
   height: calc(100vw * 32 / 375);
   border-radius: calc(100vw * 40 / 375);
-  background: rgba(255, 255, 255, 0.4);
+  /* background: rgba(255, 255, 255, 0.4);
   box-shadow: inset calc(100vw * -1 / 375) calc(100vw * -1 / 375) calc(100vw * 1 / 375) rgba(255, 255, 255, 0.6), inset calc(100vw * 1 / 375) calc(100vw * 1 / 375) calc(100vw * 1 / 375) rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(calc(100vw * 10 / 375));
+  backdrop-filter: blur(calc(100vw * 10 / 375)); */
   display: flex;
   justify-content: center;
   align-items: center;
   gap: calc(100vw * 10 / 375);
+  z-index: 1;
+}
+
+.overlay-item::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+
+  width: calc(100vw * 56 / 375);
+  height: calc(100vw * 14 / 375);
+
+  background: rgba(243, 96, 86, 1);
+
+  /* 👇 椭圆（其实这里是圆，因为宽高一样） */
+  border-radius: 50%;
+
+  /* 👇 关键：放在正下方中间 */
+  /* left: 50%;
+  transform: translateX(-50%); */
+  bottom: calc(5 / 375 * 100vw / 2); 
 }
 
 .overlay-icon {
-  width: calc(100vw * 24 / 375);
-  height: calc(100vw * 24 / 375);
+  width: calc(100vw * 20 / 375);
+  height: calc(100vw * 20 / 375);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -600,25 +637,29 @@ function toPostDetail(dynamicId, dynamicType) {
 }
 
 .overlay-count {
-  font-family: 'Archivo', sans-serif;
-  font-size: calc(100vw * 16 / 375);
+  font-family: 'texgyreadventor', sans-serif;
+  font-size: calc(100vw * 8 / 375);
   font-weight: 400;
   line-height: calc(100vw * 17.41 / 375);
   color: rgba(255, 255, 255, 1);
 }
 
 .post-type {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'texgyreadventor', sans-serif;
   text-align: left;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 15.23 / 375);
   color: rgba(255, 255, 255, 1);
+  background-color: rgba(15, 124, 147, 1);
+  padding: calc(100vw * 6 / 375) calc(100vw * 10 / 375);
+  border-radius: calc(100vw * 26 / 375);
+  border: calc(100vw * 1 / 375) solid white;
 }
 
 .top-btn {
   position: absolute;
-  top: calc(100vh * 56 / 812);
+  top: calc(env(safe-area-inset-top) + 12px);
   left: calc(100vw * 20 / 375);
   right: calc(100vw * 20 / 375);
   display: flex;

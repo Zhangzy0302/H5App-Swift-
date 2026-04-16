@@ -3,9 +3,7 @@
     <div class="comment-container">
       <!-- 标题部分 -->
       <div class="comment-header">
-        <div class="header-line" style="max-width: calc(100vw * 31 / 375);"></div>
         <div class="header-title">Comments</div>
-        <div class="header-line"></div>
       </div>
 
       <!-- 评论列表 -->
@@ -150,7 +148,8 @@ watch(
   width: 100%;
   height: 100%;
   border-radius: calc(100vh * 20 / 812) calc(100vh * 20 / 812) 0 0;
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(243, 96, 86, 1) 100%);
+
   box-sizing: border-box;
   overflow: hidden;
 }
@@ -162,16 +161,23 @@ watch(
   padding: calc(100vh * 24 / 812) calc(100vw * 18 / 375) 0;
 }
 
-.header-line {
-  flex: 1;
-  height: 1px;
-  background-color: #fff;
-}
-
 .header-title {
-  font-family: 'YesevaOne', sans-serif;
+  width: calc(100vw * 116 / 375);
+  height: calc(100vh * 48 / 815);
+  opacity: 1;
+  border-radius: calc(100vw * 66 / 375);
+  background: rgba(243, 96, 86, 1);
+
+    border: calc(100vw * 1 / 375) solid rgba(255, 255, 255, 1);
+    
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 10px 10px 10px;
+  font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
+  font-weight: 700;
   line-height: calc(100vw * 18.48 / 375);
   letter-spacing: 0;
   color: rgba(255, 255, 255, 1);
@@ -193,7 +199,8 @@ watch(
   gap: calc(100vh * 4 / 812);
   padding: calc(100vh * 14 / 812) calc(100vw * 16 / 375) calc(100vh * 18 / 812);
   border-radius: calc(100vw * 20 / 375);
-  background: rgba(0, 0, 0, 0.16);
+  background: rgba(255, 255, 255, 0.3);
+  border: calc(100vw * 1 / 375) solid rgba(255, 255, 255, 1);
   backdrop-filter: blur(calc(100vw * 12 / 375));
 }
 
@@ -214,13 +221,7 @@ watch(
   height: calc(100vw * 32 / 375);
   border-radius: 50%;
   padding: calc(100vw * 1 / 375); /* border thickness */
-  background: linear-gradient(
-    135deg,
-    rgba(255, 159, 142, 1) 0%,
-    rgba(241, 213, 160, 1) 32.13%,
-    rgba(201, 255, 221, 1) 67.84%,
-    rgba(157, 255, 255, 1) 100%
-  );
+  background: rgba(0, 0, 0, 1);
   box-sizing: border-box;
   overflow: hidden;
   display: flex;
@@ -235,12 +236,12 @@ watch(
 }
 
 .username {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
+  font-weight: 700;
   line-height: calc(100vw * 18.48 / 375);
   letter-spacing: 0;
-  color: rgba(255, 255, 255, 1);
+  color: rgba(0, 0, 0, 1);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -252,12 +253,12 @@ watch(
 }
 
 .comment-text {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 12 / 375);
   font-weight: 400;
   line-height: calc(100vw * 13.06 / 375);
   letter-spacing: 0;
-  color: rgba(255, 255, 255, 1);
+  color: rgba(0, 0, 0, 1);
   text-align: left;
 }
 
@@ -268,13 +269,13 @@ watch(
   bottom: calc(100vh * 29 / 812);
   height: calc(100vh * 54 / 812);
   border-radius: calc(100vw * 40 / 375);
-  background: rgba(201, 255, 221, 1);
+  background: rgba(15, 124, 147, 1);
   box-shadow: 0px calc(100vw * 2 / 375) calc(100vw * 4 / 375) rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(calc(100vw * 32 / 375));
   display: flex;
   align-items: center;
   gap: calc(100vw * 16 / 375);
-  padding: 0 calc(100vw * 16 / 375);
+  padding: 0 calc(100vw * 8 / 375) 0 calc(100vw * 12 / 375);
   box-sizing: border-box;
 }
 
@@ -283,25 +284,25 @@ watch(
   border: none;
   outline: none;
   background: transparent;
-  font-family: 'Archivo', sans-serif;
+  font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 15.23 / 375);
   letter-spacing: 0;
-  color: #000;
+  color: rgba(255, 255, 255, 1);
 }
 
 .bottom-input input::placeholder {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 15.23 / 375);
-  color: rgba(105, 71, 65, 0.5);
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .send-btn {
-  width: calc(100vw * 30 / 375);
-  height: calc(100vw * 30 / 375);
+  width: calc(100vw * 32 / 375);
+  height: calc(100vw * 32 / 375);
   cursor: pointer;
 }
 

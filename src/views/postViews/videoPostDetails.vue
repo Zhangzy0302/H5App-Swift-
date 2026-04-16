@@ -58,7 +58,7 @@
       <div class="action-button" @click="toggleLike">
         <img v-if="currentUserStore.currentUser.postLikeIds.includes(post.dynamicId)" src="@/assets/likepic.png" alt="like" />
         <img v-else src="@/assets/dislikepic.png" alt="like" />
-        <span>{{post.dynamicLikeCount + (currentUserStore.currentUser.postLikeIds.includes(post.dynamicId) ? 1 : 0) }}</span>
+        <span>{{post.dynamicLikeCount}}</span>
       </div>
       <div class="action-button" @click="uiStore.openComment()">
         <img src="@/assets/chaticon.png" alt="comment" />
@@ -277,7 +277,7 @@ function commentReportSelect(value) {
   bottom: 0;
   width: 100%;
   height: calc(100vh * 96 / 812);
-  background: linear-gradient(180deg, rgba(14, 8, 15, 0.8) 0%, rgba(14, 8, 15, 0) 100%);
+  background: linear-gradient(180deg, rgba(243, 96, 86, 1) 0%, rgba(255, 255, 255, 0) 100%);
   pointer-events: none;
   transform: rotate(180deg);
 }
@@ -291,7 +291,7 @@ function commentReportSelect(value) {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: calc(100vh * 56 / 812) calc(100vw * 20 / 375) calc(100vh * 34 / 812);
+  padding: calc(env(safe-area-inset-top) + 12px) calc(100vw * 20 / 375) calc(100vh * 34 / 812);
   box-sizing: border-box;
   z-index: 3;
   pointer-events: none; /* allow clicks to pass through */
@@ -338,13 +338,7 @@ function commentReportSelect(value) {
   height: calc(100vw * 48 / 375);
   border-radius: 50%;
   padding: calc(100vw * 1 / 375); /* border thickness */
-  background: linear-gradient(
-    135deg,
-    rgba(255, 159, 142, 1) 0%,
-    rgba(241, 213, 160, 1) 32.13%,
-    rgba(201, 255, 221, 1) 67.84%,
-    rgba(157, 255, 255, 1) 100%
-  );
+  background: rgba(206, 254, 74, 1);
   box-sizing: border-box;
   overflow: hidden;
   display: flex;
@@ -397,11 +391,11 @@ function commentReportSelect(value) {
 }
 
 .username {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
+  font-weight: 700;
   line-height: calc(100vw * 18.48 / 375);
-  color: rgba(255, 255, 255, 1);
+  color: rgba(0, 0, 0, 1);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -409,12 +403,12 @@ function commentReportSelect(value) {
 }
 
 .video-desc {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   letter-spacing: 0px;
   line-height: calc(100vw * 15.23 / 375);
-  color: rgba(255, 255, 255, 1);
+  color: rgba(0, 0, 0, 1);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -423,36 +417,41 @@ function commentReportSelect(value) {
 
 .action-buttons {
   position: absolute;
-  bottom: calc(100vh * 86 / 812);
-  right: calc(100vw * 20 / 375);
+  bottom: calc(100vh * 120 / 812);
+  right: calc(100vw * 10 / 375);
   display: flex;
-  gap: calc(100vh * 14 / 812);
+  flex-direction: column;
+  gap: calc(100vh * 40 / 812);
 }
 
 .action-button {
   width: calc(100vw * 91 / 375);
-  height: calc(100vh * 39 / 812);
+  height: calc(100vh * 51 / 812);
   border-radius: calc(100vw * 40 / 375);
-  background: rgba(255, 255, 255, 0.4);
-  box-shadow: inset calc(100vw * -1 / 375) calc(100vw * -1 / 375) calc(100vw * 1 / 375) rgba(255, 255, 255, 0.6), inset calc(100vw * 1 / 375) calc(100vw * 1 / 375) calc(100vw * 1 / 375) rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(calc(100vw * 10 / 375));
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: calc(100vw * 10 / 375);
 }
 
 .action-button img {
-  width: calc(100vw * 24 / 375);
-  height: calc(100vw * 24 / 375);
+  width: calc(100vw * 30 / 375);
+  height: calc(100vw * 30 / 375);
 }
 
 .action-button span {
-  font-family: 'Archivo', sans-serif;
-  font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 17.41 / 375);
+  width: calc(100vw * 56 / 375);
+  height: calc(100vw * 14 / 375);
+  background-color: rgba(243, 96, 86, 1);
+  font-family: 'texgyreadventor', sans-serif;
+  font-size: calc(100vw * 12 / 375);
+  font-weight: 700;
+  text-align: center;
+  line-height: calc(100vw * 14 / 375);
   color: rgba(255, 255, 255, 1);
+
+  border-radius: 50%;
 }
 
 .comment-overlay {

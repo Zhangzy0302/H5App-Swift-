@@ -10,7 +10,7 @@
       </div>
       <div class="bottom-section">
         <div class="bottom-container">
-          <div class="bottom-title">Luvie AI</div>
+          <div class="bottom-title">Orinx AI</div>
           <div class="bottom-text">Hi! I’m Kico, your friendly AI companion here to chat about all your passions and interests. Whether you love fashion, art, music, or anything in between, I’m here to explore ideas, share tips, and keep the conversation fun and inspiring. Ready to dive into your favorite hobbies together? Let’s talk and discover something new every day!</div>
         <!-- 购买 -->
         <div class="purchase-container" @click="handlePurchaseClick">
@@ -123,7 +123,7 @@ function handleRechargeEvent(value) {
 }
 
 .top-section {
-  margin-top: calc(100vh * 56 / 812);
+  margin-top: calc(env(safe-area-inset-top) + 12px);
   margin-left: calc(100vw * 20 / 375);
   z-index: 100;
 }
@@ -146,23 +146,23 @@ function handleRechargeEvent(value) {
 }
 
 .bottom-title {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 24 / 375);
   font-weight: 400;
   line-height: calc(100vw * 27.72 / 375);
   letter-spacing: 0;
-  color: rgba(74, 32, 25, 1);
+  color: rgba(255, 255, 255, 1);
   text-align: center;
   margin-bottom: calc(100vh * 20 / 812); /* space before second text */
 }
 
 .bottom-text {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
   line-height: calc(100vw * 24 / 375);
   letter-spacing: 0;
-  color: rgba(74, 32, 25, 1);
+  color: rgba(255, 255, 255, 1);
   text-align: center;
   margin: 0 calc(100vw * 28 / 375) 0 calc(100vw * 28 / 375); /* horizontal padding */
 }
@@ -199,23 +199,23 @@ function handleRechargeEvent(value) {
 }
 
 .purchase-count {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 20 / 375);
   font-weight: 400;
   line-height: calc(100vw * 23.1 / 375);
   letter-spacing: 0;
-  color: rgba(74, 32, 25, 1);
+  color: rgba(255, 255, 255, 1);
 }
 
 .chat-box {
   width: calc(100vw * 73 / 375);
   height: calc(100vh * 38 / 812);
   border-radius: calc(100vw * 40 / 375);
-  background: rgba(74, 32, 25, 1);
+  background: rgba(255, 255, 255, 1);
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'Archivo', sans-serif;
+  font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
   line-height: calc(100vw * 17.41 / 375);

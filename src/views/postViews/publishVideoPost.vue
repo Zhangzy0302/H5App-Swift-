@@ -157,7 +157,7 @@ const handleRelease = async () => {
 }
 
 .back {
-    padding-top: calc(100vh * 56 / 812);
+    padding-top: calc(env(safe-area-inset-top) + 12px);
     padding-left: calc(100vw * 20 / 375);
 }
 
@@ -188,7 +188,7 @@ const handleRelease = async () => {
   border: none;
   outline: none;
   resize: none;
-  font-family: 'Archivo', sans-serif;
+  font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 15.23 / 375);
@@ -197,27 +197,27 @@ const handleRelease = async () => {
 }
 
 .post-textarea::placeholder {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 15.23 / 375);
-  color: rgba(105, 71, 65, 1); /* 颜色可半透明 */
+  color: rgba(153, 153, 153, 1); /* 颜色可半透明 */
 }
 
 .text-count {
   position: absolute;
   right: calc(100vw * 14 / 375);
   bottom: calc(100vh * 19 / 812);
-  font-family: 'Archivo', sans-serif;
+  font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: normal;
-  color: rgba(105, 71, 65, 1);
+  color: rgba(153, 153, 153, 1);
 }
 
 .theme-label {
   margin-top: calc(100vh * 24 / 812);
   margin-left: calc(100vw * 20 / 375);
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 20 / 375);
   font-weight: 400;
   line-height: calc(100vw * 23.1 / 375);
@@ -290,11 +290,11 @@ const handleRelease = async () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 20 / 375);
   font-weight: 400;
   line-height: calc(100vw * 23.1 / 375);
-  color: rgba(74, 32, 25, 1);
+  color: rgba(255, 255, 255, 1);
   cursor: pointer;
   margin: calc(100vh * 148 / 812) auto calc(100vh * 34 / 812) auto;
 }
