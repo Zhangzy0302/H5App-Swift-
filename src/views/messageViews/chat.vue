@@ -235,14 +235,13 @@ function reportSelect(value) {
   position: relative;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 1);
+  /* background-color: rgba(0, 0, 0, 1); */
   overflow: hidden;
 }
 
 .top-background {
   height: calc(100vh * 162 / 812);
   opacity: 1;
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
   width: 100%;
 }
 
@@ -258,7 +257,7 @@ function reportSelect(value) {
 }
 
 .top-content {
-  padding:calc(env(safe-area-inset-top) + 12px) calc(100vw * 20 / 375) 0;
+  padding:calc(env(safe-area-inset-top) + calc(100vh * 12 / 815)) calc(100vw * 20 / 375) 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -277,20 +276,20 @@ function reportSelect(value) {
 }
 
 .avatar {
-  width: calc(100vw * 40 / 375);
-  height: calc(100vw * 40 / 375);
+  width: calc(100vw * 32 / 375);
+  height: calc(100vw * 32 / 375);
   border-radius: 50%;
-  border: calc(100vw * 1 / 375) solid #fff;
+  border: calc(100vw * 1 / 375) solid rgba(15, 124, 147, 1);
   object-fit: cover;
 }
 
 .username {
   font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
+  font-weight: 700;
   line-height: calc(100vw * 18.48 / 375);
   letter-spacing: 0;
-  color: rgba(255, 255, 255, 1);
+  color: rgba(15, 124, 147, 1);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -316,7 +315,8 @@ function reportSelect(value) {
 .chat-content {
   flex: 1;
   border-radius: calc(100vw * 20 / 375) calc(100vw * 20 / 375) 0 0;
-  background: rgba(235, 236, 237, 1);
+  border-top: calc(100vw * 3 / 375) solid rgba(243, 96, 86, 1);
+  background: rgba(255, 255, 255, 1);
   backdrop-filter: blur(calc(100vw * 12 / 375));
   overflow-y: auto;
   padding-top: calc(100vh * 24 / 812);
@@ -345,7 +345,7 @@ function reportSelect(value) {
   height: calc(100vw * 44 / 375);
   border-radius: 50%;
   padding: calc(100vw * 1 / 375); /* border thickness */
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
+  background: rgba(243, 96, 86, 1);
   box-sizing: border-box;
   overflow: hidden;
   display: flex;
@@ -366,8 +366,8 @@ function reportSelect(value) {
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
   line-height: calc(100vw * 17.41 / 375);
-  color: rgba(153, 153, 153, 1);
-  padding: calc(100vh * 10 / 812) calc(100vw * 10 / 375);
+  color: rgba(255, 255, 255, 1);
+  padding: calc(100vw * 10 / 375);
   border-radius: 0px calc(100vw * 10 / 375) calc(100vw * 10 / 375) calc(100vw * 10 / 375);
   background: rgba(15, 124, 147, 1);
 }
@@ -377,7 +377,7 @@ function reportSelect(value) {
   font-size: calc(100vw * 12 / 375);
   font-weight: 400;
   line-height: calc(100vw * 13.06 / 375);
-  color: rgba(153, 153, 153, 1);
+  color: rgba(102, 102, 102, 1);
   text-align: right;
 }
 
@@ -392,7 +392,7 @@ function reportSelect(value) {
 
 .chat-item.own-message .chat-message {
   border-radius: calc(100vw * 10 / 375) 0px calc(100vw * 10 / 375) calc(100vw * 10 / 375);
-  background: rgba(255, 159, 142, 1);
+  background: rgba(243, 96, 86, 1);
 }
 
 /* image message styles */
@@ -421,7 +421,7 @@ function reportSelect(value) {
   backdrop-filter: blur(calc(100vw * 32 / 375));
   display: flex;
   align-items: center;
-  padding: 0 calc(100vw * 16 / 375);
+  padding: 0 calc(100vw * 8 / 375) 0 calc(100vw * 16 / 375);
   gap: calc(100vw * 16 / 375);
   box-sizing: border-box;
 }
@@ -436,16 +436,17 @@ function reportSelect(value) {
   font-weight: 400;
   line-height: calc(100vw * 15.23 / 375);
   letter-spacing: 0;
-  color: #000;
+  color: white;
+  caret-color: white;
 }
 
 .bottom-input input::placeholder {
-  color: rgba(105, 71, 65, 0.5);
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .send-btn {
-  width: calc(100vw * 30 / 375);
-  height: calc(100vw * 30 / 375);
+  width: calc(100vw * 34 / 375);
+  height: calc(100vw * 34 / 375);
   cursor: pointer;
 }
 

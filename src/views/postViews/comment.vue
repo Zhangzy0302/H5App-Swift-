@@ -29,6 +29,7 @@
       <input type="text" placeholder="Say something" v-model="inputText" />
       <img class="send-btn" src="@/assets/commentsend.png" alt="send" @click="sendComment" />
     </div>
+    <GuestAlert v-if="showGuestAlert" @close="showGuestAlert = false"/>
   </div>
 </template>
 
@@ -43,6 +44,9 @@ import { useUIStore } from '@/stores/ui'
 import { usePostStore } from '@/stores/post'
 import ReportDialog from '@/components/reportChoose.vue'
 import Empty from '@/components/empty.vue'
+import GuestAlert from '@/views/register/orinxGuestALert.vue'
+
+const showGuestAlert = ref(false)
 
 const props = defineProps({
   postId: {
@@ -75,6 +79,10 @@ function goOtherHome(userId) {
 const inputText = ref('')
 
 function sendComment() {
+  if (currentUserStore.currentUser.email === '' && currentUserStore.currentUser.password === '') {
+    showGuestAlert.value = true
+    return
+  }
   const content = inputText.value.trim()
   if (!content) return // 输入为空直接返回
 
@@ -104,6 +112,10 @@ const emit = defineEmits(['openCommentReport'])
 
 // 打开帖子举报
 function openComment(userId) {
+  if (currentUserStore.currentUser.email === '' && currentUserStore.currentUser.password === '') {
+    showGuestAlert.value = true
+    return
+  }
   reportCommentUserId.value = userId
   emit('openCommentReport')
 }
@@ -290,6 +302,7 @@ watch(
   line-height: calc(100vw * 15.23 / 375);
   letter-spacing: 0;
   color: rgba(255, 255, 255, 1);
+  caret-color: white;
 }
 
 .bottom-input input::placeholder {

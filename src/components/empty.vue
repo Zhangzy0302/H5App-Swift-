@@ -23,10 +23,10 @@
 .empty-text {
   margin-top: calc(100vh * 38 / 812); /* 上下间距 */
   font-family: 'texgyreadventor', sans-serif;
-  font-size: calc(100vw * 16 / 375);
+  font-size: calc(100vw * 18 / 375);
   font-weight: 400;
   letter-spacing: 0px;
   line-height: calc(100vw * 17.41 / 375);
-  color: rgba(255, 255, 255, 1);
+  color: rgba(51, 51, 51, 1);
 }
 </style>

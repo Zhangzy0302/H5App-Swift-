@@ -20,7 +20,13 @@
         <!-- 顶部按钮 -->
         <div class="top-btn">
           <BackButton/>
-          <MoreButton v-if="post.userId !== currentUserStore.currentUser.userId" @click="showPostReport = true" />
+          <MoreButton v-if="post.userId !== currentUserStore.currentUser.userId" @click="() => {
+            if (currentUserStore.currentUser.email === '' && currentUserStore.currentUser.password === '') {
+            showGuestAlert = true
+            return
+          }
+            showPostReport = true
+          }" />
         </div>
       </div>
       <!-- 帖子内容 -->
@@ -56,9 +62,7 @@
       </div>
       <!-- Comments -->
       <div class="comments-title">
-        <div class="comments-box1"></div>
         <div class="comments-title-text">Comments</div>
-        <div class="comments-box2"></div>
       </div>
       <!-- 评论列表 -->
       <div class="comments-list">
@@ -93,6 +97,7 @@
     </ReportDialog>
     <ReportDialog v-if="showCommentReport" @close="showCommentReport = false" @select="commentReportSelect" >
     </ReportDialog>
+    <GuestAlert v-if="showGuestAlert" @close="showGuestAlert = false"></GuestAlert>
   </div>
 </template>
 
@@ -115,6 +120,10 @@ import commentSendImage from '@/assets/commentsend.png'
 import ReportDialog from '@/components/reportChoose.vue'
 import Empty from '@/components/empty.vue'
 import { goBackOrClose } from '@/utils/iosBridge'
+
+import GuestAlert from '@/views/register/orinxGuestALert.vue'
+
+const showGuestAlert = ref(false)
 
 const { postId } = defineProps({
   postId: {
@@ -150,6 +159,10 @@ const router = useRouter()
 //帖子举报、拉黑
 const showPostReport = ref(false)
 function postReportSelect(value) {
+  if (currentUserStore.currentUser.email === '' && currentUserStore.currentUser.password === '') {
+    showGuestAlert.value = true
+    return
+  }
   showPostReport.value = false
   if (value === 0) {
     router.push({ name: 'report' })
@@ -193,6 +206,10 @@ function goOtherHome(userId) {
 
 // 点赞逻辑
 function toggleLike() {
+  if (currentUserStore.currentUser.email === '' && currentUserStore.currentUser.password === '') {
+    showGuestAlert.value = true
+    return
+  }
   const postLikeIds = currentUserStore.currentUser.postLikeIds
   // 判断当前用户是否已经点赞
   const likedIndex = postLikeIds.indexOf(postId)
@@ -215,11 +232,19 @@ const reportCommentUserId = ref(null)
 const showCommentReport = ref(false)
 
 function handleCommentReport(userId) {
+  if (currentUserStore.currentUser.email === '' && currentUserStore.currentUser.password === '') {
+    showGuestAlert.value = true
+    return
+  }
   reportCommentUserId.value = userId
   showCommentReport.value = true
 }
 
 function commentReportSelect(value) {
+  if (currentUserStore.currentUser.email === '' && currentUserStore.currentUser.password === '') {
+    showGuestAlert.value = true
+    return
+  }
   showCommentReport.value = false
 
   const userIdToBlock = reportCommentUserId.value
@@ -252,6 +277,10 @@ function commentReportSelect(value) {
 
 // 发送评论逻辑
 function sendComment() {
+  if (currentUserStore.currentUser.email === '' && currentUserStore.currentUser.password === '') {
+    showGuestAlert.value = true
+    return
+  }
   const content = commentInput.value.trim()
   if (!content) return // 输入为空直接返回
 
@@ -362,7 +391,7 @@ function sendComment() {
 
 .top-btn {
   position: absolute;
-  top: calc(env(safe-area-inset-top) + 12px);
+  top: calc(env(safe-area-inset-top) + calc(100vh * 12 / 815));
   left: calc(100vw * 20 / 375);
   right: calc(100vw * 20 / 375);
   display: flex;
@@ -503,10 +532,13 @@ function sendComment() {
 
 .comments-title-text {
   font-family: 'texgyreadventor', sans-serif;
-  font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
+  font-size: calc(100vw * 18 / 375);
+  font-weight: 700;
   line-height: calc(100vw * 18.48 / 375);
   color: rgba(255, 255, 255, 1);
+  background-color: rgba(243, 96, 86, 1);
+  padding: calc(100vw * 10 / 375);
+  border-radius: calc(100vw * 20 / 375);
 }
 
 .comments-box2 {
@@ -530,6 +562,8 @@ function sendComment() {
   border-radius: calc(100vw * 20 / 375);
   background: rgba(255, 255, 255, 0.3);
   border: 1px solid rgba(255, 255, 255, 1);
+  box-shadow: 0px 0px calc(100vh * 4 / 812)  rgba(0, 0, 0, 0.06);
+
   backdrop-filter: blur(4px);
 }
 
@@ -603,7 +637,7 @@ function sendComment() {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 calc(100vw * 16 / 375);
+  padding: 0 calc(100vw * 8 / 375) 0 calc(100vw * 14 / 375);
   z-index: 20;
 }
 
@@ -616,20 +650,21 @@ function sendComment() {
   font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400; /* 可选字体粗细 */
-  color: #000; /* 输入文本颜色 */
+  color: #fff; /* 输入文本颜色 */
+  caret-color: white;
   padding: 0;
 }
 
 .input-field::placeholder {
-  color: rgba(153, 153, 153, 1); /* 提示文本颜色 */
+  color: rgba(255, 255, 255, 0.8); /* 提示文本颜色 */
   font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 14 / 375); /* 提示文本大小 */
   font-weight: 400; /* 可选字体粗细 */
 }
 
 .send-btn {
-  width: calc(100vw * 30 / 375);
-  height: calc(100vw * 30 / 375);
+  width: calc(100vw * 34 / 375);
+  height: calc(100vw * 34 / 375);
 
   background-size: cover;
   background-position: center;

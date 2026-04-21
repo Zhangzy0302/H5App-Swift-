@@ -12,7 +12,8 @@ const uiStore = useUIStore()
     <!-- 全局 loading -->
     <div v-if="uiStore.loading" class="loading-mask">
       <div class="loading-box">
-        <van-loading type="spinner" size="32px" color="#fff" />
+        <van-loading type="spinner" size="36px" color="#fff" />
+        <div class="loading-text">loading...</div>
       </div>
     </div>
 
@@ -38,13 +39,22 @@ const uiStore = useUIStore()
 }
 
 .loading-box {
-  width: calc(100vw * 80 / 375);
-  height: calc(100vw * 80 / 375);
-  border-radius: calc(100vw * 20 / 812);
+  width: calc(100vw * 120 / 375);
+  height: calc(100vw * 120 / 375);
+  border-radius: calc(100vw * 20 / 375);
   background: rgba(0,0,0,1); /* 黑色小背景 */
+  border: calc(100vw * 1 / 315) solid rgba(255,255,255, 1);
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: calc(100vw * 10 / 375);
+}
+
+.loading-text {
+  font-family: 'texgyreadventor', sans-serif;
+  color: #fff;
+  font-size: calc(100vw * 14 / 375);
 }
 
 .global-toast {

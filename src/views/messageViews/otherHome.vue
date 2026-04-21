@@ -86,6 +86,8 @@
     </div>
     <ReportDialog v-if="showReport" @close="showReport = false" @select="reportSelect" >
     </ReportDialog>
+    <GuestAlert v-if="showGuestAlert" @close="showGuestAlert = false"></GuestAlert>
+    <OrinxChatAlert v-if="showChatAlert" @close="showChatAlert = false"></OrinxChatAlert>
   </div>
 </template>
 
@@ -104,6 +106,12 @@ import MoreButton from '@/components/more.vue'
 import ReportDialog from '@/components/reportChoose.vue'
 import Empty from '@/components/empty.vue'
 import { goBackOrClose } from '@/utils/iosBridge'
+
+import OrinxChatAlert from '@/views/register/orinxChatAlert.vue'
+import GuestAlert from '@/views/register/orinxGuestALert.vue'
+
+const showGuestAlert = ref(false)
+const showChatAlert = ref(false)
 
 const { userId } = defineProps({
   userId: {
@@ -127,6 +135,10 @@ const router = useRouter()
 
 const showReport = ref(false)
 function reportSelect(value) {
+  if (currentUserStore.currentUser.email === '' && currentUserStore.currentUser.password === '') {
+    showGuestAlert.value = true
+    return
+  }
   showReport.value = false
   if (value === 0) {
     router.push({ name: 'report' })
@@ -160,6 +172,10 @@ function reportSelect(value) {
 
 // Handle follow action
 function handleFollow() {
+  if (currentUserStore.currentUser.email === '' && currentUserStore.currentUser.password === '') {
+    showGuestAlert.value = true
+    return
+  }
   const currentUserId = currentUserStore.currentUser.userId
 
   // Update current user's follow list
@@ -183,6 +199,24 @@ function handleFollow() {
 }
 
 function handleChat() {
+  if (currentUserStore.currentUser.email === '' && currentUserStore.currentUser.password === '') {
+    showGuestAlert.value = true
+    return
+  }
+
+  // 互相关注才能聊天
+  const currentUserFollow = currentUserStore.currentUser.follow || []
+  const targetUserFollow = currentUser.value.follow || []
+
+  const isMutualFollow =
+    currentUserFollow.includes(userId) &&
+    targetUserFollow.includes(currentUserStore.currentUser.userId)
+
+  if (!isMutualFollow) {
+    showChatAlert.value = true
+    return
+  }
+
   if (uiStore.loading) return
   uiStore.showLoading()
   const currentUserId = currentUserStore.currentUser.userId
@@ -318,22 +352,19 @@ function toPostDetail(dynamicId, dynamicType) {
 
 .follow-btn {
   position: absolute;
+  left: 60%;
   bottom: calc(-100vh * 4 / 812); /* 超出头像底部4 */
-  width: calc(100vw * 36 / 375);
-  height: calc(100vh * 14 / 812);
-  border-radius: calc(100vw * 40 / 375);
-  background: rgba(0, 0, 0, 1);
-  box-shadow: inset -1px -1px 1px rgba(255, 255, 255, 0.6), inset 1px 1px 1px rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(10px);
+  width: calc(100vw * 26 / 375);
+  height: calc(100vw * 26 / 375);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .follow-icon {
-  width: calc(100vw * 12 / 375);
-  height: calc(100vw * 12 / 375);
-  background-image: url('@/assets/follow.png');
+  width: calc(100vw * 26 / 375);
+  height: calc(100vw * 26 / 375);
+  background-image: url('@/assets/orin_follow.png');
   background-size: cover; /* 等比缩放覆盖 */
   background-position: center; /* 居中显示 */
   background-repeat: no-repeat;
@@ -659,7 +690,7 @@ function toPostDetail(dynamicId, dynamicType) {
 
 .top-btn {
   position: absolute;
-  top: calc(env(safe-area-inset-top) + 12px);
+  top: calc(env(safe-area-inset-top) + calc(100vh * 12 / 815));
   left: calc(100vw * 20 / 375);
   right: calc(100vw * 20 / 375);
   display: flex;

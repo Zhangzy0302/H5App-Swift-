@@ -19,7 +19,9 @@
             </div>
             <div class="user-intro">{{ item.about }}</div>
           </div>
-          <div class="follow-right" @click="cancelFollow(item.userId)">Cancel</div>
+          <div class="follow-right" @click="cancelFollow(item.userId)">
+            <img src="@/assets/follow_remove.png" class="action-icon">
+          </div>
         </div>
       </div>
       <Empty class="empty" v-else />
@@ -100,14 +102,14 @@ function cancelFollow(userId) {
   display: flex;
   align-items: center;
   gap: calc(100vw * 16 / 375);
-  padding: calc(env(safe-area-inset-top) + 12px) calc(100vw * 20 / 375) 0;
+  padding: calc(env(safe-area-inset-top) + calc(100vh * 12 / 815)) calc(100vw * 20 / 375) 0;
 }
 
 .edit-title {
   font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
+  font-weight: 700;
+  background: rgba(243, 96, 86, 1);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -131,11 +133,11 @@ function cancelFollow(userId) {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: calc(100vh * 76 / 812);
   border-radius: calc(100vw * 20 / 375);
   background: rgba(255, 255, 255, 0.2);
-  box-shadow: 0px calc(100vw * 2 / 375) calc(100vw * 4 / 375) rgba(0, 0, 0, 0.06);
-  padding: 0 calc(100vw * 16 / 375);
+  padding: calc(100vw * 10 / 375) calc(100vw * 16 / 375);
+
+  border: calc(100vw * 1 / 375) solid rgba(255, 255, 255, 1);
   box-sizing: border-box;
 }
 
@@ -160,7 +162,7 @@ function cancelFollow(userId) {
   height: calc(100vw * 32 / 375);
   border-radius: 50%;
   padding: calc(100vw * 1 / 375);
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
+  background: rgba(206, 254, 74, 1);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -178,9 +180,9 @@ function cancelFollow(userId) {
 .user-name {
   font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
+  font-weight: 700;
   line-height: calc(100vw * 18.48 / 375);
-  color: #fff;
+  color: black;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -191,17 +193,17 @@ function cancelFollow(userId) {
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 15.23 / 375);
-  color: #fff;
+  color: rgba(102, 95, 103, 1);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .follow-right {
-  width: calc(100vw * 63 / 375);
+  width: calc(100vw * 50 / 375);
   height: calc(100vh * 28 / 812);
   border-radius: calc(100vw * 20 / 375);
-  background: #fff;
+  background: rgba(51, 51, 51, 1);
   font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 12 / 375);
   font-weight: 400;
@@ -210,6 +212,10 @@ function cancelFollow(userId) {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.action-icon {
+  width: calc(100vw * 24 / 375);
 }
 
 .empty {

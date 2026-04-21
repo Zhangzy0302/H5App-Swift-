@@ -16,6 +16,7 @@
       <button class="btn delete-btn" @click="handleAction(true)">Delete account</button>
       <button class="btn logout-btn" @click="handleAction(false)">Log out</button>
     </div>
+    <GuestAlert v-if="showGuestAlert" @close="showGuestAlert = false"></GuestAlert>
   </div>
 </template>
 
@@ -27,12 +28,14 @@ import { useUserStore } from '@/stores/user'
 import { useCurrentUserStore } from '@/stores/currentUser'
 import BackButton from '@/components/back.vue'
 import { sendLogoutToIOS } from '@/utils/iosBridge'
+import GuestAlert from '@/views/register/orinxGuestALert.vue'
+
+const showGuestAlert = ref(false)
 
 const options = ref([
   { text: 'Privacy Policy' },
   { text: 'User Agreement' },
   { text: 'Blacklist' },
-  { text: 'Wallet' },
   { text: 'Edit personal information' }
 ])
 
@@ -44,18 +47,24 @@ const currentUserStore = useCurrentUserStore()
 function handleOption(index) {
   switch (index) {
     case 0:
+    
       router.push({ name: 'privacyPolicy' })
       break
     case 1:
       router.push({ name: 'userAgreement' })
       break
     case 2:
+    if (currentUserStore.currentUser.email === '' && currentUserStore.currentUser.password === '') {
+    showGuestAlert.value = true
+    return
+  }
       router.push({ name: 'block' })
       break
     case 3:
-      router.push({ name: 'coins' })
-      break
-    case 4:
+    if (currentUserStore.currentUser.email === '' && currentUserStore.currentUser.password === '') {
+        showGuestAlert.value = true
+        return
+      }
       router.push({ name: 'edit' })
       break
     default:
@@ -86,7 +95,6 @@ function handleAction(isDelete) {
   position: relative;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 1);
   background-image: url('@/assets/rutyauwc_bg.png');
   background-size: cover; /* 等比缩放覆盖 */
   background-position: center; /* 居中显示 */
@@ -102,14 +110,14 @@ function handleAction(isDelete) {
   display: flex;
   align-items: center;
   gap: calc(100vw * 16 / 375);
-  padding: calc(env(safe-area-inset-top) + 12px) calc(100vw * 20 / 375) 0;
+  padding: calc(env(safe-area-inset-top) + calc(100vh * 12 / 815)) calc(100vw * 20 / 375) 0;
 }
 
 .title {
   font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
+  font-weight: 700;
+  background: rgba(243, 96, 86, 1);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -126,9 +134,10 @@ function handleAction(isDelete) {
 
 .option {
   height: calc(100vh * 52 / 812);
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: calc(100vw * 20 / 375);
-  box-shadow: 0 calc(100vw * 2 / 375) calc(100vw * 4 / 375) rgba(0, 0, 0, 0.06);
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: calc(100vw * 12 / 375);
+  
+  border: calc(100vw * 1 / 375) solid rgba(255, 255, 255, 1);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -137,8 +146,8 @@ function handleAction(isDelete) {
 
 .option-text {
   font-family: 'texgyreadventor', sans-serif;
-  color: #fff;
-  font-size: calc(100vw * 14 / 375);
+  color: rgba(0, 0, 0, 1);
+  font-size: calc(100vw * 15 / 375);
   font-weight: 400;
 }
 
@@ -162,22 +171,23 @@ function handleAction(isDelete) {
 }
 
 .btn {
-  width: calc(100vw * 229 / 375);
+  width: calc(100vw * 198 / 375);
   height: calc(100vh * 62 / 812);
   border-radius: calc(100vw * 40 / 375);
   font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  box-shadow:inset calc(100vw * -2 / 375) calc(100vw * -2 / 375) calc(100vw * 2 / 375)  rgba(255, 255, 255, 0.6),inset calc(100vw * 2 / 375) calc(100vw * 2 / 375) calc(100vw * 2 / 375)  rgba(255, 255, 255, 0.5);
+  font-weight: 700;
+
+  border: calc(100vw * 2 / 375) solid rgba(255, 255, 255, 1);
 }
 
 .delete-btn {
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
+  background: rgba(243, 96, 86, 1);
   color: rgba(255, 255, 255, 1);
 }
 
 .logout-btn {
-  background: rgba(255, 255, 255, 1);
-  color: rgba(255, 255, 255, 1);
+  background: rgba(206, 254, 74, 1);
+  color: rgba(0, 0, 0, 1);
 }
 </style>

@@ -7,13 +7,12 @@
 
     <!-- 金币盒子UI -->
     <div class="coin-box">
-      <div class="coin-box-header">My diamonds</div>
+      <div class="coin-box-header">Wallet Balance:</div>
       <div class="coin-box-content">
         <img src="@/assets/coin.png" alt="coin" class="coin-icon" />
         <span class="coin-number">{{ currentUserStore.currentUser.coins }}</span>
       </div>
     </div>
-    <div class="coinbgc"></div>
     <!-- 金币列表 -->
     <div class="coins">
       <div class="coin-list">
@@ -82,23 +81,23 @@ function handleCoinClick(item) {
   display: flex;
   align-items: center;
   gap: calc(100vw * 16 / 375);
-  padding: calc(env(safe-area-inset-top) + 12px) calc(100vw * 20 / 375) 0;
+  padding: calc(env(safe-area-inset-top) + calc(100vh * 12 / 815)) calc(100vw * 20 / 375) 0;
 }
 
 .edit-title {
   font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
+  font-weight: 700;
+  background: rgba(243, 96, 86, 1);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 /* 金币盒子外层 */
 .coin-box {
-  width: auto;
-  height: calc(100vh * 103 / 812);
-  border-radius: calc(100vw * 20 / 375);
+  width: calc(100% - 100vw * 40 / 375);
+  /* height: calc(100vh * 92 / 812); */
+  aspect-ratio: 335/92;
   
   background-image: url('@/assets/coinbgc.png');
   background-size: cover; /* 等比缩放覆盖 */
@@ -110,7 +109,7 @@ function handleCoinClick(item) {
   flex-direction: column;
   justify-content: center;
   gap: calc(100vh * 10 / 812);
-  padding-left: calc(100vw * 13 / 375);
+  /* padding-left: calc(100vw * 13 / 375); */
 }
 
 
@@ -118,10 +117,11 @@ function handleCoinClick(item) {
 .coin-box-header {
   font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 18 / 375);
-  font-weight: 400;
+  font-weight: 700;
   letter-spacing: 0px;
   line-height: calc(100vw * 20.79 / 375);
-  color: rgba(255, 255, 255, 1);
+  color: rgba(0, 0, 0, 1);
+  padding-left: calc(100vw * 16 / 375);
 }
 
 /* 下部分盒子内容 */
@@ -129,11 +129,8 @@ function handleCoinClick(item) {
   display: inline-flex;       /* 内部内容水平排列 */
   align-items: center;
   justify-content: flex-start;
-  border-radius: calc(100vw * 40 / 375);
-  background: rgba(255, 255, 255, 1);
-  border: calc(100vw * 2 / 375) solid rgba(201, 255, 221, 1);
-  padding: calc(100vh * 10 / 812) calc(100vw * 22 / 375);
-  gap: calc(100vw * 8 / 375);
+  gap: calc(100vw * 6 / 375);
+  padding-left: calc(100vw * 16 / 375);
 
   width: fit-content;         /* 核心：宽度自适应内容 */
   max-width: 100%;            /* 避免内容超出父容器 */
@@ -143,32 +140,18 @@ function handleCoinClick(item) {
 
 /* coin 图标 */
 .coin-icon {
-  width: calc(100vw * 20 / 375);
-  height: calc(100vh * 24 / 812);
+  width: auto;
+  height: calc(100vh * 39 / 812);
 }
 
 /* 金币数量文字 */
 .coin-number {
   font-family: 'texgyreadventor', sans-serif;
-  font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
+  font-size: calc(100vw * 22 / 375);
+  font-weight: 700;
   letter-spacing: 0px;
   line-height: calc(100vw * 17.41 / 375);
-  color: rgba(255, 255, 255, 1);
-}
-
-.coinbgc {
-  position: absolute;
-  top: calc(100vh * 16 / 812);
-  right: calc(100vh * 27 / 812);
-  width: calc(100vw * 167 / 375);
-  height: calc(100vh * 297 / 812);
-  background-image: url('@/assets/coinsbgc.png');
-  background-size: cover; /* 等比缩放覆盖 */
-  background-position: center; /* 居中显示 */
-  background-repeat: no-repeat;
-  overflow: hidden;
-  pointer-events: none; /* 点击穿透，不拦截点击事件 */
+  color: rgba(15, 124, 147, 1);
 }
  
 .coins {
@@ -187,7 +170,9 @@ function handleCoinClick(item) {
 .coin-item {
   height: calc(100vh * 64 / 812);
   border-radius: calc(100vw * 20 / 375);
-  background: rgba(255, 255, 255, 1);
+  background: rgba(255, 255, 255, 0.3);
+
+  border: calc(100vw * 1 / 375) solid rgba(255, 255, 255, 1);
   box-shadow: 0px calc(100vw * 2 / 375) calc(100vw * 4 / 375) rgba(0, 0, 0, 0.06);
   display: flex;
   align-items: center;
@@ -198,7 +183,7 @@ function handleCoinClick(item) {
 
 .coin-item-selected {
   border-radius: calc(100vw * 20 / 375);
-  background: rgba(255, 159, 142, 1);
+  background: rgba(15, 124, 147, 1);
   border: calc(100vw * 2 / 375) solid rgba(201, 255, 221, 1);
 }
 
@@ -216,9 +201,9 @@ function handleCoinClick(item) {
 .coin-count {
   font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
+  font-weight: 700;
   line-height: calc(100vw * 18.48 / 375);
-  color: rgba(255, 255, 255, 1);
+  color: rgba(0, 0, 0, 1);
 }
 
 .coin-count-selected {
@@ -251,9 +236,9 @@ function handleCoinClick(item) {
 }
 
 .coin-radio-selected {
-  width: calc(100vw * 14 / 375);
-  height: calc(100vw * 14 / 375);
-  background: rgba(15, 124, 147, 1);
-  border: calc(100vw * 1 / 375) solid rgba(255, 255, 255, 1);
+  width: calc(100vw * 12 / 375);
+  height: calc(100vw * 12 / 375);
+  background: rgba(243, 96, 86, 1);
+  border: calc(100vw * 3 / 375) solid rgba(255, 255, 255, 1);
 }
 </style>

@@ -52,7 +52,7 @@ import { goBackOrClose } from '@/utils/iosBridge'
 import { uploadSingleImage } from '@/utils/ossUpload'
 
 // Use relative path for web build
-const topBlockImage = ref('/src/assets/avataricon.png')
+const topBlockImage = ref('/src/assets/ORINXDefaultAva.png')
 
 const name = ref('')
 const aboutMe = ref('')
@@ -161,14 +161,14 @@ onMounted(() => {
   display: flex;
   align-items: center;
   gap: calc(100vw * 16 / 375);
-  padding: calc(env(safe-area-inset-top) + 12px) calc(100vw * 20 / 375) 0;
+  padding: calc(env(safe-area-inset-top) + calc(100vh * 12 / 815)) calc(100vw * 20 / 375) 0;
 }
 
 .edit-title {
   font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
+  font-weight: 700;
+  background: rgba(243, 96, 86, 1);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -200,12 +200,13 @@ onMounted(() => {
 
 .camera-corner {
   position: absolute;
-  top: 0;
+  bottom: 0;
   right: 0;
   width: calc(100vw * 28 / 375);
   height: calc(100vw * 28 / 375);
   border-radius: 50%;
-  background: rgba(255, 255, 255, 1);
+  background: rgba(0, 0, 0, 1);
+  border: calc(100vw * 1 / 375) solid rgba(255, 255, 255, 1);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -228,7 +229,7 @@ onMounted(() => {
 .label {
   font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
+  font-weight: 700;
   line-height: calc(100vw * 23.1 / 375);
   color: rgba(0, 0, 0, 1);
 }
@@ -256,6 +257,7 @@ onMounted(() => {
   line-height: calc(100vw * 15.23 / 375);
   letter-spacing: 0;
   color: #000;
+  caret-color: #000;
   background: transparent;
 }
 
@@ -288,6 +290,7 @@ onMounted(() => {
   line-height: calc(100vw * 15.23 / 375);
   letter-spacing: 0;
   color: #000;
+  caret-color: #000;
   background: transparent;
   padding: calc(100vh * 16 / 812) 0; /* top-left padding */
   box-sizing: border-box;
@@ -301,17 +304,19 @@ onMounted(() => {
 }
 
 .save-btn {
-  width: calc(100vw * 229 / 375);
+  width: calc(100vw * 198 / 375);
   height: calc(100vh * 62 / 812);
   border-radius: calc(100vw * 40 / 375);
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
-  box-shadow: inset calc(100vw * -2 / 375) calc(100vw * -2 / 375) calc(100vw * 2 / 375) rgba(255, 255, 255, 0.6), inset calc(100vw * 2 / 375) calc(100vw * 2 / 375) calc(100vw * 2 / 375) rgba(255, 255, 255, 0.5);
+  background: rgba(243, 96, 86, 1);
+
+  border: calc(100vw * 2 / 375) solid rgba(255, 255, 255, 1);
+  
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
+  font-weight: 700;
   line-height: calc(100vw * 23.1 / 375);
   letter-spacing: 0;
   color: rgba(255, 255, 255, 1);

@@ -30,7 +30,13 @@
       <!-- 顶部按钮 -->
       <div class="top-actions">
         <BackButton />
-        <MoreButton v-if="post.userId !== currentUserStore.currentUser.userId" @click="showPostReport = true" />
+        <MoreButton v-if="post.userId !== currentUserStore.currentUser.userId" @click="() => {
+          if (currentUserStore.currentUser.email === '' && currentUserStore.currentUser.password === '') {
+            showGuestAlert = true
+            return
+          }
+          showPostReport = true
+      }" />
       </div>
 
       <!-- 底部信息 -->
@@ -41,7 +47,7 @@
               <img :src="postUser && postUser.avator" alt="avatar" />
             </div>
             <div class="follow" v-if="post.userId !== currentUserStore.currentUser.userId && !currentUserStore.currentUser.follow.includes(post.userId)" @click="handleFollow" >
-              <img src="@/assets/follow.png" alt="follow" />
+              <img src="@/assets/orin_follow.png" alt="follow" />
             </div>
           </div>
 
@@ -69,13 +75,17 @@
     <!-- 评论弹窗（底部弹出） -->
     <div v-if="uiStore.showComment" class="comment-overlay" @click.self="uiStore.closeComment()">
       <div class="comment-sheet">
-        <Comment :postId="postId" :reportAction="commentAction" @openCommentReport="showCommentReport = true" />
+        <Comment :postId="postId" :reportAction="commentAction" @openCommentReport="() => {
+          
+        showCommentReport = true
+      }" />
       </div>
     </div>
     <ReportDialog v-if="showPostReport" @close="showPostReport = false" @select="postReportSelect" >
     </ReportDialog>
     <ReportDialog v-if="showCommentReport" @close="showCommentReport = false" @select="commentReportSelect" >
     </ReportDialog>
+    <GuestAlert v-if="showGuestAlert" @close="showGuestAlert = false"></GuestAlert>
   </div>
 </template>
 
@@ -93,6 +103,9 @@ import MoreButton from '@/components/more.vue'
 import Comment from '@/views/postViews/comment.vue'
 import ReportDialog from '@/components/reportChoose.vue'
 import { goBackOrClose } from '@/utils/iosBridge'
+import GuestAlert from '@/views/register/orinxGuestALert.vue'
+
+const showGuestAlert = ref(false)
 
 const { postId } = defineProps({
   postId: {
@@ -145,9 +158,14 @@ onBeforeUnmount(() => {
   }
 })
 
+
 //帖子举报、拉黑
 const showPostReport = ref(false)
 function postReportSelect(value) {
+  if (currentUserStore.currentUser.email === '' && currentUserStore.currentUser.password === '') {
+    showGuestAlert.value = true
+    return
+  }
   showPostReport.value = false
   if (value === 0) {
     router.push({ name: 'report' })
@@ -185,6 +203,10 @@ function postReportSelect(value) {
 
 // Handle follow action
 function handleFollow() {
+  if (currentUserStore.currentUser.email === '' && currentUserStore.currentUser.password === '') {
+    showGuestAlert.value = true
+    return
+  }
   const currentUserId = currentUserStore.currentUser.userId
   const postUserId = post.userId
 
@@ -216,21 +238,44 @@ function goOtherHome(userId) {
 
 // 点赞逻辑
 function toggleLike() {
+  if (currentUserStore.currentUser.email === '' && currentUserStore.currentUser.password === '') {
+    showGuestAlert.value = true
+    return
+  }
   const postLikeIds = currentUserStore.currentUser.postLikeIds
-  // 判断当前用户是否已经点赞
   const likedIndex = postLikeIds.indexOf(postId)
 
+  let isLike = false
+
   if (likedIndex === -1) {
-    // 未点赞，添加postId到postLikeIds
     postLikeIds.push(postId)
+    isLike = true
   } else {
-    // 已点赞，移除postId
     postLikeIds.splice(likedIndex, 1)
-    // 点赞数不减少，保持原有逻辑
+    isLike = false
   }
 
-  // 同步更新userStore，并回传iOS
-  userStore.updateUser(currentUserStore.currentUser.userId, { postLikeIds: postLikeIds })
+  // ✅ 更新用户
+  userStore.updateUser(currentUserStore.currentUser.userId, { 
+    postLikeIds: postLikeIds 
+  })
+
+  // ✅ 更新帖子
+  const post = postStore.getPostById(postId)
+
+  if (post) {
+    let newCount = post.dynamicLikeCount || 0
+
+    if (isLike) {
+      newCount += 1
+    } else {
+      newCount -= 1   // 👈 如果你不想减，可以去掉
+    }
+
+    postStore.updatePostById(postId, {
+      dynamicLikeCount: newCount
+    })
+  }
 }
 
 //评论举报、拉黑显示
@@ -238,6 +283,10 @@ const showCommentReport = ref(false)
 const commentAction = ref(null) // 保存 0 或 1
 
 function commentReportSelect(value) {
+  if (currentUserStore.currentUser.email === '' && currentUserStore.currentUser.password === '') {
+    showGuestAlert.value = true
+    return
+  }
   commentAction.value = value  // 保存选择
   showCommentReport.value = false
 }
@@ -291,7 +340,7 @@ function commentReportSelect(value) {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: calc(env(safe-area-inset-top) + 12px) calc(100vw * 20 / 375) calc(100vh * 34 / 812);
+  padding: calc(env(safe-area-inset-top) + calc(100vh * 12 / 815)) calc(100vw * 20 / 375) calc(100vh * 34 / 812);
   box-sizing: border-box;
   z-index: 3;
   pointer-events: none; /* allow clicks to pass through */
@@ -364,24 +413,22 @@ function commentReportSelect(value) {
 
 .follow {
   position: absolute;
-  left: 50%;
+  left: 75%;
   bottom: 0;
   transform: translateX(-50%);
-  width: calc(100vw * 36 / 375);
-  height: calc(100vw * 14 / 375);
+  width: calc(100vw * 16 / 375);
+  height: calc(100vw * 16 / 375);
   border-radius: calc(100vw * 40 / 375);
-  background: rgba(255, 255, 255, 1);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: inset calc(100vw * -1 / 375) calc(100vw * -1 / 375) calc(100vw * 1 / 375) rgba(255, 255, 255, 0.6), inset calc(100vw * 1 / 375) calc(100vw * 1 / 375) calc(100vw * 1 / 375) rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(10px);
   cursor: pointer;
 }
 
 .follow img {
-  width: calc(100vw * 12 / 375);
-  height: calc(100vw * 12 / 375);
+  width: calc(100vw * 16 / 375);
+  height: calc(100vw * 16 / 375);
 }
 
 .user-text {

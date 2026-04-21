@@ -16,8 +16,9 @@ function handleRecharge() {
 
 <style scoped>
 .coinnot-box {
-  width: calc(100vw * 338.5 / 375);
-  height: calc(100vh * 391 / 812);
+  width: calc(100vw * 278 / 375);
+  /* height: calc(100vh * 336 / 812); */
+  aspect-ratio: 278/336;
   background-image: url('@/assets/coinnot.png');
   background-size: cover;
   background-position: center;
@@ -27,23 +28,24 @@ function handleRecharge() {
 
 .recharge-button {
   position: absolute;
-  bottom: calc(100vh * 34 / 812);
+  bottom: calc(100vh * 29 / 812);
   left: 50%;
   transform: translateX(-50%);
-  width: calc(100vw * 164 / 375);
-  height: calc(env(safe-area-inset-top) + 12px);
+  width: calc(100vw * 147 / 375);
+  height: calc(100vw * 45 / 375);
   border-radius: calc(100vw * 40 / 375);
-  background: rgba(255, 255, 255, 0.4);
-  box-shadow: inset calc(100vw * 1 / 375) calc(100vw * 1 / 375) calc(100vw * 1 / 375) rgba(255, 255, 255, 0.6), inset calc(100vw * 1 / 375) calc(100vw * 1 / 375) calc(100vw * 1 / 375) rgba(255, 255, 255, 0.5);
+  background: rgba(243, 96, 86, 1);
+
+  border: 2px solid rgba(255, 255, 255, 1);
   backdrop-filter: blur(10px);
 
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: 'texgyreadventor', sans-serif;
-  font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 23.1 / 375);
+  font-size: calc(100vw * 18 / 375);
+  font-weight: 700;
+  line-height: calc(100vw * 45 / 375);
   letter-spacing: 0;
   color: rgba(255, 255, 255, 1);
 }

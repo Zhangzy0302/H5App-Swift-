@@ -1,11 +1,10 @@
 <template>
   <div class="page">
-    <div class="aiusermodel"></div>
-    <div class="aichatmodel"></div>
     <div class="page-container">
       <!-- top -->
       <div class="top-section">
         <BackButton />
+        <span class="edit-title">Orinx AI</span>
       </div>
       <!-- center -->
       <div class="center-section">
@@ -178,51 +177,32 @@ async function sendMessage() {
   width: 100vw;
   height: 100vh;
   overflow: hidden; /* prevent scrolling */
-  background-color: #000; /* black background */
-  background-image: url('@/assets/aibgc.png'); /* replace with your asset filename */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-}
-
-.aiusermodel {
-  position: absolute;
-  left: calc(100vw * 20 / 375);
-  top: calc(100vh * 40 / 812); /* adapt top spacing */
-  width: calc(100vw * 179 / 375);
-  height: calc(100vh * 314 / 812);
-  opacity: 1;
-  background-image: url('@/assets/aiusermodel.png'); 
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  z-index: 1;
-}
-
-.aichatmodel {
-  position: absolute;
-  left: calc(100vw * 181 / 375);
-  top: calc(100vh * 62 / 812);
-  width: calc(100vw * 104 / 375);
-  height: calc(100vh * 38 / 812);
-  opacity: 1;
-  background-image: url('@/assets/aichatmodel.png'); 
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  z-index: 1;
 }
 
 .top-section {
+  display: flex;
+  gap: calc(100vw * 10 / 375);
   position: relative;
-  margin-top: calc(env(safe-area-inset-top) + 12px);
+  margin-top: calc(env(safe-area-inset-top) + calc(100vh * 12 / 815));
   margin-left: calc(100vw * 20 / 375);
   z-index: 100;
 }
 
+.edit-title {
+  font-family: 'texgyreadventor', sans-serif;
+  font-size: calc(100vw * 20 / 375);
+  font-weight: 700;
+  background: rgba(243, 96, 86, 1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 .center-section {
-  margin-top: calc(100vh * 41 / 812);
-  margin-left: calc(100vw * 187 / 375);
+  margin-top: calc(100vh * 20 / 812);
+  margin-left: calc(100vw * 30 / 375);
   margin-right: calc(100vw * 28 / 375);
   display: flex;
   flex-direction: column;
@@ -234,8 +214,9 @@ async function sendMessage() {
   align-items: center;
   height: calc(100vh * 36 / 812);
   padding: 0 calc(100vw * 10 / 375);
-  border-radius: calc(100vw * 40 / 375);
-  background: rgba(255, 255, 255, 0.1);
+  border-radius: calc(100vw * 10 / 375);
+  background: rgba(243, 96, 86, 1);
+  border: calc(100vw * 1 / 375) solid rgba(255, 255, 255, 1);
   backdrop-filter: blur(calc(100vw * 4 / 375));
   font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 14 / 375);
@@ -255,7 +236,7 @@ async function sendMessage() {
   left: 0;
   right: 0;
   bottom: 0;
-  top: calc(100vh * 325 / 812); /* adjust top spacing as needed */
+  top: calc(100vh * 300 / 812); /* adjust top spacing as needed */
   background: rgba(255, 255, 255, 1);
   border-radius: calc(100vw * 40 / 375) calc(100vw * 40 / 375) 0 0;
   z-index: 2;
@@ -295,11 +276,11 @@ async function sendMessage() {
 .chat-time {
   text-align: center;
   font-family: 'texgyreadventor', sans-serif;
-  font-size: calc(100vw * 16 / 375);
+  font-size: calc(100vw * 15 / 375);
   font-weight: 400;
   line-height: calc(100vw * 17.41 / 375);
   letter-spacing: 0;
-  color: rgba(153, 153, 153, 1);
+  color: rgba(102, 102, 102, 1);
 }
 
 .chat-content {
@@ -331,7 +312,7 @@ async function sendMessage() {
   flex-shrink: 0;
   border-radius: 50%; /* fully circular */
   padding: calc(100vw * 1 / 375); /* border thickness */
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
+  background: rgba(243, 96, 86, 1);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -351,7 +332,7 @@ async function sendMessage() {
 
 .chat-message {
   border-radius: 0 calc(100vw * 10 / 375) calc(100vw * 10 / 375) calc(100vw * 10 / 375);
-  background: rgba(255, 159, 142, 1);
+  background: rgba(15, 124, 147, 1);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -367,7 +348,7 @@ async function sendMessage() {
 
 .chat-message-rigth {
   border-radius: calc(100vw * 10 / 375) 0 calc(100vw * 10 / 375) calc(100vw * 10 / 375);
-  background: rgba(15, 124, 147, 1);
+  background: rgba(243, 96, 86, 1);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -378,7 +359,7 @@ async function sendMessage() {
   font-weight: 400;
   line-height: calc(100vw * 15.23 / 375);
   letter-spacing: 0;
-  color: rgba(153, 153, 153, 1);
+  color: rgba(255, 255, 255, 1);
 }
 
 .bottom-input {
@@ -408,7 +389,8 @@ async function sendMessage() {
   line-height: calc(100vw * 15.23 / 375);
   letter-spacing: 0;
   font-family: 'texgyreadventor', sans-serif;
-  color: rgba(0,0,0,1);
+  color: rgba(255, 255, 255, 1);
+  caret-color: white;
 }
 
 .bottom-input input::placeholder {
@@ -417,12 +399,12 @@ async function sendMessage() {
   line-height: calc(100vw * 15.23 / 375);
   letter-spacing: 0;
   font-family: 'texgyreadventor', sans-serif;
-  color: rgba(153, 153, 153, 1);
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .send-icon {
-  width: calc(100vw * 30 / 375);
-  height: calc(100vw * 30 / 375);
+  width: calc(100vw * 34 / 375);
+  height: calc(100vw * 34 / 375);
   cursor: pointer;
 }
 </style>

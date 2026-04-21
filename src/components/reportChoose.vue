@@ -94,7 +94,7 @@ background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(243, 96, 86,
 
 .cancel {
   width: calc(100vw * 152 / 375);
-  height: calc(env(safe-area-inset-top) + 12px);
+  height: calc(100vw * 53 / 375);
   border-radius: calc(100vw * 40 / 375);
   background: rgba(243, 96, 86, 1);
 

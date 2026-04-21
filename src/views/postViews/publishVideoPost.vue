@@ -62,27 +62,55 @@ const videoFirstFrame = ref('') // store the preview image
 const handleAddVideo = async (event) => {
   const file = event.target.files[0];
   if (!file) return;
+
   uploadedVideo.value = file;
 
-  const video = document.createElement('video');
-  video.src = URL.createObjectURL(file);
-  video.muted = true;
-  video.playsInline = true;
+  // 使用 URL.createObjectURL(file) 创建临时 URL
+  const videoUrl = URL.createObjectURL(file);
 
-  // Wait until the video can play to draw the first frame
-  video.addEventListener('loadeddata', () => {
-    video.currentTime = 0;
-  }, { once: true });
+  console.log(videoUrl);
+  // 获取首帧封面
+  videoFirstFrame.value = await getVideoInfo(videoUrl);
 
-  video.addEventListener('seeked', () => {
-    const canvas = document.createElement('canvas');
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-    videoFirstFrame.value = canvas.toDataURL('image/png');
-  }, { once: true });
-}
+  // 释放 URL，防止内存泄漏
+  // URL.revokeObjectURL(videoUrl); // 可在确认首帧生成后释放
+};
+
+const getVideoInfo = async (videoUrl) => {
+  return new Promise((resolve) => {
+    let video = document.createElement("video");
+    video.src = videoUrl;
+    video.currentTime = 0.1; // 截取首帧
+    video.preload = "metadata";
+
+    video.addEventListener("loadeddata", async () => {
+      let canvas = document.createElement("canvas"),
+          width = video.videoWidth,
+          height = video.videoHeight;
+
+      canvas.width = width;
+      canvas.height = height;
+
+      // 等 100ms 渲染完成
+      await new Promise((r) => setTimeout(r, 100));
+
+      canvas.getContext("2d").drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      const thumb = canvas.toDataURL("image/jpeg");
+
+      // 释放资源
+      canvas.width = 0;
+      canvas.height = 0;
+      video.src = "";
+      video.load();
+      video.remove();
+      video = null;
+      canvas = null;
+
+      resolve(thumb);
+    });
+  });
+};
 
 const handleRemoveVideo = () => {
   uploadedVideo.value = null
@@ -157,7 +185,7 @@ const handleRelease = async () => {
 }
 
 .back {
-    padding-top: calc(env(safe-area-inset-top) + 12px);
+    padding-top: calc(env(safe-area-inset-top) + calc(100vh * 12 / 815));
     padding-left: calc(100vw * 20 / 375);
 }
 
@@ -177,7 +205,9 @@ const handleRelease = async () => {
   margin-right: calc(100vw * 20 / 375);
   height: calc(100vh * 174 / 812);
   border-radius: calc(100vw * 16 / 375);
-  background: rgba(255, 255, 255, 1);
+  background: rgba(255, 255, 255, 0.3);
+  border: calc(100vw * 1 / 375) solid rgba(255, 255, 255, 1);
+  box-shadow: 0px calc(100vw * 2 / 375) calc(100vw * 4 / 375)  rgba(0, 0, 0, 0.06);
   padding: calc(100vw * 12 / 375);
   box-sizing: border-box;
 }
@@ -221,7 +251,7 @@ const handleRelease = async () => {
   font-size: calc(100vw * 20 / 375);
   font-weight: 400;
   line-height: calc(100vw * 23.1 / 375);
-  color: rgba(255, 255, 255, 1);
+  color: rgba(0, 0, 0, 1);
   text-align: left;
 }
 
@@ -244,7 +274,9 @@ const handleRelease = async () => {
   height: calc(100vw * 108 / 375);
   flex-shrink: 0;
   border-radius: calc(100vw * 20 / 375);
-  background: rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.3);
+  border: calc(100vw * 1 / 375) solid rgba(255, 255, 255, 1);
+  box-shadow: 0px calc(100vw * 2 / 375) calc(100vw * 4 / 375)  rgba(0, 0, 0, 0.06);
   backdrop-filter: blur(12px);
   display: flex;
   justify-content: center;
@@ -261,8 +293,8 @@ const handleRelease = async () => {
 }
 
 .upload-add {
-  width: calc(100vw * 21 / 375);
-  height: calc(100vw * 21 / 375);
+  width: calc(100vw * 35 / 375);
+  height: calc(100vw * 35 / 375);
   background-image: url('@/assets/uploadpic.png');
   background-size: cover;
   background-position: center;
@@ -282,17 +314,17 @@ const handleRelease = async () => {
 
 /* Release Button Styles */
 .release-button {
-  width: calc(100vw * 229 / 375);
-  height: calc(100vh * 62 / 812);
+  width: calc(100vw * 198 / 375);
+  height: calc(100vh * 53 / 812);
   border-radius: calc(100vw * 40 / 375);
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
-  box-shadow: inset calc(100vw * -2 / 375) calc(100vw * -2 / 375) calc(100vw * 2 / 375) rgba(255, 255, 255, 0.6), inset calc(100vw * 2 / 375) calc(100vw * 2 / 375) calc(100vw * 2 / 375) rgba(255, 255, 255, 0.5);
+  background: rgba(243, 96, 86, 1);
+  border: calc(100vw * 2 / 375) solid rgba(255, 255, 255, 1);
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
+  font-weight: 700;
   line-height: calc(100vw * 23.1 / 375);
   color: rgba(255, 255, 255, 1);
   cursor: pointer;

@@ -69,7 +69,7 @@ function handleSubmit() {
 }
 
 .back {
-  padding-top: calc(env(safe-area-inset-top) + 12px);
+  padding-top: calc(env(safe-area-inset-top) + calc(100vh * 12 / 815));
   padding-left: calc(100vw * 20 / 375);
 }
 
@@ -127,7 +127,7 @@ function handleSubmit() {
 
 .report-content {
   padding: calc(100vh * 12 / 812) calc(100vw * 12 / 375) 0;
-  color: rgba(255, 255, 255, 1);
+  color: rgba(0, 0, 0, 1);
   font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
@@ -139,9 +139,9 @@ function handleSubmit() {
   padding-left: calc(100vw * 20 / 375);
   font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
+  font-weight: 700;
   line-height: calc(100vw * 23.1 / 375);
-  color: rgba(255, 255, 255, 1);
+  color: rgba(0, 0, 0, 1);
 }
 
 .input-box {
@@ -151,6 +151,8 @@ function handleSubmit() {
   border-radius: calc(100vw * 16 / 375);
   background: rgba(255, 255, 255, 1);
   backdrop-filter: blur(12px);
+  border: calc(100vw * 1 / 375) solid rgba(0, 0, 0, 1);
+  box-shadow: calc(100vw * 2 / 375) calc(100vw * 2 / 375) 0px  rgba(0, 0, 0, 1);
   padding: calc(100vw * 12 / 375);
   box-sizing: border-box;
 }
@@ -193,15 +195,16 @@ function handleSubmit() {
   width: calc(100vw * 229 / 375);
   height: calc(100vh * 62 / 812);
   border-radius: calc(100vw * 40 / 375);
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
-  box-shadow: inset calc(100vw * -2 / 375) calc(100vw * -2 / 375) calc(100vw * 2 / 375) rgba(255, 255, 255, 0.6), inset calc(100vw * 2 / 375) calc(100vw * 2 / 375) calc(100vw * 2 / 375) rgba(255, 255, 255, 0.5);
+  background: rgba(243, 96, 86, 1);
+
+  border: calc(100vw * 1 / 375) solid rgba(255, 255, 255, 1);
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
   font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
+  font-weight: 700;
   line-height: calc(100vw * 23.1 / 375);
   color: rgba(255, 255, 255, 1);
   text-align: center;
