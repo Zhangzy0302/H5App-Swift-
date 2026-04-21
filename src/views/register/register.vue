@@ -277,8 +277,6 @@ const saveProfile = async () => {
 .page {
   width: 100%;
   height: 100vh;
-  background: url('@/assets/pagebgc.png') no-repeat center center;
-  background-size: cover;
   overflow: hidden;
   display: flex;
   flex-direction: column;
