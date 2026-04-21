@@ -410,16 +410,6 @@ const saveProfile = async () => {
   flex-shrink: 0;
 }
 
-.birthday-icon {
-  background-image: url('@/assets/birthdayicon.png');
-}
-
-.country-icon {
-  background-image: url('@/assets/birthdayicon.png');
-  transform: rotate(0deg);
-  transition: transform 0.2s ease;
-}
-
 .country-icon-open {
   transform: rotate(180deg);
 }
