@@ -42,14 +42,13 @@ export default defineComponent({
   left: 50%;
   transform: translate(-50%, -50%); 
   width: calc(100vw * 300 / 375);
-  height: calc(100vh * 230 / 815);
   border-radius: calc(100vw * 16 / 375);
   background-color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: calc(100vw * 24 / 375) calc(100vw * 24 / 375) calc(100vw * 24 / 375) calc(100vw * 24 / 375);
+  padding: calc(100vw * 24 / 375) calc(100vw * 24 / 375) calc(100vw * 30 / 375) calc(100vw * 24 / 375);
 }
 
 .orinx-guest-alert-logo {

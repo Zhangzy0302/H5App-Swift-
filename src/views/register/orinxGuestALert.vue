@@ -49,7 +49,6 @@ export default defineComponent({
   left: 50%;
   transform: translate(-50%, -50%); 
   width: calc(100vw * 300 / 375);
-  height: calc(100vw * 272 / 375);
   border-radius: calc(100vw * 16 / 375);
   background-color: white;
   display: flex;

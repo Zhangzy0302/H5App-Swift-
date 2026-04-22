@@ -2,14 +2,15 @@
   <div class="video-call" :style="{ backgroundImage: `url(${userInfo.avator})` }">
     <div class="bg-gradient"></div>
     <!-- Top Avatar Container -->
-    <div class="avatar-outer">
+    
+
+    <!-- Bottom Control Panel -->
+    <div class="call-panel">
+      <div class="avatar-outer">
       <div class="avatar-inner">
         <img :src="userInfo.avator" alt="User Avatar" />
       </div>
     </div>
-
-    <!-- Bottom Control Panel -->
-    <div class="call-panel">
       <div class="call-left">
         <div class="user-name">{{ userInfo.name }}</div>
         <div class="calling-text">{{ callingText }}</div>
@@ -65,7 +66,7 @@ function hangup() {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(0deg, rgba(255, 159, 142, 1) 0%, rgba(255, 255, 255, 0) 99.84%);
+  background: linear-gradient(0deg, rgba(243, 96, 86, 1) 0%, rgba(255, 255, 255, 0) 99.84%);
   z-index: 0;
 }
 
@@ -76,29 +77,28 @@ function hangup() {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: end;
   background-size: cover;
   background-position: center;
   overflow: hidden;
 }
 
 .avatar-outer {
-  margin-top: calc(100vh * 257 / 812);
-  width: calc(100vw * 166 / 375);
-  height: calc(100vw * 166 / 375);
-  border-radius: calc(100vw * 50 / 375);
-  background: rgba(255, 255, 255, 0.3);
+  /* margin-top: calc(100vh * 257 / 812); */
+  width: calc(100vw * 106 / 375);
+  height: calc(100vw * 106 / 375);
+  border-radius: calc(100vw * 99 / 375);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .avatar-inner {
-  width: calc(100vw * 144 / 375);
-  height: calc(100vw * 144 / 375);
-  border-radius: calc(100vw * 40 / 375);
+  width: calc(100vw * 104 / 375);
+  height: calc(100vw * 104 / 375);
+  border-radius: calc(100vw * 99 / 375);
   padding: calc(100vw * 3 / 375);
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
+  background: rgba(206, 254, 74, 1);
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -110,36 +110,34 @@ function hangup() {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: calc(100vw * 37 / 375);
+  border-radius: calc(100vw * 99 / 375);
   display: block;
 }
 
 /* Bottom call panel */
 .call-panel {
   position: absolute;
-  bottom: calc(100vh * 40 / 812);
-  width: calc(100% - (calc(100vw * 50 / 375)));
-  height: calc(100vh * 80 / 812);
+  bottom: calc(100vh * 120 / 812);
   border-radius: calc(100vw * 40 / 375);
-  background: rgba(255, 255, 255, 1);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 0 calc(100vw * 20 / 375);
   box-sizing: border-box;
+  gap: calc(100vw * 35 / 375);
 }
 
 .call-left {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: calc(100vh * 10 / 812);
+  gap: calc(100vw * 10 / 315);
 }
 
 .user-name {
   font-family: 'texgyreadventor', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
+  font-weight: 700;
   line-height: calc(100vw * 23.1 / 375);
   color: rgba(255, 255, 255, 1);
   white-space: nowrap;
@@ -155,17 +153,17 @@ function hangup() {
 }
 
 .hangup-btn {
-  width: calc(100vw * 60 / 375);
-  height: calc(100vw * 60 / 375);
+  width: calc(100vw * 58 / 375);
+  height: calc(100vw * 58 / 375);
   border-radius: calc(100vw * 214 / 375);
-  background: rgba(255, 28, 100, 1);
+  background: rgba(255, 255, 255, 1);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .hangup-btn img {
-  width: calc(100vw * 28 / 375);
-  height: calc(100vw * 28 / 375);
+  width: calc(100vw * 32 / 375);
+  height: calc(100vw * 32 / 375);
 }
 </style>
