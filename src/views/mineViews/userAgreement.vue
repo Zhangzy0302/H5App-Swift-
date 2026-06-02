@@ -125,83 +125,99 @@ import BackButton from '@/components/back.vue'
   height:100vh;
   display:flex;
   flex-direction:column;
-  background: linear-gradient(180deg, rgba(255, 190, 25, 1) 0%, rgba(255, 228, 161, 1) 22%, rgba(248, 248, 246, 1) 42%, rgba(248, 248, 246, 1) 100%);
-  color:white;
+  background: linear-gradient(180deg, rgba(255, 190, 25, 1) 0%, rgba(255, 228, 161, 1) 24%, rgba(248, 248, 246, 1) 48%, rgba(248, 248, 246, 1) 100%);
+  color: rgba(60, 48, 48, 1);
+  overflow: hidden;
 }
 
 /* 顶部 */
 .header{
   display:flex;
   align-items:center;
-  gap:calc(100vw * 16 / 375);
-  padding:calc(100vh * 58 / 812) calc(100vw * 20 / 375) calc(100vh * 20 / 812);
+  gap:calc(100vw * 12 / 375);
+  height: calc(100vh * 88 / 812);
+  padding: calc(100vh * 40 / 812) calc(100vw * 20 / 375) 0;
+  box-sizing: border-box;
+  flex-shrink: 0;
 }
 
 .title{
   font-family: 'Poppins-Bold', sans-serif;
-  font-size: calc(100vw * 20 / 375);
-  background:linear-gradient(
-    135deg,
-    rgba(255,159,142,1),
-    rgba(241,213,160,1),
-    rgba(201,255,221,1),
-    rgba(157,255,255,1)
-  );
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
+  font-size: calc(100vw * 18 / 375);
+  line-height: 1;
+  color: rgba(60, 48, 48, 1);
 }
 
 /* 内容 */
 .agreement-content{
   flex:1;
   overflow-y:auto;
-  padding:calc(100vh * 20 / 812) calc(100vw * 20 / 375);
-  background:rgba(0,0,0,0.45);
-  backdrop-filter:blur(calc(100vw * 10 / 375));
-  border-radius:calc(100vw * 20 / 375) calc(100vw * 20 / 375) 0 0;
+  margin: calc(100vh * 16 / 812) calc(100vw * 16 / 375) calc(100vh * 18 / 812);
+  padding: calc(100vh * 22 / 812) calc(100vw * 18 / 375) calc(100vh * 28 / 812);
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: calc(100vw * 16 / 375);
+  box-shadow: 0 calc(100vh * 12 / 812) calc(100vw * 28 / 375) rgba(60, 48, 48, 0.08);
+  box-sizing: border-box;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* 标题 */
 .agreement-content h1{
   font-family: 'Poppins-Bold', sans-serif;
   font-size:calc(100vw * 24 / 375);
-  margin-bottom:calc(100vh * 10 / 812);
+  line-height: 1.25;
+  margin: 0 0 calc(100vh * 8 / 812);
+  color: rgba(60, 48, 48, 1);
 }
 
 /* 更新时间 */
 .update-time{
-  opacity:0.7;
-  font-family: 'Poppins-Bold', sans-serif;
+  font-family: 'Poppins-Regular', sans-serif;
   font-size:calc(100vw * 12 / 375);
-  margin-bottom:calc(100vh * 20 / 812);
+  line-height: 1.5;
+  margin: 0 0 calc(100vh * 20 / 812);
+  color: rgba(142, 135, 135, 1);
 }
 
 /* 小标题 */
 .agreement-content h2{
   font-family: 'Poppins-Bold', sans-serif;
-  font-size:calc(100vw * 18 / 375);
-  margin-top:calc(100vh * 24 / 812);
-  margin-bottom:calc(100vh * 10 / 812);
-  color:#ff9f8e;
+  font-size:calc(100vw * 16 / 375);
+  line-height: 1.35;
+  margin: calc(100vh * 24 / 812) 0 calc(100vh * 8 / 812);
+  color: rgba(60, 48, 48, 1);
 }
 
 /* 正文 */
 .agreement-content p{
   font-family: 'Poppins-Regular', sans-serif;
   font-size:calc(100vw * 14 / 375);
-  line-height:1.7;
-  margin-bottom:calc(100vh * 10 / 812);
+  line-height:1.65;
+  margin: 0 0 calc(100vh * 10 / 812);
+  color: rgba(92, 84, 84, 1);
+}
+
+.agreement-content strong{
+  font-family: 'Poppins-Bold', sans-serif;
+  color: rgba(60, 48, 48, 1);
 }
 
 /* 列表 */
 .agreement-content ul{
   padding-left:calc(100vw * 18 / 375);
+  margin: 0 0 calc(100vh * 12 / 812);
 }
 
 .agreement-content li{
   margin-bottom:calc(100vh * 6 / 812);
   font-family: 'Poppins-Regular', sans-serif;
   font-size:calc(100vw * 14 / 375);
+  line-height: 1.55;
+  color: rgba(92, 84, 84, 1);
+}
+
+.agreement-content li::marker{
+  color: rgba(255, 190, 25, 1);
 }
 
 </style>
