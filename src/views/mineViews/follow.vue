@@ -19,7 +19,7 @@
             </div>
             <div class="user-intro">{{ item.about }}</div>
           </div>
-          <div class="follow-right" @click="cancelFollow(item.userId)">Cancel</div>
+          <div class="follow-right" @click="cancelFollow(item.userId)">−</div>
         </div>
       </div>
       <Empty class="empty" v-else />
@@ -44,7 +44,7 @@ const follows = computed(() => {
     // Here you can map userId to user info if you have a userStore
     // For now we return placeholder data
     return userStore.getUserById(userId)
-  }) || []
+  }).filter(Boolean) || []
 })
 
 function cancelFollow(userId) {
@@ -85,11 +85,7 @@ function cancelFollow(userId) {
   position: relative;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 1);
-  background-image: url('@/assets/pagebgc.png');
-  background-size: cover; /* 等比缩放覆盖 */
-  background-position: center; /* 居中显示 */
-  background-repeat: no-repeat;
+  background: linear-gradient(180deg, rgba(255, 190, 25, 1) 0%, rgba(255, 228, 161, 1) 22%, rgba(248, 248, 246, 1) 42%, rgba(248, 248, 246, 1) 100%);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -99,31 +95,43 @@ function cancelFollow(userId) {
 .top-header {
   display: flex;
   align-items: center;
-  gap: calc(100vw * 16 / 375);
-  padding: calc(100vh * 58 / 812) calc(100vw * 20 / 375) 0;
+  gap: calc(100vw * 10 / 375);
+  padding: calc(100vh * 51 / 812) calc(100vw * 23 / 375) 0;
+}
+
+.top-header :deep(.outer-box) {
+  width: calc(100vw * 22 / 375);
+  height: calc(100vw * 22 / 375);
+  border-radius: 0;
+  background: transparent;
+}
+
+.top-header :deep(.inner-box) {
+  width: calc(100vw * 22 / 375);
+  height: calc(100vw * 22 / 375);
+  filter: brightness(0) saturate(100%) invert(16%) sepia(11%) saturate(1024%) hue-rotate(315deg) brightness(94%) contrast(85%);
 }
 
 .edit-title {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'Poppins-Bold', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+  line-height: 1;
+  color: rgba(60, 48, 48, 1);
 }
 
 .container {
   flex: 1;
   overflow-y: auto;
-  margin: calc(100vh * 20 / 812) 0 0;
+  margin: calc(100vh * 22 / 812) 0 0;
   box-sizing: border-box;
 }
 
 .follow-list {
-  margin: 0 calc(100vw * 20 / 375) 0;
+  margin: 0 calc(100vw * 22 / 375) 0;
   display: flex;
   flex-direction: column;
-  gap: calc(100vh * 16 / 812);
+  gap: calc(100vh * 10 / 812);
   padding-bottom: calc(100vh * 34 / 812);
 }
 
@@ -131,11 +139,11 @@ function cancelFollow(userId) {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: calc(100vh * 76 / 812);
+  height: calc(100vh * 82 / 812);
   border-radius: calc(100vw * 20 / 375);
-  background: rgba(255, 255, 255, 0.2);
-  box-shadow: 0px calc(100vw * 2 / 375) calc(100vw * 4 / 375) rgba(0, 0, 0, 0.06);
-  padding: 0 calc(100vw * 16 / 375);
+  background: rgba(255, 255, 255, 1);
+  box-shadow: none;
+  padding: 0 calc(100vw * 15 / 375) 0 calc(100vw * 10 / 375);
   box-sizing: border-box;
 }
 
@@ -145,13 +153,14 @@ function cancelFollow(userId) {
   flex-direction: column;
   justify-content: center;
   flex: 1;
-  gap: calc(100vh * 7 / 812);
+  gap: calc(100vh * 5 / 812);
+  min-width: 0;
 }
 
 .user-info {
   display: flex;
   align-items: center;
-  gap: calc(100vw * 12 / 375);
+  gap: calc(100vw * 8 / 375);
 }
 
 .avatar-box {
@@ -159,8 +168,8 @@ function cancelFollow(userId) {
   width: calc(100vw * 32 / 375);
   height: calc(100vw * 32 / 375);
   border-radius: 50%;
-  padding: calc(100vw * 1 / 375);
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
+  padding: 0;
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -176,40 +185,41 @@ function cancelFollow(userId) {
 }
 
 .user-name {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'Poppins-Bold', sans-serif;
   font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 18.48 / 375);
-  color: #fff;
+  font-weight: 700;
+  line-height: 1;
+  color: rgba(60, 48, 48, 1);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .user-intro {
-  font-family: 'Archivo', sans-serif;
-  font-size: calc(100vw * 14 / 375);
+  font-family: 'Poppins-Regular', sans-serif;
+  font-size: calc(100vw * 14/ 375);
   font-weight: 400;
-  line-height: calc(100vw * 15.23 / 375);
-  color: #fff;
+  line-height: 1;
+  color: rgba(60, 48, 48, 0.48);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .follow-right {
-  width: calc(100vw * 63 / 375);
-  height: calc(100vh * 28 / 812);
-  border-radius: calc(100vw * 20 / 375);
-  background: #fff;
-  font-family: 'Archivo', sans-serif;
-  font-size: calc(100vw * 12 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 13.06 / 375);
-  color: rgba(105, 71, 65, 1);
+  width: calc(100vw * 24 / 375);
+  height: calc(100vw * 24 / 375);
+  border-radius: 50%;
+  background: rgba(255, 190, 25, 1);
+  font-family: 'Poppins-Bold', sans-serif;
+  font-size: calc(100vw * 19 / 375);
+  font-weight: 700;
+  line-height: calc(100vw * 13 / 375);
+  color: rgba(60, 48, 48, 1);
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .empty {

@@ -29,11 +29,10 @@ import BackButton from '@/components/back.vue'
 import { sendLogoutToIOS } from '@/utils/iosBridge'
 
 const options = ref([
-  { text: 'Privacy Policy' },
+  { text: 'Privacy Agreement' },
   { text: 'User Agreement' },
   { text: 'Blacklist' },
-  { text: 'Wallet' },
-  { text: 'Edit personal information' }
+  { text: 'Modify personal information' }
 ])
 
 const router = useRouter()
@@ -53,9 +52,6 @@ function handleOption(index) {
       router.push({ name: 'block' })
       break
     case 3:
-      router.push({ name: 'coins' })
-      break
-    case 4:
       router.push({ name: 'edit' })
       break
     default:
@@ -86,11 +82,7 @@ function handleAction(isDelete) {
   position: relative;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 1);
-  background-image: url('@/assets/pagebgc.png');
-  background-size: cover; /* 等比缩放覆盖 */
-  background-position: center; /* 居中显示 */
-  background-repeat: no-repeat;
+  background: linear-gradient(180deg, rgba(255, 190, 25, 1) 0%, rgba(255, 228, 161, 1) 22%, rgba(248, 248, 246, 1) 42%, rgba(248, 248, 246, 1) 100%);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -101,83 +93,104 @@ function handleAction(isDelete) {
 .header {
   display: flex;
   align-items: center;
-  gap: calc(100vw * 16 / 375);
-  padding: calc(100vh * 58 / 812) calc(100vw * 20 / 375) 0;
+  gap: calc(100vw * 8 / 375);
+  padding: calc(100vh * 45 / 812) calc(100vw * 20 / 375) 0;
+  min-height: calc(100vh * 40 / 812);
 }
 
 .title {
-  font-family: 'YesevaOne', sans-serif;
-  font-size: calc(100vw * 20 / 375);
+  font-family: 'Poppins-Bold', sans-serif;
+  font-size: calc(100vw * 22 / 375);
   font-weight: 400;
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  line-height: 1;
+  color: rgba(60, 46, 45, 1);
+  margin: 0;
+}
+
+.header :deep(.outer-box) {
+  width: calc(100vw * 24 / 375);
+  height: calc(100vw * 24 / 375);
+  border-radius: 0;
+  background: transparent;
+}
+
+.header :deep(.inner-box) {
+  width: calc(100vw * 24 / 375);
+  height: calc(100vw * 24 / 375);
+  filter: brightness(0) saturate(100%) invert(16%) sepia(11%) saturate(1024%) hue-rotate(315deg) brightness(94%) contrast(85%);
 }
 
 /* Options List */
 .options-list {
   flex: 1;
-  padding: calc(100vh * 20 / 812) calc(100vw * 20 / 375) 0;
+  padding: calc(100vh * 29 / 812) calc(100vw * 18 / 375) 0;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: calc(100vh * 16 / 812);
+  gap: calc(100vh * 14 / 812);
 }
 
 .option {
-  height: calc(100vh * 52 / 812);
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: calc(100vw * 20 / 375);
-  box-shadow: 0 calc(100vw * 2 / 375) calc(100vw * 4 / 375) rgba(0, 0, 0, 0.06);
+  min-height: calc(100vh * 46 / 812);
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: calc(100vw * 12 / 375);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 calc(100vw * 10 / 375);
+  padding: 0 calc(100vw * 16 / 375) 0 calc(100vw * 14 / 375);
+  box-sizing: border-box;
 }
 
 .option-text {
-  font-family: 'Archivo', sans-serif;
-  color: #fff;
-  font-size: calc(100vw * 14 / 375);
-  font-weight: 400;
+  font-family: 'Poppins-Regular', sans-serif;
+  color: rgba(60, 46, 45, 1);
+  font-size: calc(100vw * 16 / 375);
+  font-weight: 500;
+  line-height: 1;
 }
 
 .option-right .arrow-placeholder {
   width: calc(100vw * 24 / 375);
   height: calc(100vw * 24 / 375);
-  background-image: url('@/assets/seetinggoicon.png');
+  background-image: url('@/assets/SARTY_setting_arrorw.png');
   background-size: cover; /* 等比缩放覆盖 */
   background-position: center; /* 居中显示 */
   background-repeat: no-repeat;
   overflow: hidden;
+  filter: brightness(0) saturate(100%) invert(16%) sepia(11%) saturate(1024%) hue-rotate(315deg) brightness(94%) contrast(85%);
 }
 
 /* Footer */
 .footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(100vh * 66 / 812);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: calc(100vh * 20 / 812);
-  padding-bottom: calc(100vh * 83 / 812);
+  gap: calc(100vh * 16 / 812);
 }
 
 .btn {
-  width: calc(100vw * 229 / 375);
-  height: calc(100vh * 62 / 812);
-  border-radius: calc(100vw * 40 / 375);
-  font-family: 'YesevaOne', sans-serif;
-  font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  box-shadow:inset calc(100vw * -2 / 375) calc(100vw * -2 / 375) calc(100vw * 2 / 375)  rgba(255, 255, 255, 0.6),inset calc(100vw * 2 / 375) calc(100vw * 2 / 375) calc(100vw * 2 / 375)  rgba(255, 255, 255, 0.5);
+  width: calc(100vw * 166 / 375);
+  height: calc(100vh * 46 / 812);
+  border: 0;
+  border-radius: calc(100vw * 24 / 375);
+  font-family: 'Poppins-Regular', sans-serif;
+  font-size: calc(100vw * 15 / 375);
+  font-weight: 700;
+  line-height: 1;
+  padding: 0;
 }
 
 .delete-btn {
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
-  color: rgba(74, 32, 25, 1);
+  background: rgba(255, 82, 57, 1);
+  color: rgba(255, 255, 255, 1);
 }
 
 .logout-btn {
-  background: rgba(74, 32, 25, 1);
-  color: rgba(255, 255, 255, 1);
+  background: rgba(255, 190, 25, 1);
+  color: rgba(60, 46, 45, 1);
 }
 </style>

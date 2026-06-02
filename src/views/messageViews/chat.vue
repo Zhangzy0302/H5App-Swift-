@@ -27,15 +27,17 @@
       <!-- 聊天内容 -->
       <div class="chat-content">
         <div v-for="msg in messages" :key="msg.msgId" :class="['chat-item', { 'own-message': msg.userId === currentUserId }]">
-          <img class="chat-avatar" @click="goOtherHome(msg.userId)" :src="getUserAvatar(msg.userId)" alt="avatar" />
           <div class="chat-right">
-            <div v-if="msg.userId === currentUserId && msg.sendPicUrl" class="chat-message-image">
+            <div class="chat-meta">
+              <img class="chat-avatar" @click="goOtherHome(msg.userId)" :src="getUserAvatar(msg.userId)" alt="avatar" />
+              <div class="chat-time">{{ formatTime(msg.sendTime) }}</div>
+            </div>
+            <div v-if="msg.sendPicUrl" class="chat-message-image">
               <div class="image-container">
                 <img :src="msg.sendPicUrl" alt="send image" />
               </div>
             </div>
             <div v-else class="chat-message" v-text="msg.sendContent"></div>
-            <div class="chat-time">{{ formatTime(msg.sendTime) }}</div>
           </div>
         </div>
       </div>
@@ -202,20 +204,21 @@ function reportSelect(value) {
   if (value === 0) {
     router.push({ name: 'report' })
   } else if (value === 1) {
-    //用户选择屏蔽
-    if (uiStore.loading) return
-    uiStore.showLoading()
-
     // 用户选择屏蔽时加入 blockList
     const blockList = currentUserStore.currentUser.blockList || []
 
-    // 不存在才加入，避免重复
-    if (!blockList.includes(otherUser.userId)) {
-      blockList.unshift(otherUser.userId)
-
-      // 使用 userStore 公共方法同步更新当前用户并回传 iOS
-      userStore.updateUser(currentUserStore.currentUser.userId, { blockList: blockList })
+    if (blockList.map(String).includes(String(otherUser.userId))) {
+      uiStore.showToast('This user is already in your blacklist.')
+      return
     }
+
+    //用户选择屏蔽
+    if (uiStore.loading) return
+    uiStore.showLoading()
+    blockList.unshift(otherUser.userId)
+
+    // 使用 userStore 公共方法同步更新当前用户并回传 iOS
+    userStore.updateUser(currentUserStore.currentUser.userId, { blockList: blockList })
 
     const delay = Math.floor(Math.random() * 1500) + 500
 
@@ -235,237 +238,267 @@ function reportSelect(value) {
   position: relative;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 1);
+  background: rgba(248, 248, 246, 1);
   overflow: hidden;
+  color: rgba(60, 48, 48, 1);
 }
 
 .top-background {
-  height: calc(100vh * 162 / 812);
-  opacity: 1;
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
   width: 100%;
+  height: calc(100vh * 98 / 812);
+  background:
+    radial-gradient(circle at 62% 0%, rgba(255, 146, 98, 0.78) 0%, rgba(255, 146, 98, 0) 27%),
+    linear-gradient(180deg, rgba(255, 190, 25, 1) 0%, rgba(135, 100, 20, 1) 100%);
 }
 
 .content {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   display: flex;
   flex-direction: column;
-  gap: calc(100vh * 16 / 812);
 }
 
 .top-content {
-  padding:calc(100vh * 56 / 812) calc(100vw * 20 / 375) 0;
+  height: calc(100vh * 98 / 812);
+  padding: calc(100vh * 44 / 812) calc(100vw * 18 / 375) 0;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  color: #fff;
+}
+
+.top-content :deep(.outer-box),
+.top-content :deep(.outer-more-box) {
+  width: calc(100vw * 24 / 375);
+  height: calc(100vw * 24 / 375);
+  border-radius: 0;
+  background: transparent;
+}
+
+.top-content :deep(.inner-box),
+.top-content :deep(.inner-more-box) {
+  width: calc(100vw * 24 / 375);
+  height: calc(100vw * 24 / 375);
+  filter: brightness(0) invert(1);
+}
+
+.left-part,
+.right-part,
+.user-info,
+.icon-group {
+  display: flex;
   align-items: center;
 }
 
 .left-part {
-  display: flex;
-  align-items: center;
-  gap: calc(100vw * 15 / 375);
+  gap: calc(100vw * 12 / 375);
+  min-width: 0;
 }
 
 .user-info {
-  display: flex;
-  align-items: center;
-  gap: calc(100vw * 12 / 375);
+  gap: calc(100vw * 10 / 375);
+  min-width: 0;
 }
 
 .avatar {
-  width: calc(100vw * 40 / 375);
-  height: calc(100vw * 40 / 375);
+  width: calc(100vw * 34 / 375);
+  height: calc(100vw * 34 / 375);
   border-radius: 50%;
-  border: calc(100vw * 1 / 375) solid #fff;
+  border: calc(100vw * 1 / 375) solid rgba(255, 255, 255, 0.7);
   object-fit: cover;
+  flex-shrink: 0;
 }
 
 .username {
-  font-family: 'YesevaOne', sans-serif;
+  max-width: calc(100vw * 128 / 375);
+  font-family: 'Poppins-Bold', sans-serif;
   font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 18.48 / 375);
-  letter-spacing: 0;
-  color: rgba(74, 32, 25, 1);
+  font-weight: 700;
+  line-height: 1.2;
+  color: #fff;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .right-part {
-  display: flex;
-  align-items: center;
-  gap: calc(100vw * 17 / 375);
+  gap: calc(100vw * 16 / 375);
+  flex-shrink: 0;
 }
 
 .icon-group {
-  display: flex;
-  gap: calc(100vw * 24 / 375);
+  gap: calc(100vw * 18 / 375);
 }
 
 .icon {
   width: calc(100vw * 24 / 375);
   height: calc(100vw * 24 / 375);
   cursor: pointer;
+  filter: brightness(0) invert(1);
 }
 
 .chat-content {
   flex: 1;
-  border-radius: calc(100vw * 20 / 375) calc(100vw * 20 / 375) 0 0;
-  background: rgba(235, 236, 237, 1);
-  backdrop-filter: blur(calc(100vw * 12 / 375));
+  min-height: 0;
+  border-radius: calc(100vw * 15 / 375) calc(100vw * 15 / 375) 0 0;
+  background: rgba(248, 248, 246, 1);
   overflow-y: auto;
-  padding-top: calc(100vh * 24 / 812);
-  padding-bottom: calc(100vh * 90 / 812);
+  padding: calc(100vh * 34 / 812) calc(100vw * 18 / 375) calc(100vh * 108 / 812);
   display: flex;
   flex-direction: column;
-  gap: calc(100vh * 16 / 812);
+  gap: calc(100vh * 28 / 812);
+  box-sizing: border-box;
 }
 
 .chat-item {
   display: flex;
-  align-items: flex-start;
-  gap: calc(100vw * 10 / 375);
-  margin: 0 calc(100vw * 118 / 375) 0 calc(100vw * 20 / 375); /* 默认靠左消息 */
-}
-
-.chat-right {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: calc(100vh * 8 / 812);
-}
-
-.chat-avatar {
-  width: calc(100vw * 44 / 375);
-  height: calc(100vw * 44 / 375);
-  border-radius: 50%;
-  padding: calc(100vw * 1 / 375); /* border thickness */
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
-  box-sizing: border-box;
-  overflow: hidden;
-  display: flex;
-  flex-shrink: 0; /* prevent avatar from being compressed */
-  object-fit: cover;
-}
-
-.chat-avatar img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
-  display: block;
-}
-
-.chat-message {
-  font-family: 'Archivo', sans-serif;
-  font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 17.41 / 375);
-  color: rgba(105, 71, 65, 1);
-  padding: calc(100vh * 10 / 812) calc(100vw * 10 / 375);
-  border-radius: 0px calc(100vw * 10 / 375) calc(100vw * 10 / 375) calc(100vw * 10 / 375);
-  background: rgba(201, 255, 221, 1);
-}
-
-.chat-time {
-  font-family: 'Archivo', sans-serif;
-  font-size: calc(100vw * 12 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 13.06 / 375);
-  color: rgba(153, 153, 153, 1);
-  text-align: right;
+  justify-content: flex-start;
 }
 
 .chat-item.own-message {
-  flex-direction: row-reverse;
-  margin: 0 calc(100vw * 20 / 375) 0 calc(100vw * 118 / 375); /* 自己消息靠右反转间距 */
+  justify-content: flex-end;
+}
+
+.chat-avatar {
+  width: calc(100vw * 42 / 375);
+  height: calc(100vw * 42 / 375);
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.chat-right {
+  max-width: calc(100vw * 238 / 375);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: calc(100vh * 9 / 812);
 }
 
 .chat-item.own-message .chat-right {
-  align-items: flex-start;
+  align-items: flex-end;
+}
+
+.chat-meta {
+  display: flex;
+  align-items: center;
+  gap: calc(100vw * 8 / 375);
+}
+
+.chat-item.own-message .chat-meta {
+  flex-direction: row-reverse;
+}
+
+.chat-time {
+  font-family: 'Poppins-Regular', sans-serif;
+  font-size: calc(100vw * 16 / 375);
+  font-weight: 400;
+  line-height: 1;
+  color: rgba(60, 48, 48, 0.36);
+}
+
+.chat-message {
+  max-width: 100%;
+  box-sizing: border-box;
+  font-family: 'Poppins-Regular', sans-serif;
+  font-size: calc(100vw * 12 / 375);
+  font-weight: 400;
+  line-height: 1.45;
+  color: #fff;
+  min-height: calc(100vh * 40 / 812);
+  padding: calc(100vh * 11 / 812) calc(100vw * 15 / 375);
+  border-radius: calc(100vw * 13 / 375);
+  background: rgba(255, 190, 25, 1);
+  overflow-wrap: anywhere;
 }
 
 .chat-item.own-message .chat-message {
-  border-radius: calc(100vw * 10 / 375) 0px calc(100vw * 10 / 375) calc(100vw * 10 / 375);
-  background: rgba(255, 159, 142, 1);
+  background: rgba(60, 48, 48, 1);
+  border-radius: calc(100vw * 13 / 375);
 }
 
-/* image message styles */
+.chat-message-image {
+  max-width: calc(100vw * 181 / 375);
+}
+
 .chat-message-image .image-container {
-  border-radius: calc(100vw * 20 / 375);
+  overflow: hidden;
+  border-radius: calc(100vw * 13 / 375);
   background: rgba(255, 255, 255, 1);
-  padding: calc(100vw * 5 / 375);
 }
 
 .chat-message-image .image-container img {
-  width: 100%;
-  height: auto;
-  border-radius: calc(100vw * 16 / 375);
-  object-fit: contain;
+  display: block;
+  width: calc(100vw * 181 / 375);
+  height: calc(100vw * 181 / 375);
+  border-radius: calc(100vw * 13 / 375);
+  object-fit: cover;
 }
 
 .bottom-input {
   position: absolute;
-  left: calc(100vw * 20 / 375);
-  right: calc(100vw * 20 / 375);
-  bottom: calc(100vh * 29 / 812);
-  height: calc(100vh * 54 / 812);
-  border-radius: calc(100vw * 40 / 375);
-  background: rgba(201, 255, 221, 1);
-  box-shadow: 0px calc(100vw * 2 / 375) calc(100vw * 4 / 375) rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(calc(100vw * 32 / 375));
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: calc(100vh * 88 / 812);
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0 calc(-2 * 100vw / 375) calc(18 * 100vw / 375) rgba(0, 0, 0, 0.04);
   display: flex;
-  align-items: center;
-  padding: 0 calc(100vw * 16 / 375);
-  gap: calc(100vw * 16 / 375);
+  align-items: flex-start;
+  padding: calc(100vh * 9 / 812) calc(100vw * 18 / 375) calc(100vh * 32 / 812);
+  gap: calc(100vw * 8 / 375);
   box-sizing: border-box;
 }
 
 .bottom-input input {
   flex: 1;
+  height: calc(100vh * 47 / 812);
   border: none;
   outline: none;
-  background: transparent;
-  font-family: 'Archivo', sans-serif;
+  border-radius: calc(100vw * 24 / 375);
+  background: rgba(248, 248, 246, 1);
+  padding: 0 calc(100vw * 15 / 375);
+  box-sizing: border-box;
+  font-family: 'Poppins-Regular', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 15.23 / 375);
-  letter-spacing: 0;
-  color: #000;
+  color: rgba(60, 48, 48, 1);
 }
 
 .bottom-input input::placeholder {
-  color: rgba(105, 71, 65, 0.5);
+  color: rgba(60, 48, 48, 0.28);
 }
 
 .send-btn {
-  width: calc(100vw * 30 / 375);
-  height: calc(100vw * 30 / 375);
+  width: calc(100vw * 46 / 375);
+  height: calc(100vw * 46 / 375);
+  padding: calc(100vw * 11 / 375);
+  border-radius: 50%;
+  background: rgba(255, 190, 25, 1);
+  box-sizing: border-box;
   cursor: pointer;
 }
 
 .video-call-sheet {
   position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: 0;
-  background: rgba(0,0,0,0.5);
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: flex-end;
   z-index: 1000;
 }
 
-.slide-up-enter-active, .slide-up-leave-active {
+.slide-up-enter-active,
+.slide-up-leave-active {
   transition: transform 0.3s ease;
 }
-.slide-up-enter-from, .slide-up-leave-to {
+
+.slide-up-enter-from,
+.slide-up-leave-to {
   transform: translateY(100%);
 }
 </style>

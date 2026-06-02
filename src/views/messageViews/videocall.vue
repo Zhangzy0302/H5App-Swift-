@@ -1,29 +1,27 @@
 <template>
-  <div class="video-call" :style="{ backgroundImage: `url(${userInfo.avator})` }">
-    <div class="bg-gradient"></div>
-    <!-- Top Avatar Container -->
-    <div class="avatar-outer">
-      <div class="avatar-inner">
-        <img :src="userInfo.avator" alt="User Avatar" />
-      </div>
+  <div class="video-call">
+    <div class="top-action" @click="hangup">
+      <BackButton />
     </div>
-
-    <!-- Bottom Control Panel -->
-    <div class="call-panel">
-      <div class="call-left">
-        <div class="user-name">{{ userInfo.name }}</div>
-        <div class="calling-text">{{ callingText }}</div>
+    <div class="call-center">
+      <div class="avatar-outer">
+        <div class="avatar-inner">
+          <img :src="userInfo.avator" alt="User Avatar" />
+        </div>
       </div>
-      <div class="hangup-btn" @click="hangup">
-        <img src="@/assets/hangupicon.png" alt="hangup" />
-      </div>
+      <div class="user-name">{{ userInfo.name }}</div>
+      <div class="calling-text">{{ callingText }}</div>
     </div>
+    <div class="hangup-btn" @click="hangup">
+      <img src="@/assets/hangupicon.png" alt="hangup" />
+      </div>
   </div>
 </template>
 
 <script setup>
 import { defineProps, defineEmits, ref, onMounted, onUnmounted } from 'vue'
 import { useUserStore } from '@/stores/user'
+import BackButton from '@/components/back.vue'
 
 const props = defineProps({ userId: String })
 const emits = defineEmits(['hangup'])
@@ -53,56 +51,58 @@ function hangup() {
 </script>
 
 <style scoped>
-.video-call > *:not(.bg-gradient) {
-  position: relative;
-  z-index: 1;
-}
-
-/* Top avatar */
-.bg-gradient {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(0deg, rgba(255, 159, 142, 1) 0%, rgba(255, 255, 255, 0) 99.84%);
-  z-index: 0;
-}
-
 .video-call {
   position: relative;
   width: 100%;
   height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  background-size: cover;
-  background-position: center;
+  background: linear-gradient(180deg, rgba(255, 190, 25, 1) 0%, rgba(255, 225, 154, 1) 27%, rgba(248, 248, 246, 1) 48%, rgba(248, 248, 246, 1) 100%);
   overflow: hidden;
 }
 
+.top-action {
+  position: absolute;
+  top: calc(100vh * 50 / 812);
+  left: calc(100vw * 18 / 375);
+  z-index: 2;
+}
+
+.top-action :deep(.outer-box) {
+  width: calc(100vw * 24 / 375);
+  height: calc(100vw * 24 / 375);
+  border-radius: 0;
+  background: transparent;
+}
+
+.top-action :deep(.inner-box) {
+  width: calc(100vw * 24 / 375);
+  height: calc(100vw * 24 / 375);
+  filter: brightness(0) saturate(100%) invert(16%) sepia(11%) saturate(1024%) hue-rotate(315deg) brightness(94%) contrast(85%);
+}
+
+.call-center {
+  position: absolute;
+  top: calc(100vh * 239 / 812);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .avatar-outer {
-  margin-top: calc(100vh * 257 / 812);
-  width: calc(100vw * 166 / 375);
-  height: calc(100vw * 166 / 375);
-  border-radius: calc(100vw * 50 / 375);
-  background: rgba(255, 255, 255, 0.3);
+  width: calc(100vw * 69 / 375);
+  height: calc(100vw * 69 / 375);
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 .avatar-inner {
-  width: calc(100vw * 144 / 375);
-  height: calc(100vw * 144 / 375);
-  border-radius: calc(100vw * 40 / 375);
-  padding: calc(100vw * 3 / 375);
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
   overflow: hidden;
 }
 
@@ -110,62 +110,49 @@ function hangup() {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: calc(100vw * 37 / 375);
+  border-radius: 50%;
   display: block;
 }
 
-/* Bottom call panel */
-.call-panel {
-  position: absolute;
-  bottom: calc(100vh * 40 / 812);
-  width: calc(100% - (calc(100vw * 50 / 375)));
-  height: calc(100vh * 80 / 812);
-  border-radius: calc(100vw * 40 / 375);
-  background: rgba(255, 255, 255, 1);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 calc(100vw * 20 / 375);
-  box-sizing: border-box;
-}
-
-.call-left {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: calc(100vh * 10 / 812);
-}
-
 .user-name {
-  font-family: 'YesevaOne', sans-serif;
+  margin-top: calc(100vh * 47 / 812);
+  font-family: 'Poppins-Bold', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 23.1 / 375);
-  color: rgba(74, 32, 25, 1);
+  font-weight: 700;
+  line-height: 1;
+  color: rgba(60, 48, 48, 1);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .calling-text {
+  margin-top: calc(100vh * 13 / 812);
+  font-family: 'Poppins-Regular', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 15.23 / 375);
-  color: rgba(74, 32, 25, 1);
+  line-height: 1;
+  color: rgba(60, 48, 48, 1);
 }
 
 .hangup-btn {
-  width: calc(100vw * 60 / 375);
-  height: calc(100vw * 60 / 375);
-  border-radius: calc(100vw * 214 / 375);
-  background: rgba(255, 28, 100, 1);
+  position: absolute;
+  left: 50%;
+  bottom: calc(100vh * 83 / 812);
+  transform: translateX(-50%);
+  width: calc(100vw * 58 / 375);
+  height: calc(100vw * 58 / 375);
+  border-radius: 50%;
+  background: rgba(255, 190, 25, 1);
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 
 .hangup-btn img {
-  width: calc(100vw * 28 / 375);
-  height: calc(100vw * 28 / 375);
+  width: calc(100vw * 25 / 375);
+  height: calc(100vw * 25 / 375);
+  filter: brightness(0) saturate(100%) invert(16%) sepia(11%) saturate(1024%) hue-rotate(315deg) brightness(94%) contrast(85%);
 }
 </style>

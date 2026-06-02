@@ -15,13 +15,13 @@
           <div class="text-count">{{ text.length }}/150</div>
         </div>
         <!-- Theme -->
-        <div class="theme-label">Theme</div>
+        <div class="theme-label">Topic</div>
         <!-- ThemeList -->
         <div class="theme-list">
-          <div v-for="(theme, index) in otherStore.other.postTheme" :key="index" class="theme-item" :class="{ selected: selectedTheme === index }" @click="selectedTheme = index"># {{ theme }}</div>
+          <div v-for="(theme, index) in otherStore.other.postTheme" :key="index" class="theme-item" :class="{ selected: selectedTheme === index }" @click="selectedTheme = index">{{ theme }}</div>
         </div>
         <!-- Upload（Pic） -->
-        <div class="theme-label">Upload（Pic）</div>
+        <div class="theme-label">Upload&nbsp;&nbsp;(Pic)</div>
         <!-- 图片上传 -->
         <div class="upload-list">
           <!-- 添加图片按钮 -->
@@ -43,7 +43,7 @@
                 class="upload-image"
                 :style="{ backgroundImage: file ? `url(${file.preview || file._previewUrl || URL.createObjectURL(file)})` : '' }"
               ></div>
-              <van-icon class="upload-remove" name="clear" size="20" @click="handleRemoveImage(index)" color="#fff"/>
+              <van-icon class="upload-remove" name="clear" size="20" @click="handleRemoveImage(index)" color="#FF4E3B"/>
             </label>
           </template>
         </div>
@@ -138,17 +138,26 @@ const handleRelease = async () => {
   position: relative;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 1);
-  background-image: url('@/assets/pagebgc.png');
-  background-size: cover; /* 等比缩放覆盖 */
-  background-position: center; /* 居中显示 */
-  background-repeat: no-repeat;
+  background: linear-gradient(180deg, rgba(255, 190, 25, 1) 0%, rgba(255, 228, 161, 1) 22%, rgba(248, 248, 246, 1) 42%, rgba(248, 248, 246, 1) 100%);
   overflow: hidden;
 }
 
 .back {
-    padding-top: calc(100vh * 56 / 812);
-    padding-left: calc(100vw * 20 / 375);
+  padding-top: calc(100vh * 56 / 812);
+  padding-left: calc(100vw * 20 / 375);
+}
+
+.back :deep(.outer-box) {
+  width: calc(100vw * 28 / 375);
+  height: calc(100vw * 28 / 375);
+  border-radius: 0;
+  background: transparent;
+}
+
+.back :deep(.inner-box) {
+  width: calc(100vw * 28 / 375);
+  height: calc(100vw * 28 / 375);
+  filter: brightness(0) saturate(100%) invert(16%) sepia(11%) saturate(1024%) hue-rotate(315deg) brightness(94%) contrast(85%);
 }
 
 .page-content {
@@ -162,13 +171,13 @@ const handleRelease = async () => {
 
 .input-box {
   position: relative;
-  margin-top: calc(100vh * 20 / 812);
+  margin-top: calc(100vh * 22 / 812);
   margin-left: calc(100vw * 20 / 375);
-  margin-right: calc(100vw * 20 / 375);
-  height: calc(100vh * 174 / 812);
+  margin-right: calc(100vw * 9 / 375);
+  height: calc(100vh * 192 / 812);
   border-radius: calc(100vw * 16 / 375);
   background: rgba(255, 255, 255, 1);
-  padding: calc(100vw * 12 / 375);
+  padding: calc(100vh * 16 / 812) calc(100vw * 12 / 375);
   box-sizing: border-box;
 }
 
@@ -178,80 +187,82 @@ const handleRelease = async () => {
   border: none;
   outline: none;
   resize: none;
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Poppins-Regular', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 15.23 / 375);
+  line-height: calc(100vw * 20 / 375);
   background: transparent;
-  color: #000;
+  color: rgba(60, 48, 48, 1);
 }
 
 .post-textarea::placeholder {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Poppins-Regular', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 15.23 / 375);
-  color: rgba(105, 71, 65, 1); /* 颜色可半透明 */
+  line-height: calc(100vw * 20 / 375);
+  color: rgba(60, 48, 48, 0.48);
 }
 
 .text-count {
   position: absolute;
   right: calc(100vw * 14 / 375);
-  bottom: calc(100vh * 19 / 812);
-  font-family: 'Archivo', sans-serif;
+  bottom: calc(100vh * 16 / 812);
+  font-family: 'Poppins-Regular', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: normal;
-  color: rgba(105, 71, 65, 1);
+  color: rgba(60, 48, 48, 0.42);
 }
 
 .theme-label {
-  margin-top: calc(100vh * 24 / 812);
+  margin-top: calc(100vh * 28 / 812);
   margin-left: calc(100vw * 20 / 375);
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'Poppins-Bold', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
+  font-weight: 700;
   line-height: calc(100vw * 23.1 / 375);
-  color: rgba(255, 255, 255, 1);
+  color: rgba(60, 48, 48, 1);
   text-align: left;
 }
 
 .theme-list {
   display: flex;
   justify-content: flex-start;
-  gap: calc(100vw * 11 / 375);
+  gap: calc(100vw * 9 / 375);
   margin-left: calc(100vw * 20 / 375);
-  margin-top: calc(100vh * 20 / 812);
+  margin-top: calc(100vh * 22 / 812);
+  padding-right: calc(100vw * 7 / 375);
 }
 
 .theme-item {
-  width: calc(100vw * 94 / 375);
-  height: calc(100vh * 44 / 812);
-  border-radius: calc(100vw * 20 / 375);
-  background: rgba(255, 255, 255, 0.16);
+  height: calc(100vh * 41 / 812);
+  border-radius: calc(100vw * 22 / 375);
+  background: rgba(255, 255, 255, 1);
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'Archivo', sans-serif;
-  font-size: calc(100vw * 14 / 375);
+  font-family: 'Poppins-Regular', sans-serif;
+  font-size: calc(100vw * 18 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 15.23 / 375);
+  line-height: 1;
   letter-spacing: 0;
-  color: rgba(255, 255, 255, 1);
+  color: rgba(60, 48, 48, 1);
   cursor: pointer;
+  padding: 0 calc(100vw * 18 / 375);
+  box-sizing: border-box;
 }
 
 .theme-item.selected {
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
-  color: rgba(74, 32, 25, 1);
+  background: rgba(255, 190, 25, 1);
+  color: rgba(60, 48, 48, 1);
 }
 
 .upload-list {
   display: flex;
   overflow-x: auto;
-  margin-top: calc(100vh * 20 / 812);
+  margin-top: calc(100vh * 13 / 812);
   padding-left: calc(100vw * 20 / 375);
   padding-right: calc(100vw * 20 / 375);
-  gap: calc(100vw * 10 / 375); /* 间距10，当有图片时 */
+  gap: calc(100vw * 8 / 375);
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;     /* Firefox */
 }
@@ -260,12 +271,11 @@ const handleRelease = async () => {
 }
 
 .upload-item {
-  width: calc(100vw * 108 / 375);
-  height: calc(100vw * 108 / 375);
+  width: calc(100vw * 110 / 375);
+  height: calc(100vw * 110 / 375);
   flex-shrink: 0;
-  border-radius: calc(100vw * 20 / 375);
-  background: rgba(255, 255, 255, 0.16);
-  backdrop-filter: blur(12px);
+  border-radius: calc(100vw * 17 / 375);
+  background: rgba(255, 255, 255, 1);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -283,10 +293,12 @@ const handleRelease = async () => {
 }
 
 .upload-add {
-  width: calc(100vw * 21 / 375);
-  height: calc(100vw * 21 / 375);
+  width: calc(100vw * 40 / 375);
+  height: calc(100vw * 40 / 375);
+  border-radius: 50%;
+  background-color: rgba(255, 190, 25, 1);
   background-image: url('@/assets/uploadpic.png');
-  background-size: cover;
+  background-size: calc(100vw * 40 / 375) calc(100vw * 40 / 375);
   background-position: center;
   background-repeat: no-repeat;
   margin: auto;
@@ -294,30 +306,31 @@ const handleRelease = async () => {
 
 .upload-remove {
   position: absolute;
-  top: calc(100vh * 8 / 812);
-  right: calc(100vw * 5 / 375);
-  width: calc(100vw * 20 / 375);
-  height: calc(100vw * 20 / 375);
+  top: calc(100vh * -4 / 812);
+  right: calc(100vw * -4 / 375);
+  width: calc(100vw * 26 / 375);
+  height: calc(100vw * 26 / 375);
   cursor: pointer;
   z-index: 10;
+  color: rgba(255, 78, 59, 1) !important;
 }
 
 /* Release Button Styles */
 .release-button {
-  width: calc(100vw * 229 / 375);
-  height: calc(100vh * 62 / 812);
+  width: calc(100vw * 194 / 375);
+  height: calc(100vh * 56 / 812);
   border-radius: calc(100vw * 40 / 375);
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
-  box-shadow: inset calc(100vw * -2 / 375) calc(100vw * -2 / 375) calc(100vw * 2 / 375) rgba(255, 255, 255, 0.6), inset calc(100vw * 2 / 375) calc(100vw * 2 / 375) calc(100vw * 2 / 375) rgba(255, 255, 255, 0.5);
+  background: rgba(255, 190, 25, 1);
+  box-shadow: none;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'YesevaOne', sans-serif;
-  font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 23.1 / 375);
-  color: rgba(74, 32, 25, 1);
+  font-family: 'Poppins-Bold', sans-serif;
+  font-size: calc(100vw * 16 / 375);
+  font-weight: 700;
+  line-height: 1;
+  color: rgba(60, 48, 48, 1);
   cursor: pointer;
-  margin: calc(100vh * 117 / 812) auto calc(100vh * 34 / 812) auto;
+  margin: calc(100vh * 123 / 812) auto calc(100vh * 72 / 812) auto;
 }
 </style>

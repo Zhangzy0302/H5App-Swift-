@@ -2,7 +2,6 @@
   <div class="page">
     <div class="top-header">
       <BackButton />
-      <span class="edit-title">Edit</span>
     </div>
     <div class="content">
       <div class="top">
@@ -146,11 +145,7 @@ onMounted(() => {
   position: relative;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 1);
-  background-image: url('@/assets/pagebgc.png');
-  background-size: cover; /* 等比缩放覆盖 */
-  background-position: center; /* 居中显示 */
-  background-repeat: no-repeat;
+  background: linear-gradient(180deg, rgba(255, 190, 25, 1) 0%, rgba(255, 228, 161, 1) 22%, rgba(248, 248, 246, 1) 42%, rgba(248, 248, 246, 1) 100%);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -162,15 +157,6 @@ onMounted(() => {
   align-items: center;
   gap: calc(100vw * 16 / 375);
   padding: calc(100vh * 58 / 812) calc(100vw * 20 / 375) 0;
-}
-
-.edit-title {
-  font-family: 'YesevaOne', sans-serif;
-  font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
 }
 
 .content {
@@ -200,12 +186,12 @@ onMounted(() => {
 
 .camera-corner {
   position: absolute;
-  top: 0;
+  bottom: 0;
   right: 0;
   width: calc(100vw * 28 / 375);
   height: calc(100vw * 28 / 375);
   border-radius: 50%;
-  background: rgba(255, 255, 255, 1);
+  background: rgba(255, 190, 25, 1);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -214,6 +200,7 @@ onMounted(() => {
 .camera-corner img {
   width: calc(100vw * 14 / 375);
   height: calc(100vw * 14 / 375);
+  filter: brightness(0) saturate(100%);
 }
 
 .second-section {
@@ -226,11 +213,11 @@ onMounted(() => {
 }
 
 .label {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'Poppins-Bold', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
+  font-weight: 600;
   line-height: calc(100vw * 23.1 / 375);
-  color: rgba(255, 255, 255, 1);
+  color: rgba(60, 48, 48, 1);
 }
 
 .input-box {
@@ -249,7 +236,7 @@ onMounted(() => {
   width: 100%;
   border: none;
   outline: none;
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Poppins-Regular', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 15.23 / 375);
@@ -259,7 +246,7 @@ onMounted(() => {
 }
 
 .input-box input::placeholder {
-  color: rgba(105, 71, 65, 1);
+  color: rgba(60, 48, 48, 0.6);
 }
 
 .third-section {
@@ -281,7 +268,7 @@ onMounted(() => {
   border: none;
   outline: none;
   resize: none;
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Poppins-Regular', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 15.23 / 375);
@@ -300,16 +287,15 @@ onMounted(() => {
 }
 
 .save-btn {
-  width: calc(100vw * 229 / 375);
-  height: calc(100vh * 62 / 812);
+  width: calc(100vw * 190 / 375);
+  height: calc(100vh * 54 / 812);
   border-radius: calc(100vw * 40 / 375);
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
-  box-shadow: inset calc(100vw * -2 / 375) calc(100vw * -2 / 375) calc(100vw * 2 / 375) rgba(255, 255, 255, 0.6), inset calc(100vw * 2 / 375) calc(100vw * 2 / 375) calc(100vw * 2 / 375) rgba(255, 255, 255, 0.5);
+  background: rgba(255, 190, 25, 1);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'YesevaOne', sans-serif;
-  font-size: calc(100vw * 20 / 375);
+  font-family: 'Poppins-Bold', sans-serif;
+  font-size: calc(100vw * 16 / 375);
   font-weight: 400;
   line-height: calc(100vw * 23.1 / 375);
   letter-spacing: 0;

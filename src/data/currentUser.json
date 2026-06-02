@@ -1,19 +1,17 @@
 {
-    "userId": "1",
-    "email": "test@gmail.com",
-    "password": "123456",
-    "avator": "https://img.js.design/assets/img/67da66b8429d6bf48999ed57.png#2a0b2e9e240a30ff0ea1bfb2ba0df267",
-    "name": "Genji",
-    "about": "Nice to meet you all.",
-    "coins": 0,
-    "follow": [
-        "2"
-    ],
-    "fans": [],
-    "blockList": [
-        "2",
-        "3"
-    ],
-    "postLikeIds": [],
-    "isdelete": 0
+  "userId": "1",
+  "email": "test@gmail.com",
+  "password": "123456",
+  "avator": "https://huanniuchat.oss-accelerate.aliyuncs.com/template_development/Fluce_user1.jpg",
+  "name": "Genji",
+  "about": "Nice to meet you all.",
+  "coins": 0,
+  "follow": [],
+  "fans": [
+      "3"
+  ],
+  "blockList": [],
+  "postLikeIds": [],
+  "isdelete": 0,
+  "isguest": 0
 }

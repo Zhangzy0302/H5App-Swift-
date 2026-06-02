@@ -1,32 +1,23 @@
 <template>
   <div class="page">
-    <!-- 头像背景 -->
-    <div class="avatar-bg" :style="{ '--avatar-url': `url(${currentUser.avator})` }"></div>
     <!-- 可滑动内容 -->
     <div class="scroll-content">
-      <div class="top">
-        <div class="top-avatar" :style="{ '--avatar-url': `url(${currentUser.avator})` }">
-            <div class="follow-btn" v-if="userId !== currentUserStore.currentUser.userId && !currentUserStore.currentUser.follow.includes(userId)" @click="handleFollow" >
-                <div class="follow-icon"></div>
-            </div> 
-        </div>
-      </div>
-      <div class="top-name">{{ currentUser.name }}</div>
-      <!-- 用户作品数量、粉丝、关注 -->
-      <div class="user-stats">
+      <div class="profile-panel">
         <div class="stat-item">
-          <div class="stat-number">{{ userPosts.length || 0 }}</div>
-          <div class="stat-label">Works</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number">{{ currentUser.fans.length || 0 }}</div>
+          <div class="stat-number">{{ formatCompact(currentUser.fans?.length || 0) }}</div>
           <div class="stat-label">Fans</div>
         </div>
+        <div class="top-avatar" :style="{ '--avatar-url': `url(${currentUser.avator})` }">
+            <div class="follow-btn" v-if="userId !== currentUserStore.currentUser.userId && !currentUserStore.currentUser.follow.includes(userId)" @click="handleFollow" >
+                +
+            </div> 
+        </div>
         <div class="stat-item">
-          <div class="stat-number">{{ currentUser.follow.length || 0 }}</div>
+          <div class="stat-number">{{ formatCompact(currentUser.follow?.length || 0) }}</div>
           <div class="stat-label">Follow</div>
         </div>
       </div>
+      <div class="top-name">{{ currentUser.name }}</div>
       <!-- 简介和chat按钮 -->
       <div class="intro-chat">
         <div class="intro-text">{{ currentUser.about }}</div>
@@ -41,37 +32,38 @@
         </template>
       </div>
       <!-- Post标题 -->
-      <div class="post-title">Post</div>
+      <div class="post-title">Works</div>
       <!-- PostList -->
       <div class="post-list">
         <template v-if="userPosts.length > 0">
           <div class="post-item" v-for="post in userPosts" :key="post.dynamicId" @click="toPostDetail(post.dynamicId, post.dynamicType)">
             <div class="post-content">
-              <!-- Top row: avatar + name (left) and report button (right) -->
               <div class="post-top">
-                  <div class="post-user">
+                <div class="post-user">
                   <div class="post-avatar">
                     <div class="post-avatar-img" :style="{ backgroundImage: `url(${currentUser.avator})` }"></div>
                   </div>
                   <div class="post-username" :title="currentUser.name">{{ currentUser.name }}</div>
-                  </div>
-                  <div class="post-report" v-if="userId !== currentUserStore.currentUser.userId" @click="showReport = true"></div>
+                  <div class="post-type"># {{ getPostTheme(post.dynamicTitleType) }}</div>
+                </div>
+                <div class="post-report" v-if="userId !== currentUserStore.currentUser.userId" @click.stop="showReport = true"></div>
               </div>
-              <!-- Middle image -->
-              <div class="post-image" :style="{ backgroundImage: `url(${post.dynamicPic[0]})` }">
-                <div class="post-image-overlay">
-                  <div class="overlay-item">
-                    <div class="overlay-icon overlay-like"></div>
-                    <div class="overlay-count">{{ post.dynamicLikeCount || 0 }}</div>
-                  </div>
-                  <div class="overlay-item">
-                    <div class="overlay-icon overlay-comment"></div>
-                    <div class="overlay-count">{{ post.dynamicCommentCount || 0 }}</div>
+
+              <div class="post-media">
+                <div class="post-image main-image" :style="{ backgroundImage: `url(${post.dynamicPic?.[0] || currentUser.avator})` }">
+
+                  <div class="more-count" v-if="post.dynamicType != 1 && post.dynamicPic && post.dynamicPic.length > 1">+{{ post.dynamicPic.length - 1 }}</div>
+                </div>
+                <div class="media-overlay">
+                  <div class="post-desc">{{ post.dynamicDesc }}</div>
+                  <div class="like-pill" @click.stop="togglePostLike(post)">
+                    <div class="like-icon">
+                      <img :src="isPostLiked(post.dynamicId) ? likeImage : disLikeImage" alt="like" />
+                    </div>
+                    <div class="like-count">{{ formatCompact(post.dynamicLikeCount || 0) }}</div>
                   </div>
                 </div>
               </div>
-              <!-- Bottom: post type -->
-              <div class="post-type"># {{ otherStore.getTagByIndex(post.dynamicTitleType) }}</div>
             </div>
           </div>
         </template>
@@ -87,6 +79,7 @@
     </div>
     <ReportDialog v-if="showReport" @close="showReport = false" @select="reportSelect" >
     </ReportDialog>
+    <ChatFollowNotice v-if="showChatFollowNotice" @close="showChatFollowNotice = false" />
   </div>
 </template>
 
@@ -104,7 +97,10 @@ import BackButton from '@/components/back.vue'
 import MoreButton from '@/components/more.vue'
 import ReportDialog from '@/components/reportChoose.vue'
 import Empty from '@/components/empty.vue'
-import { goBackOrClose } from '@/utils/iosBridge'
+import ChatFollowNotice from '@/components/chatFollowNotice.vue'
+import likeImage from '@/assets/likepic.png'
+import disLikeImage from '@/assets/dislikepic.png'
+import { goBackOrClose, sendShowLoadingToIOS, sendShowToastToIOS } from '@/utils/iosBridge'
 
 const { userId } = defineProps({
   userId: {
@@ -127,31 +123,71 @@ const chatStore = useChatsStore()
 const router = useRouter()
 
 const showReport = ref(false)
+const showChatFollowNotice = ref(false)
+function formatCompact(value) {
+  const count = Number(value) || 0
+  if (count >= 10000) {
+    return `${Number((count / 10000).toFixed(1))}w`
+  }
+  if (count >= 1000) {
+    return `${Number((count / 1000).toFixed(1))}K`
+  }
+  return count
+}
+
+function getPostTheme(dynamicTitleType) {
+  const themes = otherStore.other.postTheme || []
+  return themes[Number(dynamicTitleType)] || 'Theme'
+}
+
+function isPostLiked(dynamicId) {
+  const postLikeIds = currentUserStore.currentUser.postLikeIds || []
+  return postLikeIds.map(String).includes(String(dynamicId))
+}
+
+function togglePostLike(post) {
+  const currentPostId = String(post.dynamicId)
+  const postLikeIds = currentUserStore.currentUser.postLikeIds ? [...currentUserStore.currentUser.postLikeIds].map(String) : []
+  let dynamicLikeCount = post.dynamicLikeCount || 0
+  const likedIndex = postLikeIds.indexOf(currentPostId)
+
+  if (likedIndex === -1) {
+    postLikeIds.push(currentPostId)
+    dynamicLikeCount += 1
+  } else {
+    postLikeIds.splice(likedIndex, 1)
+    dynamicLikeCount = Math.max(dynamicLikeCount - 1, 0)
+  }
+
+  userStore.updateUser(currentUserStore.currentUser.userId, { postLikeIds })
+  postStore.updatePostById(currentPostId, { dynamicLikeCount })
+}
+
 function reportSelect(value) {
   showReport.value = false
   if (value === 0) {
     router.push({ name: 'report' })
   } else if (value === 1) {
-    //用户选择屏蔽
-    if (uiStore.loading) return
-    uiStore.showLoading()
-
     // 用户选择屏蔽时加入 blockList
     const blockList = currentUserStore.currentUser.blockList || []
 
-    // 不存在才加入，避免重复
-    if (!blockList.includes(userId)) {
-      blockList.unshift(userId)
-
-      // 使用 userStore 公共方法同步更新当前用户并回传 iOS
-      userStore.updateUser(currentUserStore.currentUser.userId, { blockList: blockList })
+    if (blockList.map(String).includes(String(userId))) {
+      uiStore.showToast('This user is already in your blacklist.')
+      return
     }
+
+    //用户选择屏蔽
+    sendShowLoadingToIOS(true)
+    blockList.unshift(userId)
+
+    // 使用 userStore 公共方法同步更新当前用户并回传 iOS
+    userStore.updateUser(currentUserStore.currentUser.userId, { blockList: blockList })
 
     const delay = Math.floor(Math.random() * 1500) + 500
 
     setTimeout(() => {
-      uiStore.hideLoading()
-      uiStore.showToast('Blocking successful')
+      sendShowLoadingToIOS(false)
+      sendShowToastToIOS('Blocking successful')
 
       goBackOrClose()
 
@@ -159,8 +195,13 @@ function reportSelect(value) {
   }
 }
 
+
 // Handle follow action
 function handleFollow() {
+  if (currentUserStore.currentUser.isguest == 1) {
+    uiStore.openToLogin()
+    return
+  }
   const currentUserId = currentUserStore.currentUser.userId
 
   // Update current user's follow list
@@ -180,18 +221,37 @@ function handleFollow() {
 
   userStore.updateUser(userId, { fans: postUserFans })
   
-  uiStore.showToast('Followed successfully')
+  sendShowToastToIOS('Followed successfully')
 }
 
 function handleChat() {
+  if (currentUserStore.currentUser.isguest == 1) {
+    uiStore.openToLogin()
+    return
+  }
+  const currentUserFollow = Array.isArray(currentUserStore.currentUser.follow)
+    ? currentUserStore.currentUser.follow.map(String)
+    : []
+
+  const targetUserFollow = Array.isArray(currentUser.value?.follow)
+    ? currentUser.value.follow.map(String)
+    : []
+
+  const currentUserId = String(currentUserStore.currentUser.userId)
+  const targetUserId = String(userId)
+
+  if (!currentUserFollow.includes(targetUserId) || !targetUserFollow.includes(currentUserId)) {
+    showChatFollowNotice.value = true
+    return
+  }
+
   if (uiStore.loading) return
   uiStore.showLoading()
-  const currentUserId = currentUserStore.currentUser.userId
 
   // 查找是否已有 chat
   const existChat = chatStore.chat.find(chat => {
-    const ids = chat.chatUserIds || []
-    return ids.includes(currentUserId) && ids.includes(userId)
+    const ids = (chat.chatUserIds || []).map(String)
+    return ids.includes(currentUserId) && ids.includes(targetUserId)
   })
 
   let chatId
@@ -202,7 +262,7 @@ function handleChat() {
     // 创建新的 chat
     const newChat = {
       chatId: String(chatStore.chat.length + 1),
-      chatUserIds: [currentUserId, userId],
+      chatUserIds: [currentUserId, targetUserId],
       lastSendContent: '',
       lastSendTime: new Date().toISOString(),
       unreadMsgCount: 0,
@@ -248,7 +308,7 @@ function toPostDetail(dynamicId, dynamicType) {
   position: relative;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 1);
+  background: linear-gradient(180deg, rgba(255, 190, 25, 1) 0%, rgba(255, 228, 161, 1) 22%, rgba(248, 248, 246, 1) 42%, rgba(248, 248, 246, 1) 100%);
   overflow: hidden;
 }
 
@@ -333,7 +393,7 @@ function toPostDetail(dynamicId, dynamicType) {
   font-size: calc(100vw * 20 / 375);
   font-weight: 400;
   line-height: calc(100vw * 23.1 / 375);
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'Poppins-Bold', sans-serif;
   color: rgba(255, 255, 255, 1);
   white-space: nowrap;
   overflow: hidden;
@@ -360,7 +420,7 @@ function toPostDetail(dynamicId, dynamicType) {
 }
 
 .stat-number {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'Poppins-Bold', sans-serif;
   font-size: calc(100vw * 20 / 375);
   font-weight: 400;
   line-height: calc(100vw * 23.1 / 375);
@@ -368,7 +428,7 @@ function toPostDetail(dynamicId, dynamicType) {
 }
 
 .stat-label {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Poppins-Regular', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 15.23 / 375);
@@ -389,7 +449,7 @@ function toPostDetail(dynamicId, dynamicType) {
 
 .intro-text {
   flex: 1;
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Poppins-Regular', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: normal;
   line-height: calc(100vw * 15.23 / 375);
@@ -423,7 +483,7 @@ function toPostDetail(dynamicId, dynamicType) {
 }
 
 .chat-text {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'Poppins-Bold', sans-serif;
   font-size: calc(100vw * 20 / 375);
   font-weight: 400;
   line-height: calc(100vw * 23.1 / 375);
@@ -434,7 +494,7 @@ function toPostDetail(dynamicId, dynamicType) {
 }
 
 .post-title {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'Poppins-Bold', sans-serif;
   font-size: calc(100vw * 24 / 375);
   font-weight: 400;
   line-height: calc(100vw * 27.72 / 375);
@@ -464,7 +524,7 @@ function toPostDetail(dynamicId, dynamicType) {
   background: rgba(255, 255, 255, 0.2);
   position: relative;
   overflow: hidden;
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'Poppins-Bold', sans-serif;
   color: #fff;
   display: flex;
   flex-direction: column;
@@ -532,7 +592,7 @@ function toPostDetail(dynamicId, dynamicType) {
 }
 
 .post-username {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'Poppins-Bold', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 16.17 / 375);
@@ -600,7 +660,7 @@ function toPostDetail(dynamicId, dynamicType) {
 }
 
 .overlay-count {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Poppins-Regular', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
   line-height: calc(100vw * 17.41 / 375);
@@ -608,7 +668,7 @@ function toPostDetail(dynamicId, dynamicType) {
 }
 
 .post-type {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Poppins-Regular', sans-serif;
   text-align: left;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
@@ -625,5 +685,305 @@ function toPostDetail(dynamicId, dynamicType) {
   justify-content: space-between;
   align-items: center;
   z-index: 10;
+}
+
+/* Screenshot-matched profile layout */
+.page {
+  background: linear-gradient(180deg, rgba(255, 190, 25, 1) 0%, rgba(255, 228, 161, 1) 30%, rgba(248, 248, 246, 1) 47%, rgba(248, 248, 246, 1) 100%);
+}
+
+.scroll-content {
+  padding-top: calc(100vh * 93 / 812);
+  height: 100vh;
+  box-sizing: border-box;
+}
+
+.profile-panel {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 0 calc(100vw * 50 / 375);
+}
+
+.top-avatar {
+  width: calc(100vw * 80 / 375);
+  height: calc(100vw * 80 / 375);
+  padding: 0;
+  background: transparent;
+}
+
+.follow-btn {
+  right: calc(100vw * 3 / 375);
+  bottom: calc(100vh * 4 / 812);
+  width: calc(100vw * 19 / 375);
+  height: calc(100vw * 19 / 375);
+  border-radius: 50%;
+  background: rgba(255, 190, 25, 1);
+  box-shadow: none;
+  color: rgba(60, 48, 48, 1);
+  font-family: 'Poppins-Bold', sans-serif;
+  font-size: calc(100vw * 19 / 375);
+  font-weight: 700;
+  line-height: calc(100vw * 19 / 375);
+  text-align: center;
+}
+
+.top-name {
+  padding: calc(100vh * 10 / 812) calc(100vw * 20 / 375) 0;
+  margin-top: 0;
+  color: rgba(60, 48, 48, 1);
+  font-size: calc(100vw * 16 / 375);
+  font-weight: 700;
+  line-height: calc(100vw * 20 / 375);
+}
+
+.stat-item {
+  width: auto;
+  gap: calc(100vh * 8 / 812);
+}
+
+.stat-number {
+  color: rgba(60, 48, 48, 1);
+  font-size: calc(100vw * 20 / 375);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.stat-label {
+  color: rgba(60, 48, 48, 0.58);
+  font-size: calc(100vw * 14 / 375);
+  line-height: 1;
+}
+
+.intro-chat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: calc(100vh * 21 / 812);
+  padding: 0 calc(100vw * 20 / 375);
+  gap: calc(100vh * 28 / 812);
+}
+
+.intro-text {
+  flex: none;
+  color: rgba(60, 48, 48, 1);
+  font-size: calc(100vw * 14 / 375);
+  line-height: calc(100vw * 18 / 375);
+  text-align: center;
+}
+
+.chat-btn {
+  align-self: flex-end;
+  width: calc(100vw * 159 / 375);
+  height: calc(100vh * 52 / 812);
+  border-radius: calc(100vw * 17 / 375);
+  background: rgba(255, 190, 25, 1);
+  gap: calc(100vw * 13 / 375);
+  margin-right: calc(100vw * 9 / 375);
+}
+
+.chat-icon {
+  width: calc(100vw * 38 / 375);
+  height: calc(100vw * 38 / 375);
+  border-radius: 50%;
+  background-image: url('@/assets/chaticon.png');
+  background-size: calc(100vw * 38 / 375) calc(100vw * 38 / 375);
+}
+
+.chat-text {
+  color: rgba(60, 48, 48, 1);
+  background: none;
+  -webkit-text-fill-color: rgba(60, 48, 48, 1);
+  font-size: calc(100vw * 20 / 375);
+  font-weight: 700;
+}
+
+.post-title {
+  margin-top: calc(100vh * 24 / 812);
+  padding-left: calc(100vw * 20 / 375);
+  color: rgba(60, 48, 48, 1);
+  font-size: calc(100vw * 20 / 375);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.post-list {
+  padding: calc(100vh * 14 / 812) calc(100vw * 20 / 375) calc(100vh * 34 / 812);
+  gap: calc(100vh * 14 / 812);
+}
+
+.post-item {
+  width: 100%;
+  height: auto;
+  min-height: calc(100vh * 258 / 812);
+  border-radius: calc(100vw * 13 / 375);
+  background: rgba(255, 255, 255, 1);
+  color: rgba(60, 48, 48, 1);
+  overflow: hidden;
+}
+
+.post-item::after {
+  display: none;
+}
+
+.post-content {
+  padding: calc(100vh * 10 / 812) calc(100vw * 10 / 375) calc(100vh * 12 / 812);
+  gap: calc(100vh * 10 / 812);
+}
+
+.post-top {
+  gap: calc(100vw * 10 / 375);
+}
+
+.post-avatar {
+  width: calc(100vw * 32 / 375);
+  height: calc(100vw * 32 / 375);
+  padding: 0;
+  background: transparent;
+  overflow: hidden;
+}
+
+.post-username {
+  color: rgba(60, 48, 48, 1);
+  font-size: calc(100vw * 16 / 375);
+  font-weight: 700;
+}
+
+.post-type {
+  height: calc(100vh * 25 / 812);
+  border-radius: calc(100vw * 13 / 375);
+  background: rgba(60, 48, 48, 0.12);
+  color: rgba(60, 48, 48, 0.42);
+  font-size: calc(100vw * 12 / 375);
+  display: flex;
+  align-items: center;
+  padding: 0 calc(100vw * 11 / 375);
+}
+
+.post-report {
+  filter: brightness(0) saturate(100%) invert(16%) sepia(11%) saturate(1024%) hue-rotate(315deg) brightness(94%) contrast(85%);
+}
+
+.post-media {
+  position: relative;
+  display: block;
+  height: calc(100vh * 188 / 812);
+  border-radius: calc(100vw * 12 / 375);
+  overflow: hidden;
+}
+
+.post-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+}
+
+.more-count,
+.view-count {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 1);
+  font-family: 'Poppins-Bold', sans-serif;
+}
+
+.more-count {
+  top: calc(100vh * 12 / 812);
+  right: calc(100vw * 12 / 375);
+  min-width: calc(100vw * 44 / 375);
+  height: calc(100vh * 25 / 812);
+  padding: 0 calc(100vw * 10 / 375);
+  border-radius: calc(100vw * 13 / 375);
+  background: rgba(14, 8, 15, 0.48);
+  font-size: calc(100vw * 14 / 375);
+  box-sizing: border-box;
+}
+
+.view-count {
+  inset: auto calc(100vw * 12 / 375) auto auto;
+  top: calc(100vh * 12 / 812);
+  width: auto;
+  height: calc(100vh * 25 / 812);
+  padding: 0 calc(100vw * 10 / 375);
+  border-radius: calc(100vw * 12 / 375);
+  background: rgba(14, 8, 15, 0.48);
+  font-family: 'Poppins-Regular', sans-serif;
+  font-size: calc(100vw * 12 / 375);
+}
+
+.media-overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: calc(100vh * 42 / 812);
+  background: rgba(14, 8, 15, 0.48);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 calc(100vw * 12 / 375);
+  box-sizing: border-box;
+}
+
+.post-desc {
+  min-width: 0;
+  flex: 1;
+  color: rgba(255, 255, 255, 1);
+  font-family: 'Poppins-Regular', sans-serif;
+  font-size: calc(100vw * 13 / 375);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.like-pill {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(100vh * 3 / 812);
+  margin-left: calc(100vw * 8 / 375);
+  color: rgba(255, 255, 255, 1);
+  font-family: 'Poppins-Bold', sans-serif;
+  font-size: calc(100vw * 16 / 375);
+  font-style: italic;
+  transform: translateY(calc(-100vh * 10 / 812));
+  cursor: pointer;
+}
+
+.like-icon {
+  width: calc(100vw * 40 / 375);
+  height: calc(100vw * 40 / 375);
+  border-radius: 50%;
+  background: rgba(255, 190, 25, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.like-icon img {
+  width: calc(100vw * 24 / 375);
+  height: calc(100vw * 24 / 375);
+  display: block;
+}
+
+.top-btn {
+  top: calc(100vh * 58 / 812);
+  left: calc(100vw * 22 / 375);
+  right: calc(100vw * 22 / 375);
+}
+
+.top-btn :deep(.outer-box) {
+  width: calc(100vw * 24 / 375);
+  height: calc(100vw * 24 / 375);
+  border-radius: 0;
+  background: transparent;
+}
+
+.top-btn :deep(.inner-box) {
+  width: calc(100vw * 24 / 375);
+  height: calc(100vw * 24 / 375);
+  filter: brightness(0) saturate(100%) invert(16%) sepia(11%) saturate(1024%) hue-rotate(315deg) brightness(94%) contrast(85%);
 }
 </style>

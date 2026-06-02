@@ -118,9 +118,7 @@ import BackButton from '@/components/back.vue'
   height:100vh;
   display:flex;
   flex-direction:column;
-  background-image:url('@/assets/pagebgc.png');
-  background-size:cover;
-  background-position:center;
+  background: linear-gradient(180deg, rgba(255, 190, 25, 1) 0%, rgba(255, 228, 161, 1) 22%, rgba(248, 248, 246, 1) 42%, rgba(248, 248, 246, 1) 100%);
   color:white;
 }
 
@@ -133,7 +131,7 @@ import BackButton from '@/components/back.vue'
 }
 
 .title{
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'Poppins-Bold', sans-serif;
   font-size: calc(100vw * 20 / 375);
   background:linear-gradient(
     135deg,
@@ -158,7 +156,7 @@ import BackButton from '@/components/back.vue'
 
 /* 标题 */
 .agreement-content h1{
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'Poppins-Bold', sans-serif;
   font-size:calc(100vw * 24 / 375);
   margin-bottom:calc(100vh * 10 / 812);
 }
@@ -166,14 +164,14 @@ import BackButton from '@/components/back.vue'
 /* 更新时间 */
 .update-time{
   opacity:0.7;
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'Poppins-Bold', sans-serif;
   font-size:calc(100vw * 12 / 375);
   margin-bottom:calc(100vh * 20 / 812);
 }
 
 /* 小标题 */
 .agreement-content h2{
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'Poppins-Bold', sans-serif;
   font-size:calc(100vw * 18 / 375);
   margin-top:calc(100vh * 24 / 812);
   margin-bottom:calc(100vh * 10 / 812);
@@ -182,7 +180,7 @@ import BackButton from '@/components/back.vue'
 
 /* 正文 */
 .agreement-content p{
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Poppins-Regular', sans-serif;
   font-size:calc(100vw * 14 / 375);
   line-height:1.7;
   margin-bottom:calc(100vh * 10 / 812);
@@ -195,7 +193,7 @@ import BackButton from '@/components/back.vue'
 
 .agreement-content li{
   margin-bottom:calc(100vh * 6 / 812);
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Poppins-Regular', sans-serif;
   font-size:calc(100vw * 14 / 375);
 }
 </style>

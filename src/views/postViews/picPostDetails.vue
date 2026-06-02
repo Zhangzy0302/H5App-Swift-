@@ -26,10 +26,7 @@
       <!-- 帖子内容 -->
       <div class="post-content">
         <div class="post-row">
-          <!-- 左边内容 -->
-          <div class="post-content-row">
-            <!-- 用户内容 -->
-            <div class="user-box">
+          <div class="user-box">
             <div class="avatar" @click="goOtherHome(postUser.userId)">
               <div class="avatar-img" :style="{ backgroundImage: postUser && `url(${postUser.avator})` }"></div>
             </div>
@@ -37,7 +34,6 @@
               {{ postUser && postUser.name }}
             </div>
           </div>
-          <!-- 帖子内容 -->
           <div class="second-box">
             <div class="post-desc">
               {{ post.dynamicDesc }}
@@ -46,11 +42,9 @@
               <div class="tag-text"># {{ postTag }}</div>
             </div>
           </div>
-          </div>
-          <!-- 点赞内容 -->
           <div class="like-box" @click="toggleLike">
             <img :src="currentUserStore.currentUser.postLikeIds.includes(postId.toString()) ? likeImage : disLikeImage" alt="like" class="like-icon" />
-            <div class="like-count">{{ post.dynamicLikeCount + (currentUserStore.currentUser.postLikeIds.includes(postId.toString()) ? 1 : 0) }}</div>
+            <div class="like-count">{{ formattedLikeCount }}</div>
           </div>
         </div>
       </div>
@@ -77,7 +71,9 @@
           </div>
         </template>
         <template v-else>
-          <Empty />
+          <div class="empty-state">
+            <Empty />
+          </div>
         </template>
       </div>
       <!-- 输入框 -->
@@ -104,17 +100,17 @@ import { usePostStore } from '@/stores/post'
 import { useUserStore } from '@/stores/user'
 import { useOtherStore } from '@/stores/other'
 import { useCurrentUserStore } from '@/stores/currentUser'
-import { useUIStore } from '@/stores/ui'
 import { useCommentsStore } from '@/stores/comment'
+import { useUIStore } from '@/stores/ui'
 import BackButton from '@/components/back.vue'
 import MoreButton from '@/components/more.vue'
+import ReportDialog from '@/components/reportChoose.vue'
 import likeImage from '@/assets/likepic.png'
 import disLikeImage from '@/assets/dislikepic.png'
 import commentMoreImage from '@/assets/postpiccommentreport.png'
 import commentSendImage from '@/assets/commentsend.png'
-import ReportDialog from '@/components/reportChoose.vue'
 import Empty from '@/components/empty.vue'
-import { goBackOrClose } from '@/utils/iosBridge'
+import { goBackOrClose, sendShowLoadingToIOS, sendShowToastToIOS } from '@/utils/iosBridge'
 
 const { postId } = defineProps({
   postId: {
@@ -143,41 +139,49 @@ const commentInput = ref('')
 
 const currentUserStore = useCurrentUserStore()
 
-const uiStore = useUIStore()
-
 const router = useRouter()
 
 //帖子举报、拉黑
 const showPostReport = ref(false)
+const uiStore = useUIStore()
+
+function showPostReportFunc() {
+  if (currentUserStore.currentUser.isguest == 1){
+    uiStore.openToLogin()
+    return
+  }
+  showPostReport.value = true
+}
+
 function postReportSelect(value) {
   showPostReport.value = false
   if (value === 0) {
     router.push({ name: 'report' })
   } else if (value === 1) {
-    //用户选择屏蔽
-    if (uiStore.loading) return
-    uiStore.showLoading()
-
     const postUserId = post.userId
 
     // 用户选择屏蔽时加入 blockList
     if (postUserId) {
       const blockList = currentUserStore.currentUser.blockList || []
 
-      // 不存在才加入，避免重复
-      if (!blockList.includes(postUserId)) {
-        blockList.unshift(postUserId)
-
-        // 使用 userStore 公共方法同步更新当前用户并回传 iOS
-        userStore.updateUser(currentUserStore.currentUser.userId, { blockList: blockList })
+      if (blockList.map(String).includes(String(postUserId))) {
+        uiStore.showToast('This user is already in your blacklist.')
+        return
       }
+
+      //用户选择屏蔽
+      sendShowLoadingToIOS(true)
+      blockList.unshift(postUserId)
+
+      // 使用 userStore 公共方法同步更新当前用户并回传 iOS
+      userStore.updateUser(currentUserStore.currentUser.userId, { blockList: blockList })
     }
 
     const delay = Math.floor(Math.random() * 1500) + 500
 
     setTimeout(() => {
-      uiStore.hideLoading()
-      uiStore.showToast('Blocking successful')
+      sendShowLoadingToIOS(false)
+      sendShowToastToIOS('Blocking successful')
 
       goBackOrClose()
 
@@ -193,6 +197,11 @@ function goOtherHome(userId) {
 
 // 点赞逻辑
 function toggleLike() {
+  if (currentUserStore.currentUser.isguest == 1){
+    uiStore.openToLogin()
+    return
+  }
+
   const postLikeIds = currentUserStore.currentUser.postLikeIds
   // 判断当前用户是否已经点赞
   const likedIndex = postLikeIds.indexOf(postId)
@@ -215,6 +224,10 @@ const reportCommentUserId = ref(null)
 const showCommentReport = ref(false)
 
 function handleCommentReport(userId) {
+  if (currentUserStore.currentUser.isguest == 1){
+    uiStore.openToLogin()
+    return
+  }
   reportCommentUserId.value = userId
   showCommentReport.value = true
 }
@@ -229,20 +242,21 @@ function commentReportSelect(value) {
     router.push({ name: 'report' })
   } else if (value === 1) {
     // 拉黑逻辑
-    if (uiStore.loading) return
-    uiStore.showLoading()
-
     const blockList = currentUserStore.currentUser.blockList || []
-    if (!blockList.includes(userIdToBlock)) {
-      blockList.unshift(userIdToBlock)
-      userStore.updateUser(currentUserStore.currentUser.userId, { blockList })
+    if (blockList.map(String).includes(String(userIdToBlock))) {
+      uiStore.showToast('This user is already in your blacklist.')
+      return
     }
+
+    sendShowLoadingToIOS(true)
+    blockList.unshift(userIdToBlock)
+    userStore.updateUser(currentUserStore.currentUser.userId, { blockList })
 
     const delay = Math.floor(Math.random() * 1500) + 500
 
     setTimeout(() => {
-      uiStore.hideLoading()
-      uiStore.showToast('Blocking successful')
+      sendShowLoadingToIOS(false)
+      sendShowToastToIOS('Blocking successful')
       // 重新获取评论列表，过滤掉被拉黑的用户
       comments.value = commentsStore.getCommentsById(postId)
 
@@ -252,6 +266,10 @@ function commentReportSelect(value) {
 
 // 发送评论逻辑
 function sendComment() {
+  if (currentUserStore.currentUser.isguest == 1){
+    uiStore.openToLogin()
+    return
+  }
   const content = commentInput.value.trim()
   if (!content) return // 输入为空直接返回
 
@@ -282,7 +300,7 @@ function sendComment() {
   position: relative;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 1);
+  background: rgba(245, 245, 245, 1);
   overflow: hidden;
 }
 
@@ -291,6 +309,8 @@ function sendComment() {
   height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
+  padding-bottom: calc(100vh * 116 / 812);
+  box-sizing: border-box;
 }
 
 .not-found {
@@ -311,8 +331,7 @@ function sendComment() {
 
 .swipe-wrapper {
   position: relative;
-  height: calc(100vh * 379 / 812);
-  border-radius: 0 0 calc(100vw * 20 / 375) calc(100vw * 20 / 375); /* 底部两个角圆角 */
+  height: calc(100vh * 375 / 812);
   overflow: hidden;
 }
 
@@ -336,104 +355,118 @@ function sendComment() {
 
 .indicator-wrapper {
   position: absolute;
-  bottom: calc(100vh * 17 / 812);
+  bottom: calc(100vh * 20 / 812);
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: calc(100vw * 4 / 375); /* 圆点间距 */
+  gap: calc(100vw * 4 / 375);
 }
 
 /* 单个指示器 */
 .indicator {
-  width: calc(100vw * 12 / 375);
-  height: calc(100vh * 6 / 812);
+  width: calc(100vw * 10 / 375);
+  height: calc(100vh * 5 / 812);
   border-radius: calc(100vw * 45 / 375);
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.78);
   transition: all 0.3s;
 }
 
 /* 选中状态 */
 .indicator.active {
   width: calc(100vw * 32 / 375);
-  height: calc(100vh * 6 / 812);
-  border-radius: 45px;
+  height: calc(100vh * 5 / 812);
+  border-radius: calc(100vw * 45 / 375);
   background: rgba(255, 255, 255, 1);
 }
 
 .top-btn {
   position: absolute;
-  top: calc(100vh * 56 / 812);
-  left: calc(100vw * 20 / 375);
-  right: calc(100vw * 20 / 375);
+  top: calc(100vh * 48 / 812);
+  left: calc(100vw * 19 / 375);
+  right: calc(100vw * 19 / 375);
   display: flex;
   justify-content: space-between;
   align-items: center;
   z-index: 10;
 }
 
-.post-content {
-  padding: calc(100vh * 24 / 812) calc(100vw * 20 / 375) 0;
+.top-btn :deep(.outer-box) {
+  width: calc(100vw * 28 / 375);
+  height: calc(100vw * 28 / 375);
+  border-radius: 0;
+  background: transparent;
 }
 
-.user-box {
-  width: calc(100vw * 50 / 375);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: calc(100vh * 2 / 812);
-  margin-right: calc(100vw * 15 / 375); /* 左间距15 */
+.top-btn :deep(.inner-box) {
+  width: calc(100vw * 28 / 375);
+  height: calc(100vw * 28 / 375);
+  filter: brightness(0) invert(1);
+}
+
+.top-btn :deep(.outer-more-box) {
+  width: calc(100vw * 28 / 375);
+  height: calc(100vw * 28 / 375);
+}
+
+.top-btn :deep(.inner-more-box) {
+  width: calc(100vw * 28 / 375);
+  height: calc(100vw * 28 / 375);
+  filter: brightness(0) invert(1);
+}
+
+.post-content {
+  padding: calc(100vh * 22 / 812) calc(100vw * 18 / 375) 0;
+  background: rgba(245, 245, 245, 1);
 }
 
 .post-row {
   display: flex;
-  align-items: flex-start; /* 改成顶部对齐 */
-  justify-content: space-between;
+  align-items: flex-start;
+  gap: calc(100vw * 16 / 375);
 }
 
-.post-content-row {
+.user-box {
+  width: calc(100vw * 42 / 375);
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(100vh * 7 / 812);
+  flex-shrink: 0;
 }
 
 .second-box {
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* 左对齐 */
-  gap: calc(100vh * 7 / 812); /* 上下间距7 */
+  align-items: flex-start;
+  gap: calc(100vh * 9 / 812);
+  min-width: 0;
+  flex: 1;
 }
 
 .post-desc {
-  margin-right: auto; /* 第二个靠左 */
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Poppins-Regular', sans-serif;
   font-size: calc(100vw * 14 / 375);
-  color: #fff;
+  color: rgba(60, 48, 48, 0.58);
   line-height: calc(100vw * 18 / 375);
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3; /* 超过三行省略 */
-  overflow: hidden;
   text-align: left;
+  white-space: normal;
+  word-break: break-word;
 }
 
 .tag-box {
-  display: inline-flex; /* 内容撑开宽度 */
-  height: calc(100vh * 26 / 812);
-  border-radius: calc(100vw * 40 / 375);
-  background: linear-gradient(
-    135deg,
-    rgba(255, 159, 142, 1) 0%,
-    rgba(241, 213, 160, 1) 32.13%,
-    rgba(201, 255, 221, 1) 67.84%,
-    rgba(157, 255, 255, 1) 100%
-  );
-  flex-direction: column;
+  display: inline-flex;
+  height: calc(100vh * 24 / 812);
+  border-radius: calc(100vw * 12 / 375);
+  background: rgba(60, 48, 48, 0.12);
   justify-content: center;
   align-items: center;
+  padding: 0 calc(100vw * 13 / 375);
 }
 
 .tag-text {
+  font-family: 'Poppins-Regular', sans-serif;
   font-size: calc(100vw * 12 / 375);
-  color: rgba(74, 32, 25, 1);
-  padding: 0 calc(100vw * 10 / 375);
+  color: rgba(60, 48, 48, 0.45);
   text-align: center;
 }
 
@@ -443,18 +476,10 @@ function sendComment() {
 }
 
 .avatar {
-  width: calc(100vw * 36 / 375);
-  height: calc(100vw * 36 / 375);
+  width: calc(100vw * 32 / 375);
+  height: calc(100vw * 32 / 375);
   border-radius: 50%;
-  padding: calc(100vw * 1 / 375); /* 渐变边框宽度 */
-  background: linear-gradient(
-    135deg,
-    rgba(255, 159, 142, 1) 0%,
-    rgba(241, 213, 160, 1) 32.13%,
-    rgba(201, 255, 221, 1) 67.84%,
-    rgba(157, 255, 255, 1) 100%
-  );
-  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .avatar-img {
@@ -466,80 +491,98 @@ function sendComment() {
 }
 
 .user-name {
-  width: calc(100vw * 46 / 375);
-  height: calc(100vw * 19 / 375);
-  font-family: 'YesevaOne', sans-serif;
-  font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 18.48 / 375);
-  color: rgba(255, 255, 255, 1);
-
+  width: calc(100vw * 48 / 375);
+  font-family: 'Poppins-Bold', sans-serif;
+  font-size: calc(100vw * 15 / 375);
+  font-weight: 700;
+  line-height: 1.1;
+  color: rgba(60, 48, 48, 1);
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  text-align: center;
 }
 
 .like-box {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: calc(100vh * 4 / 812); /* 上下间距4 */
-  margin-left: calc(100vw * 15 / 375); /* 左间距15 */
+  gap: calc(100vh * 6 / 812);
+  flex-shrink: 0;
+  margin-left: auto;
 }
 
 .like-icon {
   width: calc(100vw * 24 / 375);
   height: calc(100vw * 24 / 375);
+  border-radius: calc(100vw * 16 / 375);
+  padding: calc(100vw * 8 / 375);
+  background: rgba(255, 190, 25, 1);
 }
 
 .like-count {
-  font-family: 'Archivo', sans-serif;
-  font-size: calc(100vw * 14 / 375);
-  color: #fff;
+  font-family: 'Poppins-Bold', sans-serif;
+  font-size: calc(100vw * 16 / 375);
+  font-weight: 700;
+  font-style: italic;
+  color: rgba(60, 48, 48, 1);
   text-align: center;
+  line-height: 1;
 }
 
 .comments-title {
   display: flex;
   align-items: center;
-  gap: calc(100vw * 6 / 375); /* 每条评论间距 */
-  padding: calc(100vh * 24 / 812) calc(100vw * 20 / 375) 0;
+  gap: calc(100vw * 8 / 375);
+  padding: calc(100vh * 14 / 812) calc(100vw * 24 / 375) 0;
 }
 
 .comments-box1 {
-  width: calc(100vw * 31 / 375);
+  width: calc(100vw * 38 / 375);
   height: calc(100vh * 1 / 812);
-  background-color: #fff;
+  background: rgba(60, 48, 48, 0.62);
 }
 
 .comments-title-text {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'Poppins-Bold', sans-serif;
   font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 18.48 / 375);
-  color: rgba(255, 255, 255, 1);
+  font-weight: 700;
+  line-height: 1;
+  color: rgba(60, 48, 48, 1);
 }
 
 .comments-box2 {
   flex: 1; /* 自动填充剩余宽度 */
   height: calc(100vh * 1 / 812);
-  background-color: #fff;
+  background: rgba(60, 48, 48, 0.62);
 }
 
 .comments-list {
-  padding: calc(100vh * 20 / 812) calc(100vw * 20 / 375) calc(100vh * 100 / 812);
+  padding: calc(100vh * 26 / 812) calc(100vw * 25 / 375) calc(100vh * 48 / 812);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: calc(100vw * 10 / 375);
+  overflow: visible;
+}
+
+.empty-state {
+  grid-column: 1 / -1;
   display: flex;
-  flex-direction: column;
-  gap: calc(100vh * 10 / 812); /* 评论上下间隔10 */
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh * 220 / 812);
 }
 
 .comment-item {
+  width: 100%;
+  min-height: calc(100vh * 210 / 812);
   display: flex;
   flex-direction: column;
-  gap: calc(100vh * 4 / 812); /* 评论上下间隔10 */
-  padding: calc(100vh * 14 / 812) calc(100vw * 16 / 375);
-  border-radius: calc(100vw * 20 / 375);
-  background: rgba(255, 255, 255, 0.16);
+  gap: calc(100vh * 18 / 812);
+  padding: calc(100vh * 14 / 812) calc(100vw * 14 / 375) calc(100vh * 12 / 812);
+  border-radius: calc(100vw * 24 / 375);
+  background: rgba(255, 255, 255, 1);
+  box-sizing: border-box;
 }
 
 .comment-list-top {
@@ -550,25 +593,29 @@ function sendComment() {
 
 .comment-list-user {
   display: flex;
+  align-items: center;
   gap: calc(100vw * 12 / 375);
+  min-width: 0;
 }
 
 .comment-list-bottom {
-  font-family: 'Archivo', sans-serif;
-  font-size: calc(100vw * 12 / 375);
-  width: 400;
-  color: rgba(255, 255, 255, 1);
+  font-family: 'Poppins-Regular', sans-serif;
+  font-size: calc(100vw * 14 / 375);
+  line-height: calc(100vw * 24 / 375);
+  color: rgba(60, 48, 48, 1);
   text-align: left;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  overflow: hidden;
 }
 
 .comment-avatar {
   width: calc(100vw * 32 / 375);
   height: calc(100vw * 32 / 375);
   border-radius: 50%;
-  padding: calc(100vw * 1 / 375); /* border width */
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
-  box-sizing: border-box;
-  display: flex;
+  overflow: hidden;
+  flex-shrink: 0;
 }
 
 .comment-avatar-img {
@@ -580,68 +627,77 @@ function sendComment() {
 }
 
 .comment-user-name {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'Poppins-Bold', sans-serif;
   font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 18.48 / 375);
-  color: rgba(255, 255, 255, 1);
+  font-weight: 700;
+  line-height: 1;
+  color: rgba(60, 48, 48, 1);
   text-align: left;
-  display: flex;
-  align-items: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .comments-list-more {
   width: calc(100vw * 24 / 375);
-  height: calc(100vw * 24 / 375);
-
+  height: calc(100vw * 20 / 375);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  filter: brightness(0) saturate(100%) invert(16%) sepia(11%) saturate(1024%) hue-rotate(315deg) brightness(94%) contrast(85%);
+  flex-shrink: 0;
 }
 
 /* 输入框样式 */
 .input-box {
   position: fixed;
-  left: calc(100vw * 20 / 375);
-  right: calc(100vw * 20 / 375);
-  bottom: calc(100vh * 29 / 812);
+  left: 0;
+  right: 0;
+  bottom: 0;
   width: auto;
-  height: calc(100vh * 54 / 812);
-  background: rgba(201, 255, 221, 1);
-  border-radius: calc(100vw * 40 / 375);
+  height: calc(100vh * 112 / 812);
+  background: rgba(255, 255, 255, 1);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 calc(100vw * 16 / 375);
+  padding: calc(100vh * 12 / 812) calc(100vw * 20 / 375) calc(100vh * 48 / 812);
+  box-shadow: rgba(14, 8, 15, 0.1) 0px -4px 26px;
+  box-sizing: border-box;
   z-index: 20;
 }
 
 .input-field {
   flex: 1;
-  height: 100%;
+  height: calc(100vh * 46 / 812);
   border: none;
   outline: none;
-  background: transparent;
-  font-family: 'Archivo', sans-serif;
+  background: rgba(248, 248, 246, 1);
+  border-radius: calc(100vw * 28 / 375);
+  font-family: 'Poppins-Regular', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400; /* 可选字体粗细 */
-  color: #000; /* 输入文本颜色 */
-  padding: 0;
+  color: rgba(60, 48, 48, 1);
+  padding: 0 calc(100vw * 20 / 375);
+  min-width: 0;
 }
 
 .input-field::placeholder {
-  color: rgba(105, 71, 65, 1); /* 提示文本颜色 */
-  font-family: 'Archivo', sans-serif;
+  color: rgba(60, 48, 48, 0.6); /* 提示文本颜色 */
+  font-family: 'Poppins-Regular', sans-serif;
   font-size: calc(100vw * 14 / 375); /* 提示文本大小 */
   font-weight: 400; /* 可选字体粗细 */
 }
 
 .send-btn {
-  width: calc(100vw * 30 / 375);
-  height: calc(100vw * 30 / 375);
-
-  background-size: cover;
+  width: calc(100vw * 32 / 375);
+  height: calc(100vw * 32 / 375);
+  margin-left: calc(100vw * 8 / 375);
+  padding: calc(100vw * 7 / 375);
+  background-color: rgba(255, 190, 25, 1);
+  background-size: calc(100vw * 32 / 375) calc(100vw * 32 / 375);
+  border-radius: 50%;
   background-position: center;
   background-repeat: no-repeat;
+  flex-shrink: 0;
 }
 </style>

@@ -101,6 +101,12 @@ const router = createRouter({
       name: 'privacyPolicy',
       component: () => import('../views/mineViews/privacyPolicy.vue'),
     },
+    //注册补充
+    {
+      path: '/register',
+      name: 'register',
+      component: () => import('../views/register/register.vue'),
+    },
   ],
 })
 

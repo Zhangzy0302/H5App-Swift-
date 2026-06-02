@@ -1,27 +1,25 @@
 <template>
   <div class="page">
-    <div class="aiusermodel"></div>
-    <div class="aichatmodel"></div>
+    <div class="ai-robot"></div>
 
     <!-- 页面内容 -->
     <div class="page-content">
       <div class="top-section">
         <BackButton />
       </div>
-      <div class="bottom-section">
-        <div class="bottom-container">
-          <div class="bottom-title">Luvie AI</div>
-          <div class="bottom-text">Hi! I’m Kico, your friendly AI companion here to chat about all your passions and interests. Whether you love fashion, art, music, or anything in between, I’m here to explore ideas, share tips, and keep the conversation fun and inspiring. Ready to dive into your favorite hobbies together? Let’s talk and discover something new every day!</div>
-        <!-- 购买 -->
-        <div class="purchase-container" @click="handlePurchaseClick">
-          <div class="purchase-info">
-            <div class="purchase-icon"></div>
-            <div class="purchase-count">100</div>
-          </div>
-          <div class="chat-box">Chat</div>
-        </div>
-        </div>
+      <div class="info-card">
+        <div class="bottom-title">Sarty AI</div>
+        <div class="bottom-text">Hi! I’m Sarty AI, your go-to AI buddy for all things fashion. Whether you’re hunting for the perfect OOTD, mixing and matching basics, or need tips to nail your style, I’m here to help. Ready to slay every outfit and have fun doing it? Let’s create some fashion magic together!</div>
       </div>
+        <!-- 购买 -->
+      <div class="purchase-container" @click="handlePurchaseClick">
+        <div class="purchase-info">
+          <img src="@/assets/coin.png" alt="coin" class="purchase-icon" />
+          <div class="purchase-count">X 200</div>
+        </div>
+        <div class="chat-box">Chat</div>
+        <div class="chat-arrow">›</div>
+        </div>
     </div>
     <div
       class="dialog"
@@ -48,11 +46,11 @@ const currentUserStore = useCurrentUserStore()
 const uiStore = useUIStore()
 const userStore =  useUserStore()
 function handlePurchaseClick() {
-  if (currentUserStore.currentUser.coins >= 100) {
+  if (currentUserStore.currentUser.coins >= 200) {
     if (uiStore.loading) return
     uiStore.showLoading()
 
-    const currentCoins = currentUserStore.currentUser.coins - 100
+    const currentCoins = currentUserStore.currentUser.coins - 200
     userStore.updateUser(currentUserStore.currentUser.userId, { coins: currentCoins })
 
     const delay = Math.floor(Math.random() * 1500) + 500
@@ -77,151 +75,146 @@ function handleRechargeEvent(value) {
 
 <style scoped>
 .page {
+  position: relative;
   width: 100vw;
   height: 100vh;
-  overflow: hidden; /* prevent scrolling */
-  background-color: #000; /* black background */
-  background-image: url('@/assets/aibgc.png'); /* replace with your asset filename */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(255, 190, 25, 1) 0%, rgba(255, 223, 149, 1) 27%, rgba(248, 248, 246, 1) 52%, rgba(248, 248, 246, 1) 100%);
 }
 
-.aiusermodel {
+.ai-robot {
   position: absolute;
-  left: 0;
-  top: calc(100vh * 68 / 812); /* adapt top spacing */
-  width: calc(100vw * 229 / 375);
-  height: calc(100vh * 402 / 812);
-  opacity: 1;
-  background-image: url('@/assets/aiusermodel.png'); 
-  background-size: cover;
+  left: 50%;
+  top: calc(100vh * 26 / 812);
+  transform: translateX(-50%);
+  width: calc(100vw * 342 / 375);
+  height: calc(100vw * 342 / 375);
+  background-image: url('@/assets/SARTY_ai_robot.png');
+  background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
-}
-
-.aichatmodel {
-  position: absolute;
-  left: calc(100vw * 197 / 375);
-  top: calc(100vh * 134 / 812);
-  width: calc(100vw * 104 / 375);
-  height: calc(100vh * 38 / 812);
-  opacity: 1;
-  background-image: url('@/assets/aichatmodel.png'); 
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  z-index: 1;
 }
 
 .page-content {
-  width: auto;
+  position: relative;
+  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* top内容在上，bottom内容在下 */
+  align-items: center;
   box-sizing: border-box;
+  z-index: 2;
 }
 
 .top-section {
-  margin-top: calc(100vh * 56 / 812);
-  margin-left: calc(100vw * 20 / 375);
-  z-index: 100;
+  position: absolute;
+  top: calc(100vh * 50 / 812);
+  left: calc(100vw * 17 / 375);
+  z-index: 3;
 }
 
-.bottom-section {
-  display: flex;
-  justify-content: flex-start;
-  z-index: 99;
+.top-section :deep(.outer-box) {
+  width: calc(100vw * 24 / 375);
+  height: calc(100vw * 24 / 375);
+  border-radius: 0;
+  background: transparent;
 }
 
-.bottom-container { 
-  width: 100%;
+.top-section :deep(.inner-box) {
+  width: calc(100vw * 24 / 375);
+  height: calc(100vw * 24 / 375);
+  filter: brightness(0) saturate(100%) invert(16%) sepia(11%) saturate(1024%) hue-rotate(315deg) brightness(94%) contrast(85%);
+}
+
+.info-card {
+  width: calc(100vw * 343 / 375);
+  min-height: calc(100vh * 258 / 812);
+  margin-top: calc(100vh * 257 / 812);
   background: rgba(255, 255, 255, 1);
-  border-radius: calc(100vw * 40 / 375) calc(100vw * 40 / 375) 0 0;
+  border-radius: calc(100vw * 16 / 375);
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: calc(100vh * 24 / 812); /* top spacing for first text */
+  padding: calc(100vh * 44 / 812) calc(100vw * 37 / 375) calc(100vh * 28 / 812);
   box-sizing: border-box;
+  z-index: 2;
 }
 
 .bottom-title {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'Poppins-Bold', sans-serif;
   font-size: calc(100vw * 24 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 27.72 / 375);
+  font-weight: 700;
+  line-height: calc(100vw * 28 / 375);
   letter-spacing: 0;
-  color: rgba(74, 32, 25, 1);
+  color: rgba(60, 48, 48, 1);
   text-align: center;
-  margin-bottom: calc(100vh * 20 / 812); /* space before second text */
 }
 
 .bottom-text {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Poppins-Regular', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 24 / 375);
+  line-height: calc(100vw * 22 / 375);
   letter-spacing: 0;
-  color: rgba(74, 32, 25, 1);
+  color: rgba(60, 48, 48, 0.58);
   text-align: center;
-  margin: 0 calc(100vw * 28 / 375) 0 calc(100vw * 28 / 375); /* horizontal padding */
+  margin-top: calc(100vh * 16 / 812);
 }
 
 .purchase-container {
-  margin-top: calc(100vh * 15 / 812);
-  margin-bottom: calc(100vh * 25 / 812);
-  width: calc(100vw * 281 / 375);
-  height: calc(100vh * 62 / 812);
+  margin-top: calc(100vh * 41 / 812);
+  width: calc(100vw * 233 / 375);
+  height: calc(100vh * 56 / 812);
   border-radius: calc(100vw * 40 / 375);
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
-  box-shadow: inset calc(100vw * -2 / 375) calc(100vw * -2 / 375) calc(100vw * 2 / 375) rgba(255, 255, 255, 0.6), inset calc(100vw * 2 / 375) calc(100vw * 2 / 375) calc(100vw * 2 / 375) rgba(255, 255, 255, 0.5);
+  background: rgba(255, 190, 25, 1);
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
-  gap: calc(100vw * 46 / 375);
-  padding-right: calc(100vw * 11 / 375);
+  gap: calc(100vw * 9 / 375);
   box-sizing: border-box;
+  z-index: 2;
+  cursor: pointer;
 }
 
 .purchase-info {
   display: flex;
   align-items: center;
-  gap: calc(100vw * 13 / 375);
+  gap: calc(100vw * 8 / 375);
 }
 
 .purchase-icon {
-  width: calc(100vw * 33 / 375);
-  height: calc(100vh * 39 / 812);
-  background-image: url('@/assets/coin.png'); /* replace with your local image */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  width: calc(100vw * 40 / 375);
+  height: calc(100vw * 40 / 375);
+  object-fit: cover;
 }
 
 .purchase-count {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'Poppins-Bold', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 23.1 / 375);
+  font-weight: 700;
+  line-height: 1;
+  font-style: italic;
   letter-spacing: 0;
-  color: rgba(74, 32, 25, 1);
+  color: rgba(60, 48, 48, 1);
 }
 
 .chat-box {
-  width: calc(100vw * 73 / 375);
-  height: calc(100vh * 38 / 812);
-  border-radius: calc(100vw * 40 / 375);
-  background: rgba(74, 32, 25, 1);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Poppins-Bold', sans-serif;
   font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 17.41 / 375);
+  font-weight: 700;
+  line-height: 1;
   letter-spacing: 0;
-  color: rgba(255, 255, 255, 1);
-  box-sizing: border-box;
+  color: rgba(60, 48, 48, 1);
+}
+
+.chat-arrow {
+  font-family: 'Poppins-Bold', sans-serif;
+  font-size: calc(100vw * 20 / 375);
+  font-weight: 700;
+  line-height: 1;
+  color: rgba(60, 48, 48, 1);
+  transform: translateY(calc(-100vh * 1 / 812));
 }
 
 .dialog {

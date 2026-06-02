@@ -5,6 +5,7 @@ export const useUIStore = defineStore('ui', () => {
     const loading = ref(false)
     const toastMessage = ref('')
     const showComment = ref(false)
+    const showToLogin = ref(false)
 
     function showLoading() {
         loading.value = true
@@ -27,6 +28,14 @@ export const useUIStore = defineStore('ui', () => {
         showComment.value = false
     }
 
+    function openToLogin() {
+        showToLogin.value = true
+    }
+
+    function closeToLogin() {
+        showToLogin.value = false
+    }
+
     return {
         loading,
         showLoading,
@@ -35,6 +44,9 @@ export const useUIStore = defineStore('ui', () => {
         showToast,
         showComment,
         openComment,
-        closeComment
+        closeComment,
+        showToLogin,
+        openToLogin,
+        closeToLogin
     }
 })

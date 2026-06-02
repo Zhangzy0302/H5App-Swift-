@@ -1,5 +1,6 @@
 <script setup>
 import { useUIStore } from '@/stores/ui'
+import ToLoginDialog from '@/views/register/toLogin.vue'
 
 const uiStore = useUIStore()
 </script>
@@ -7,6 +8,7 @@ const uiStore = useUIStore()
 <template>
   <div>
     <router-view />
+    <ToLoginDialog v-if="uiStore.showToLogin"></ToLoginDialog>
 
     <!-- 全局 loading -->
     <div v-if="uiStore.loading" class="loading-mask">

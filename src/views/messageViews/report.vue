@@ -60,17 +60,26 @@ function handleSubmit() {
   position: relative;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 1);
-  background-image: url('@/assets/pagebgc.png');
-  background-size: cover; /* 等比缩放覆盖 */
-  background-position: center; /* 居中显示 */
-  background-repeat: no-repeat;
+  background: linear-gradient(180deg, rgba(255, 190, 25, 1) 0%, rgba(255, 228, 161, 1) 22%, rgba(248, 248, 246, 1) 42%, rgba(248, 248, 246, 1) 100%);
   overflow: hidden;
 }
 
 .back {
-  padding-top: calc(100vh * 56 / 812);
-  padding-left: calc(100vw * 20 / 375);
+  padding-top: calc(100vh * 53 / 812);
+  padding-left: calc(100vw * 18 / 375);
+}
+
+.back :deep(.outer-box) {
+  width: calc(100vw * 28 / 375);
+  height: calc(100vw * 28 / 375);
+  border-radius: 0;
+  background: transparent;
+}
+
+.back :deep(.inner-box) {
+  width: calc(100vw * 28 / 375);
+  height: calc(100vw * 28 / 375);
+  filter: brightness(0) saturate(100%) invert(16%) sepia(11%) saturate(1024%) hue-rotate(315deg) brightness(94%) contrast(85%);
 }
 
 .page-content {
@@ -85,16 +94,16 @@ function handleSubmit() {
 .grid-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr); /* 一行两条 */
-  column-gap: calc(100vw * 7 / 375); /* 左右间距7 */
-  row-gap: calc(100vh * 12 / 812); /* 上下间距12 */
-  padding: calc(100vh * 20 / 812) calc(100vw * 20 / 375) 0; /* 可选左右内边距 */
+  column-gap: calc(100vw * 7 / 375);
+  row-gap: calc(100vh * 11 / 812);
+  padding: calc(100vh * 32 / 812) calc(100vw * 16 / 375) 0;
 }
 
 .grid-item {
   position: relative;
   border-radius: calc(100vw * 20 / 375);
   background: rgba(255, 255, 255, 1);
-  height: calc(100vw * 115 / 375);
+  height: calc(100vh * 103 / 812);
   overflow: hidden;
 }
 
@@ -102,22 +111,22 @@ function handleSubmit() {
   position: absolute;
   right: 0;
   bottom: 0;
-  width: calc(100vw * 32 / 375);
-  height: calc(100vw * 32 / 375);
+  width: calc(100vw * 29 / 375);
+  height: calc(100vw * 29 / 375);
   border-radius: calc(100vw * 8 / 375) 0px calc(100vw * 20 / 375) 0px;
   background: rgba(0, 0, 0, 0.12);
 }
 
 .grid-item.selected .choose-box {
-  background: rgba(255, 159, 142, 1);
+  background: rgba(255, 190, 25, 1);
 }
 
 .check-icon {
   position: absolute;
-  top: calc(100vh * 6 / 812);
-  left: calc(100vw * 6 / 375);
-  width: calc(100vw * 20 / 375);
-  height: calc(100vw * 20 / 375);
+  top: calc(100vh * 5 / 812);
+  left: calc(100vw * 5 / 375);
+  width: calc(100vw * 19 / 375);
+  height: calc(100vw * 19 / 375);
   background-image: url('@/assets/checkicon.png');
   background-size: cover; /* 等比缩放覆盖 */
   background-position: center; /* 居中显示 */
@@ -126,32 +135,31 @@ function handleSubmit() {
 }
 
 .report-content {
-  padding: calc(100vh * 12 / 812) calc(100vw * 12 / 375) 0;
-  color: rgba(74, 32, 25, 1);
-  font-family: 'Archivo', sans-serif;
-  font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 17.41 / 375);
+  padding: calc(100vh * 13 / 812) calc(100vw * 11 / 375) 0;
+  color: rgba(60, 48, 48, 1);
+  font-family: 'Poppins-Bold', sans-serif;
+  font-size: calc(100vw * 15 / 375);
+  font-weight: 700;
+  line-height: calc(100vw * 20 / 375);
 }
 
 .input-title {
   padding-top: calc(100vh * 30 / 812);
-  padding-left: calc(100vw * 20 / 375);
-  font-family: 'YesevaOne', sans-serif;
+  padding-left: calc(100vw * 17 / 375);
+  font-family: 'Poppins-Bold', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 23.1 / 375);
-  color: rgba(255, 255, 255, 1);
+  font-weight: 700;
+  line-height: calc(100vw * 24 / 375);
+  color: rgba(60, 48, 48, 1);
 }
 
 .input-box {
   position: relative;
-  margin: calc(100vh * 16 / 812) calc(100vw * 20 / 375) 0;
-  height: calc(100vh * 103 / 812);
-  border-radius: calc(100vw * 16 / 375);
+  margin: calc(100vh * 12 / 812) calc(100vw * 17 / 375) 0;
+  height: calc(100vh * 93 / 812);
+  border-radius: calc(100vw * 20 / 375);
   background: rgba(255, 255, 255, 1);
-  backdrop-filter: blur(12px);
-  padding: calc(100vw * 12 / 375);
+  padding: calc(100vh * 17 / 812) calc(100vw * 13 / 375);
   box-sizing: border-box;
 }
 
@@ -162,7 +170,7 @@ function handleSubmit() {
   resize: none;
   outline: none;
   background: transparent;
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Poppins-Regular', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: normal;
   color: rgba(0,0,0,1); /* 输入文本颜色 */
@@ -170,8 +178,8 @@ function handleSubmit() {
 }
 
 .input-field::placeholder {
-  color: rgba(105, 71, 65, 1);
-  font-family: 'Archivo', sans-serif;
+  color: rgba(60, 48, 48, 0.42);
+  font-family: 'Poppins-Regular', sans-serif;
   font-size: calc(100vw * 14 / 375); /* 提示文本大小 */
   font-weight: 400; /* 提示文本粗细 */
   line-height: calc(100vw * 15.23 / 375);
@@ -179,31 +187,30 @@ function handleSubmit() {
 
 .char-count {
   position: absolute;
-  right: calc(100vw * 8 / 375);
+  right: calc(100vw * 10 / 375);
   bottom: calc(100vh * 13 / 812);
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Poppins-Regular', sans-serif;
   font-size: calc(100vw * 12 / 375);
-  color: rgba(74, 32, 25, 0.6);
+  color: rgba(60, 48, 48, 0.32);
 }
 
 .btn-box {
   margin: 0 auto; /* 新增：水平居中 */
-  margin-top: calc(100vh * 40 / 812);
+  margin-top: calc(100vh * 26 / 812);
   margin-bottom: calc(100vh * 34 / 812);
-  width: calc(100vw * 229 / 375);
-  height: calc(100vh * 62 / 812);
-  border-radius: calc(100vw * 40 / 375);
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
-  box-shadow: inset calc(100vw * -2 / 375) calc(100vw * -2 / 375) calc(100vw * 2 / 375) rgba(255, 255, 255, 0.6), inset calc(100vw * 2 / 375) calc(100vw * 2 / 375) calc(100vw * 2 / 375) rgba(255, 255, 255, 0.5);
+  width: calc(100vw * 174 / 375);
+  height: calc(100vh * 49 / 812);
+  border-radius: calc(100vw * 20 / 375);
+  background: rgba(255, 190, 25, 1);
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  font-family: 'YesevaOne', sans-serif;
-  font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 23.1 / 375);
-  color: rgba(74, 32, 25, 1);
+  font-family: 'Poppins-Bold', sans-serif;
+  font-size: calc(100vw * 15 / 375);
+  font-weight: 700;
+  line-height: 1;
+  color: rgba(0, 0, 0, 1);
   text-align: center;
   vertical-align: top;
 }

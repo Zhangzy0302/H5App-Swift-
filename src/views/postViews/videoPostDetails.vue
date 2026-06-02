@@ -12,11 +12,21 @@
       webkit-playsinline
       preload="auto"
       @click="togglePlay"
+      @loadstart="showVideoLoading"
+      @waiting="showVideoLoading"
+      @loadeddata="hideVideoLoading"
+      @canplay="hideVideoLoading"
+      @playing="hideVideoLoading"
+      @error="hideVideoLoading"
     ></video>
+
+    <div v-if="isVideoLoading" class="video-loading">
+      <div class="loading-spinner"></div>
+    </div>
 
     <!-- center pause/play icon -->
     <img
-      v-show="isPaused"
+      v-show="isPaused && !isVideoLoading"
       class="video-center-icon"
       src="@/assets/videopluse.png"
       alt="play"
@@ -30,7 +40,7 @@
       <!-- 顶部按钮 -->
       <div class="top-actions">
         <BackButton />
-        <MoreButton v-if="post.userId !== currentUserStore.currentUser.userId" @click="showPostReport = true" />
+        <MoreButton v-if="post.userId !== currentUserStore.currentUser.userId" @click="showPostReportFunc" />
       </div>
 
       <!-- 底部信息 -->
@@ -41,7 +51,7 @@
               <img :src="postUser && postUser.avator" alt="avatar" />
             </div>
             <div class="follow" v-if="post.userId !== currentUserStore.currentUser.userId && !currentUserStore.currentUser.follow.includes(post.userId)" @click="handleFollow" >
-              <img src="@/assets/follow.png" alt="follow" />
+              +
             </div>
           </div>
 
@@ -55,14 +65,18 @@
 
     <!-- 喜欢、评论数 -->
     <div class="action-buttons">
-      <div class="action-button" @click="toggleLike">
-        <img v-if="currentUserStore.currentUser.postLikeIds.includes(post.dynamicId)" src="@/assets/likepic.png" alt="like" />
-        <img v-else src="@/assets/dislikepic.png" alt="like" />
-        <span>{{post.dynamicLikeCount + (currentUserStore.currentUser.postLikeIds.includes(post.dynamicId) ? 1 : 0) }}</span>
+      <div class="action-button comment-action" @click="uiStore.openComment()">
+        <div class="action-icon">
+          <img src="@/assets/chaticon.png" alt="comment" />
+        </div>
+        <span>{{ formattedCommentCount }}</span>
       </div>
-      <div class="action-button" @click="uiStore.openComment()">
-        <img src="@/assets/chaticon.png" alt="comment" />
-        <span>{{ post.dynamicCommentCount }}</span>
+      <div class="action-button like-action" @click="toggleLike">
+        <div class="action-icon">
+          <img v-if="currentUserStore.currentUser.postLikeIds.includes(post.dynamicId)" src="@/assets/likepic.png" alt="like" />
+          <img v-else src="@/assets/dislikepic.png" alt="like" />
+        </div>
+        <span>{{ formattedLikeCount }}</span>
       </div>
     </div>
 
@@ -80,7 +94,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { nextTick, ref } from 'vue'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { usePostStore } from '@/stores/post'
@@ -92,7 +106,7 @@ import BackButton from '@/components/back.vue'
 import MoreButton from '@/components/more.vue'
 import Comment from '@/views/postViews/comment.vue'
 import ReportDialog from '@/components/reportChoose.vue'
-import { goBackOrClose } from '@/utils/iosBridge'
+import { goBackOrClose, sendShowLoadingToIOS, sendShowToastToIOS } from '@/utils/iosBridge'
 
 const { postId } = defineProps({
   postId: {
@@ -107,8 +121,25 @@ const post = postStore.getPostById(postId)
 const userStore =  useUserStore()
 const postUser = userStore.getUserById(post.userId)
 
+const formattedLikeCount = computed(() => {
+  const count = post.dynamicLikeCount || 0
+  if (count >= 1000) {
+    return `${(count / 1000).toFixed(count >= 10000 ? 0 : 1)}K`
+  }
+  return count
+})
+
+const formattedCommentCount = computed(() => {
+  const count = post.dynamicCommentCount || 0
+  if (count >= 1000) {
+    return `${(count / 1000).toFixed(count >= 10000 ? 0 : 1)}K`
+  }
+  return count
+})
+
 const videoRef = ref(null)
 const isPaused = ref(false)
+const isVideoLoading = ref(true)
 
 const currentUserStore = useCurrentUserStore()
 const router = useRouter()
@@ -119,21 +150,41 @@ function togglePlay() {
   if (!video) return
 
   if (video.paused) {
+    showVideoLoading()
     video.play()
-    isPaused.value = false
+      .then(() => {
+        isPaused.value = false
+      })
+      .catch(() => {
+        isPaused.value = true
+        hideVideoLoading()
+      })
   } else {
     video.pause()
     isPaused.value = true
   }
 }
 
+function showVideoLoading() {
+  isVideoLoading.value = true
+}
+
+function hideVideoLoading() {
+  isVideoLoading.value = false
+}
+
 onMounted(() => {
   const video = videoRef.value
   if (video) {
+    if (video.readyState >= 2) {
+      hideVideoLoading()
+    }
     video.play().then(() => {
       isPaused.value = false
+      hideVideoLoading()
     }).catch(() => {
       isPaused.value = true
+      hideVideoLoading()
     })
   }
 })
@@ -147,44 +198,55 @@ onBeforeUnmount(() => {
 
 //帖子举报、拉黑
 const showPostReport = ref(false)
+function showPostReportFunc() {
+  if (currentUserStore.currentUser.isguest == 1){
+    uiStore.openToLogin()
+    return
+  }
+  showPostReport.value = true
+}
+
 function postReportSelect(value) {
   showPostReport.value = false
   if (value === 0) {
     router.push({ name: 'report' })
   } else if (value === 1) {
-    //用户选择屏蔽
-    if (uiStore.loading) return
-    uiStore.showLoading()
-
     const postUserId = post.userId
 
     // 用户选择屏蔽时加入 blockList
     if (postUserId) {
       const blockList = currentUserStore.currentUser.blockList || []
 
-      // 不存在才加入，避免重复
-      if (!blockList.includes(postUserId)) {
-        blockList.unshift(postUserId)
-
-        // 使用 userStore 公共方法同步更新当前用户并回传 iOS
-        userStore.updateUser(currentUserStore.currentUser.userId, { blockList: blockList })
+      if (blockList.map(String).includes(String(postUserId))) {
+        uiStore.showToast('This user is already in your blacklist.')
+        return
       }
+
+      //用户选择屏蔽
+      sendShowLoadingToIOS(true)
+      blockList.unshift(postUserId)
+
+      // 使用 userStore 公共方法同步更新当前用户并回传 iOS
+      userStore.updateUser(currentUserStore.currentUser.userId, { blockList: blockList })
     }
 
     const delay = Math.floor(Math.random() * 1500) + 500
 
     setTimeout(() => {
-      uiStore.hideLoading()
-      uiStore.showToast('Blocking successful')
+      sendShowLoadingToIOS(false)
+      sendShowToastToIOS('Blocking successful')
 
       goBackOrClose()
 
     }, delay)
   }
 }
-
 // Handle follow action
 function handleFollow() {
+  if (currentUserStore.currentUser.isguest == 1) {
+    uiStore.openToLogin()
+    return
+  }
   const currentUserId = currentUserStore.currentUser.userId
   const postUserId = post.userId
 
@@ -205,7 +267,7 @@ function handleFollow() {
 
   userStore.updateUser(postUserId, { fans: postUserFans })
   
-  uiStore.showToast('Followed successfully')
+  sendShowToastToIOS('Followed successfully')
 }
 
 // 点击用户头像跳转到用户主页
@@ -216,21 +278,30 @@ function goOtherHome(userId) {
 
 // 点赞逻辑
 function toggleLike() {
-  const postLikeIds = currentUserStore.currentUser.postLikeIds
+  if (currentUserStore.currentUser.isguest == 1){
+    uiStore.openToLogin()
+    return
+  }
+  const currentPostId = String(postId)
+  const postLikeIds = currentUserStore.currentUser.postLikeIds ? [...currentUserStore.currentUser.postLikeIds] : []
+  let dynamicLikeCount = post.dynamicLikeCount || 0
   // 判断当前用户是否已经点赞
-  const likedIndex = postLikeIds.indexOf(postId)
+  const likedIndex = postLikeIds.indexOf(currentPostId)
 
   if (likedIndex === -1) {
     // 未点赞，添加postId到postLikeIds
-    postLikeIds.push(postId)
+    postLikeIds.push(currentPostId)
+    dynamicLikeCount += 1
   } else {
     // 已点赞，移除postId
     postLikeIds.splice(likedIndex, 1)
-    // 点赞数不减少，保持原有逻辑
+    dynamicLikeCount = Math.max(dynamicLikeCount - 1, 0)
   }
 
   // 同步更新userStore，并回传iOS
   userStore.updateUser(currentUserStore.currentUser.userId, { postLikeIds: postLikeIds })
+  // 同步更新postStore，并回传iOS
+  postStore.updatePostById(currentPostId, { dynamicLikeCount: dynamicLikeCount })
 }
 
 //评论举报、拉黑显示
@@ -238,8 +309,11 @@ const showCommentReport = ref(false)
 const commentAction = ref(null) // 保存 0 或 1
 
 function commentReportSelect(value) {
-  commentAction.value = value  // 保存选择
   showCommentReport.value = false
+  commentAction.value = null
+  nextTick(() => {
+    commentAction.value = value  // 保存选择
+  })
 }
 </script>
 
@@ -261,6 +335,32 @@ function commentReportSelect(value) {
   object-fit: cover;
 }
 
+.video-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(14, 8, 15, 0.34);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.loading-spinner {
+  width: calc(100vw * 42 / 375);
+  height: calc(100vw * 42 / 375);
+  border-radius: 50%;
+  border: calc(100vw * 4 / 375) solid rgba(255, 255, 255, 0.32);
+  border-top-color: rgba(255, 190, 25, 1);
+  animation: loading-spin 0.8s linear infinite;
+}
+
+@keyframes loading-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .video-center-icon {
   position: absolute;
   top: 50%;
@@ -268,6 +368,7 @@ function commentReportSelect(value) {
   transform: translate(-50%, -50%);
   width: calc(100vw * 60 / 375);
   height: calc(100vw * 60 / 375);
+  filter: brightness(0) invert(1);
   z-index: 2;
 }
 
@@ -276,10 +377,9 @@ function commentReportSelect(value) {
   left: 0;
   bottom: 0;
   width: 100%;
-  height: calc(100vh * 96 / 812);
-  background: linear-gradient(180deg, rgba(14, 8, 15, 0.8) 0%, rgba(14, 8, 15, 0) 100%);
+  height: calc(100vh * 210 / 812);
+  background: linear-gradient(180deg, rgba(14, 8, 15, 0) 0%, rgba(14, 8, 15, 0.72) 100%);
   pointer-events: none;
-  transform: rotate(180deg);
 }
  
 .content {
@@ -291,7 +391,7 @@ function commentReportSelect(value) {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: calc(100vh * 56 / 812) calc(100vw * 20 / 375) calc(100vh * 34 / 812);
+  padding: calc(100vh * 54 / 812) calc(100vw * 24 / 375) 0;
   box-sizing: border-box;
   z-index: 3;
   pointer-events: none; /* allow clicks to pass through */
@@ -322,7 +422,24 @@ function commentReportSelect(value) {
   align-items: center;
 }
 
+.top-actions :deep(.outer-box) {
+  width: calc(100vw * 24 / 375);
+  height: calc(100vw * 24 / 375);
+  border-radius: 0;
+  background: transparent;
+}
+
+.top-actions :deep(.inner-box) {
+  width: calc(100vw * 24 / 375);
+  height: calc(100vw * 24 / 375);
+  filter: brightness(0) invert(1);
+}
+
 .bottom-info {
+  position: absolute;
+  left: calc(100vw * 24 / 375);
+  right: calc(100vw * 24 / 375);
+  bottom: calc(100vh * 113 / 812);
   display: flex;
   align-items: center;
 }
@@ -330,26 +447,19 @@ function commentReportSelect(value) {
 .user-left {
   display: flex;
   align-items: center;
-  gap: calc(100vw * 16 / 375);
+  gap: calc(100vw * 13 / 375);
+  min-width: 0;
 }
 
 .avatar {
-  width: calc(100vw * 48 / 375);
-  height: calc(100vw * 48 / 375);
+  width: calc(100vw * 59 / 375);
+  height: calc(100vw * 59 / 375);
   border-radius: 50%;
-  padding: calc(100vw * 1 / 375); /* border thickness */
-  background: linear-gradient(
-    135deg,
-    rgba(255, 159, 142, 1) 0%,
-    rgba(241, 213, 160, 1) 32.13%,
-    rgba(201, 255, 221, 1) 67.84%,
-    rgba(157, 255, 255, 1) 100%
-  );
+  border: calc(100vw * 2 / 375) solid rgba(255, 190, 25, 1);
   box-sizing: border-box;
   overflow: hidden;
   display: flex;
-  margin-bottom: calc(100vw * 4 / 375);
-  box-sizing: border-box;
+  margin-bottom: 0;
 }
 
 .avatar img {
@@ -361,33 +471,30 @@ function commentReportSelect(value) {
 
 .avatar-wrap {
   position: relative;
-  width: calc(100vw * 48 / 375);
-  height: calc(100vw * 52 / 375); /* avatar 48 + gap 4 */
+  width: calc(100vw * 59 / 375);
+  height: calc(100vw * 59 / 375);
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex-shrink: 0;
 }
 
 .follow {
   position: absolute;
-  left: 50%;
-  bottom: 0;
-  transform: translateX(-50%);
-  width: calc(100vw * 36 / 375);
-  height: calc(100vw * 14 / 375);
-  border-radius: calc(100vw * 40 / 375);
-  background: rgba(255, 255, 255, 1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: inset calc(100vw * -1 / 375) calc(100vw * -1 / 375) calc(100vw * 1 / 375) rgba(255, 255, 255, 0.6), inset calc(100vw * 1 / 375) calc(100vw * 1 / 375) calc(100vw * 1 / 375) rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(10px);
+  right: calc(100vw * -1 / 375);
+  bottom: calc(100vh * 1 / 812);
+  transform: none;
+  width: calc(100vw * 22 / 375);
+  height: calc(100vw * 22 / 375);
+  border-radius: 50%;
+  background: rgba(255, 190, 25, 1);
+  color: rgba(60, 48, 48, 1);
+  font-family: 'Poppins-Bold', sans-serif;
+  font-size: calc(100vw * 18 / 375);
+  font-weight: 700;
+  line-height: calc(100vw * 22 / 375);
+  text-align: center;
   cursor: pointer;
-}
-
-.follow img {
-  width: calc(100vw * 12 / 375);
-  height: calc(100vw * 12 / 375);
 }
 
 .user-text {
@@ -397,61 +504,82 @@ function commentReportSelect(value) {
 }
 
 .username {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'Poppins-Bold', sans-serif;
   font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 18.48 / 375);
+  font-weight: 700;
+  line-height: calc(100vw * 20 / 375);
   color: rgba(255, 255, 255, 1);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: calc(100vw - calc(100vw * 48 / 375) - calc(100vw * 16 / 375) - calc(100vw * 40 / 375)); /* avatar width + gap + padding */
+  max-width: calc(100vw * 210 / 375);
 }
 
 .video-desc {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Poppins-Regular', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   letter-spacing: 0px;
-  line-height: calc(100vw * 15.23 / 375);
+  line-height: calc(100vw * 18 / 375);
   color: rgba(255, 255, 255, 1);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: calc(100vw - calc(100vw * 48 / 375) - calc(100vw * 16 / 375) - calc(100vw * 40 / 375)); /* avatar width + gap + padding */
+  max-width: calc(100vw * 218 / 375);
 }
 
 .action-buttons {
   position: absolute;
-  bottom: calc(100vh * 86 / 812);
+  left: calc(100vw * 20 / 375);
   right: calc(100vw * 20 / 375);
-  display: flex;
-  gap: calc(100vh * 14 / 812);
+  bottom: calc(100vh * 31 / 812);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: calc(100vw * 17 / 375);
+  z-index: 4;
 }
 
 .action-button {
-  width: calc(100vw * 91 / 375);
-  height: calc(100vh * 39 / 812);
-  border-radius: calc(100vw * 40 / 375);
-  background: rgba(255, 255, 255, 0.4);
-  box-shadow: inset calc(100vw * -1 / 375) calc(100vw * -1 / 375) calc(100vw * 1 / 375) rgba(255, 255, 255, 0.6), inset calc(100vw * 1 / 375) calc(100vw * 1 / 375) calc(100vw * 1 / 375) rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(calc(100vw * 10 / 375));
+  width: 100%;
+  height: calc(100vh * 58 / 812);
+  border-radius: calc(100vw * 18 / 375);
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(calc(100vw * 8 / 375));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  padding-top: calc(100vh * 21 / 812);
+  box-sizing: border-box;
+}
+
+.action-icon {
+  position: absolute;
+  top: calc(100vh * -18 / 812);
+  width: calc(100vw * 45 / 375);
+  height: calc(100vw * 45 / 375);
+  border-radius: 50%;
+  background: rgba(255, 190, 25, 1);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: calc(100vw * 10 / 375);
 }
 
-.action-button img {
-  width: calc(100vw * 24 / 375);
-  height: calc(100vw * 24 / 375);
+.action-icon img {
+  width: calc(100vw * 25 / 375);
+  height: calc(100vw * 25 / 375);
+  object-fit: contain;
 }
 
 .action-button span {
-  font-family: 'Archivo', sans-serif;
-  font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 17.41 / 375);
+  position: absolute;
+  bottom: calc(100vh * 8 / 812);
+  font-family: 'Poppins-Bold', sans-serif;
+  font-size: calc(100vw * 20 / 375);
+  font-weight: 700;
+  font-style: italic;
+  line-height: 1;
   color: rgba(255, 255, 255, 1);
 }
 

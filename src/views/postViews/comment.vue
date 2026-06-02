@@ -121,14 +121,16 @@ watch(
     if (newVal === 0) {
       router.push({ name: 'report' })
     } else if (newVal === 1) {
+      const blockList = currentUserStore.currentUser.blockList || []
+      if (blockList.map(String).includes(String(reportCommentUserId.value))) {
+        uiStore.showToast('This user is already in your blacklist.')
+        return
+      }
+
       if (uiStore.loading) return
       uiStore.showLoading()
-
-      const blockList = currentUserStore.currentUser.blockList || []
-      if (!blockList.includes(reportCommentUserId.value)) {
-        blockList.unshift(reportCommentUserId.value)
-        userStore.updateUser(currentUserStore.currentUser.userId, { blockList })
-      }
+      blockList.unshift(reportCommentUserId.value)
+      userStore.updateUser(currentUserStore.currentUser.userId, { blockList })
 
       const delay = Math.floor(Math.random() * 1500) + 500
 
@@ -149,52 +151,73 @@ watch(
   position: relative;
   width: 100%;
   height: 100%;
-  border-radius: calc(100vh * 20 / 812) calc(100vh * 20 / 812) 0 0;
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
+  border-radius: calc(100vw * 16 / 375) calc(100vw * 16 / 375) 0 0;
+  background: linear-gradient(180deg, rgba(255, 190, 25, 1) 0%, rgba(255, 228, 161, 1) 22%, rgba(248, 248, 246, 1) 42%, rgba(248, 248, 246, 1) 100%);
   box-sizing: border-box;
   overflow: hidden;
+}
+
+/* .comment::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: calc(100vh * 56 / 812);
+  background: rgba(255, 190, 25, 1);
+  pointer-events: none;
+} */
+
+.comment-container {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  padding-bottom: calc(100vh * 92 / 812);
+  box-sizing: border-box;
 }
 
 .comment-header {
   display: flex;
   align-items: center;
-  gap: calc(100vw * 6 / 375);
-  padding: calc(100vh * 24 / 812) calc(100vw * 18 / 375) 0;
+  gap: calc(100vw * 8 / 375);
+  padding: calc(100vh * 28 / 812) calc(100vw * 17 / 375) 0;
 }
 
 .header-line {
   flex: 1;
   height: 1px;
-  background-color: #fff;
+  background: rgba(60, 48, 48, 1);
 }
 
 .header-title {
-  font-family: 'YesevaOne', sans-serif;
-  font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 18.48 / 375);
+  font-family: 'Poppins-Bold', sans-serif;
+  font-size: calc(100vw * 14 / 375);
+  font-weight: 700;
+  line-height: 1;
   letter-spacing: 0;
-  color: rgba(255, 255, 255, 1);
+  color: rgba(60, 48, 48, 1);
   white-space: nowrap;
 }
 
 .comment-list {
-  padding: calc(100vh * 20 / 812) calc(100vw * 20 / 375) calc(100vh * 90 / 812);
+  padding: calc(100vh * 18 / 812) calc(100vw * 17 / 375) calc(100vh * 16 / 812);
   display: flex;
   flex-direction: column;
   gap: calc(100vh * 10 / 812);
   overflow-y: auto;
-  max-height: calc(calc(100vh * 508 / 812) - calc(100vh * 63 / 812) - calc(100vh * 90 / 812)); /* subtract header and bottom spacing */
+  max-height: calc(100% - calc(100vh * 58 / 812));
+  box-sizing: border-box;
 }
 
 .comment-item {
   display: flex;
   flex-direction: column;
-  gap: calc(100vh * 4 / 812);
-  padding: calc(100vh * 14 / 812) calc(100vw * 16 / 375) calc(100vh * 18 / 812);
-  border-radius: calc(100vw * 20 / 375);
-  background: rgba(0, 0, 0, 0.16);
-  backdrop-filter: blur(calc(100vw * 12 / 375));
+  gap: calc(100vh * 8 / 812);
+  min-height: calc(100vh * 69 / 812);
+  padding: calc(100vh * 12 / 812) calc(100vw * 14 / 375) calc(100vh * 10 / 812);
+  border-radius: calc(100vw * 14 / 375);
+  background: rgba(255, 255, 255, 1);
+  box-sizing: border-box;
 }
 
 .comment-top {
@@ -206,25 +229,17 @@ watch(
 .comment-user {
   display: flex;
   align-items: center;
-  gap: calc(100vw * 12 / 375);
+  gap: calc(100vw * 10 / 375);
+  min-width: 0;
 }
 
 .avatar {
-  width: calc(100vw * 32 / 375);
-  height: calc(100vw * 32 / 375);
+  width: calc(100vw * 28 / 375);
+  height: calc(100vw * 28 / 375);
   border-radius: 50%;
-  padding: calc(100vw * 1 / 375); /* border thickness */
-  background: linear-gradient(
-    135deg,
-    rgba(255, 159, 142, 1) 0%,
-    rgba(241, 213, 160, 1) 32.13%,
-    rgba(201, 255, 221, 1) 67.84%,
-    rgba(157, 255, 255, 1) 100%
-  );
-  box-sizing: border-box;
   overflow: hidden;
   display: flex;
-  margin-bottom: calc(100vw * 4 / 375);
+  flex-shrink: 0;
 }
 
 .avatar img {
@@ -235,12 +250,12 @@ watch(
 }
 
 .username {
-  font-family: 'YesevaOne', sans-serif;
-  font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 18.48 / 375);
+  font-family: 'Poppins-Bold', sans-serif;
+  font-size: calc(100vw * 15 / 375);
+  font-weight: 700;
+  line-height: 1;
   letter-spacing: 0;
-  color: rgba(255, 255, 255, 1);
+  color: rgba(60, 48, 48, 1);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -248,61 +263,68 @@ watch(
 
 .report-btn {
   width: calc(100vw * 24 / 375);
-  height: calc(100vw * 24 / 375);
+  height: calc(100vw * 20 / 375);
+  object-fit: contain;
+  filter: brightness(0) saturate(100%) invert(16%) sepia(11%) saturate(1024%) hue-rotate(315deg) brightness(94%) contrast(85%);
 }
 
 .comment-text {
-  font-family: 'Archivo', sans-serif;
-  font-size: calc(100vw * 12 / 375);
+  font-family: 'Poppins-Regular', sans-serif;
+  font-size: calc(100vw * 13 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 13.06 / 375);
+  line-height: calc(100vw * 16 / 375);
   letter-spacing: 0;
-  color: rgba(255, 255, 255, 1);
+  color: rgba(60, 48, 48, 0.58);
   text-align: left;
 }
 
 .bottom-input {
   position: absolute;
-  left: calc(100vw * 20 / 375);
-  right: calc(100vw * 20 / 375);
-  bottom: calc(100vh * 29 / 812);
-  height: calc(100vh * 54 / 812);
-  border-radius: calc(100vw * 40 / 375);
-  background: rgba(201, 255, 221, 1);
-  box-shadow: 0px calc(100vw * 2 / 375) calc(100vw * 4 / 375) rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(calc(100vw * 32 / 375));
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  height: calc(100vh * 91 / 812);
+  background: rgba(255, 255, 255, 1);
   display: flex;
   align-items: center;
-  gap: calc(100vw * 16 / 375);
-  padding: 0 calc(100vw * 16 / 375);
+  gap: calc(100vw * 8 / 375);
+  padding: calc(100vh * 12 / 812) calc(100vw * 17 / 375) calc(100vh * 35 / 812);
   box-sizing: border-box;
 }
 
 .bottom-input input {
   flex: 1;
+  height: calc(100vh * 40 / 812);
   border: none;
   outline: none;
-  background: transparent;
-  font-family: 'Archivo', sans-serif;
+  border-radius: calc(100vw * 22 / 375);
+  background: rgba(248, 248, 246, 1);
+  font-family: 'Poppins-Regular', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 15.23 / 375);
   letter-spacing: 0;
-  color: #000;
+  color: rgba(60, 48, 48, 1);
+  min-width: 0;
+  padding: 0 calc(100vw * 13 / 375);
 }
 
 .bottom-input input::placeholder {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Poppins-Regular', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 15.23 / 375);
-  color: rgba(105, 71, 65, 0.5);
+  color: rgba(60, 48, 48, 0.42);
 }
 
 .send-btn {
-  width: calc(100vw * 30 / 375);
-  height: calc(100vw * 30 / 375);
+  width: calc(100vw * 40 / 375);
+  height: calc(100vw * 40 / 375);
+  border-radius: 50%;
+  background: rgba(255, 190, 25, 1);
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .empty {
