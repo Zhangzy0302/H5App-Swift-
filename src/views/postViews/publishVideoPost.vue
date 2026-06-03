@@ -46,7 +46,7 @@ import { usePostStore } from '@/stores/post'
 import { useCurrentUserStore } from '@/stores/currentUser'
 import BackButton from '@/components/back.vue'
 import { uploadSingleImage, uploadVideo } from '@/utils/ossUpload'
-import { goBackOrClose } from '@/utils/iosBridge'
+import { goBackOrClose, sendShowLoadingToIOS, sendShowToastToIOS } from '@/utils/iosBridge'
 
 const text = ref('')
 const selectedTheme = ref(0)
