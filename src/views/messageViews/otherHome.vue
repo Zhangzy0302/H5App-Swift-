@@ -83,7 +83,7 @@
     <!-- 顶部按钮 -->
     <div class="top-btn">
         <BackButton/>
-        <MoreButton v-if="userId !== currentUserStore.currentUser.userId" @click="showReport = true" />
+        <MoreButton v-if="userId !== currentUserStore.currentUser.userId" @click="handleOpenReport" />
     </div>
     <ReportDialog v-if="showReport" @close="showReport = false" @select="reportSelect" >
     </ReportDialog>
@@ -106,6 +106,7 @@ import MoreButton from '@/components/more.vue'
 import ReportDialog from '@/components/reportChoose.vue'
 import Empty from '@/components/empty.vue'
 import { goBackOrClose } from '@/utils/iosBridge'
+import { requireLoginForGuest } from '@/utils/guest'
 
 const { userId } = defineProps({
   userId: {
@@ -128,6 +129,12 @@ const chatStore = useChatsStore()
 const router = useRouter()
 
 const showReport = ref(false)
+function handleOpenReport() {
+  if (requireLoginForGuest(currentUserStore, uiStore)) return
+
+  showReport.value = true
+}
+
 function reportSelect(value) {
   showReport.value = false
   if (value === 0) {
@@ -162,6 +169,8 @@ function reportSelect(value) {
 
 // Handle follow action
 function handleFollow() {
+  if (requireLoginForGuest(currentUserStore, uiStore)) return
+
   const currentUserId = currentUserStore.currentUser.userId
 
   // Update current user's follow list
@@ -185,6 +194,8 @@ function handleFollow() {
 }
 
 function handleChat() {
+  if (requireLoginForGuest(currentUserStore, uiStore)) return
+
   if (uiStore.loading) return
   uiStore.showLoading()
   const currentUserId = currentUserStore.currentUser.userId

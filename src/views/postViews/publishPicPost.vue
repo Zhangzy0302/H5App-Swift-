@@ -11,6 +11,7 @@
             maxlength="150"
             class="post-textarea"
             placeholder="Please enter"
+            @focus="handleInputFocus"
           ></textarea>
           <div class="text-count">{{ text.length }}/150</div>
         </div>
@@ -18,7 +19,7 @@
         <div class="theme-label">Theme</div>
         <!-- ThemeList -->
         <div class="theme-list">
-          <div v-for="(theme, index) in otherStore.other.postTheme" :key="index" class="theme-item" :class="{ selected: selectedTheme === index }" @click="selectedTheme = index">{{ theme }}</div>
+          <div v-for="(theme, index) in otherStore.other.postTheme" :key="index" class="theme-item" :class="{ selected: selectedTheme === index }" @click="handleThemeSelect(index)">{{ theme }}</div>
         </div>
         <!-- Upload（Pic） -->
         <div class="theme-label">Upload（Pic）</div>
@@ -62,6 +63,7 @@ import { useCurrentUserStore } from '@/stores/currentUser'
 import BackButton from '@/components/back.vue'
 import { uploadMultipleImages } from '@/utils/ossUpload.js'
 import { goBackOrClose } from '@/utils/iosBridge'
+import { preventGuestInput, requireLoginForGuest } from '@/utils/guest'
 
 const text = ref('')
 const selectedTheme = ref(0)
@@ -71,7 +73,16 @@ const otherStore = useOtherStore()
 const maxImages = 5
 const uploadedImagesFiles = ref([]) // store selected File objects (local preview only)
 
+const handleInputFocus = (event) => {
+  preventGuestInput(event, currentUserStore, uiStore)
+}
+
 const handleAddImage = (event) => {
+  if (requireLoginForGuest(currentUserStore, uiStore)) {
+    event.target.value = ''
+    return
+  }
+
   const files = Array.from(event.target.files)
   const remaining = maxImages - uploadedImagesFiles.value.length
   const toAdd = files.slice(0, remaining).map(file => {
@@ -81,7 +92,15 @@ const handleAddImage = (event) => {
   uploadedImagesFiles.value.push(...toAdd)
 }
 
+const handleThemeSelect = (index) => {
+  if (requireLoginForGuest(currentUserStore, uiStore)) return
+
+  selectedTheme.value = index
+}
+
 const handleRemoveImage = (index) => {
+  if (requireLoginForGuest(currentUserStore, uiStore)) return
+
   uploadedImagesFiles.value.splice(index, 1)
 }
 
@@ -89,6 +108,8 @@ const uiStore = useUIStore()
 const postStore = usePostStore()
 const currentUserStore = useCurrentUserStore()
 const handleRelease = async () => {
+  if (requireLoginForGuest(currentUserStore, uiStore)) return
+
   if (!text.value.trim()) {
     uiStore.showToast('Please fill in the post text.')
     return

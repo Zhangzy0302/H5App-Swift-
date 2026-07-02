@@ -36,6 +36,7 @@ import { useUserStore } from '@/stores/user'
 import { useUIStore } from '@/stores/ui'
 import BackButton from '@/components/back.vue'
 import Empty from '@/components/empty.vue'
+import { requireLoginForGuest } from '@/utils/guest'
 
 const currentUserStore = useCurrentUserStore()
 const userStore = useUserStore()
@@ -50,6 +51,8 @@ const blocks = computed(() => {
 })
 
 function removeBlock(userId) {
+  if (requireLoginForGuest(currentUserStore, uiStore)) return
+
   const currentUser = currentUserStore.currentUser
   if (!currentUser || !currentUser.blockList) return
 

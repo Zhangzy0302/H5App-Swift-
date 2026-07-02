@@ -9,7 +9,7 @@
                  v-for="(item, index) in otherStore.other.reportContent" 
                  :key="index"
                  :class="{ selected: selectedIndex === index }"
-                 @click="selectedIndex = index">
+                 @click="handleSelect(index)">
                 <div class="choose-box">
                     <div class="check-icon" v-if="selectedIndex === index"></div>
                 </div>
@@ -18,7 +18,7 @@
         </div>
         <div class="input-title">Supplementary description</div>
         <div class="input-box">
-          <textarea v-model="inputText" class="input-field" maxlength="150" placeholder="Supplementary description (optional)"></textarea>
+          <textarea v-model="inputText" class="input-field" maxlength="150" placeholder="Supplementary description (optional)" @focus="handleInputFocus"></textarea>
           <div class="char-count">{{ inputText.length }}/150</div>
         </div>
         <div class="btn-box" @click="handleSubmit">Submit</div>
@@ -31,7 +31,9 @@ import { ref } from 'vue'
 import BackButton from '@/components/back.vue'
 import { useOtherStore } from '@/stores/other'
 import { useUIStore } from '@/stores/ui'
+import { useCurrentUserStore } from '@/stores/currentUser'
 import { goBackOrClose } from '@/utils/iosBridge'
+import { requireLoginForGuest } from '@/utils/guest'
 
 const otherStore =  useOtherStore()
 
@@ -39,7 +41,23 @@ const selectedIndex = ref(0)
 const inputText = ref('')
 
 const uiStore = useUIStore()
+const currentUserStore = useCurrentUserStore()
+
+function handleSelect(index) {
+  if (requireLoginForGuest(currentUserStore, uiStore)) return
+
+  selectedIndex.value = index
+}
+
+function handleInputFocus(event) {
+  if (requireLoginForGuest(currentUserStore, uiStore)) {
+    event.target.blur()
+  }
+}
+
 function handleSubmit() {
+  if (requireLoginForGuest(currentUserStore, uiStore)) return
+
   if (uiStore.loading) return
   uiStore.showLoading()
 

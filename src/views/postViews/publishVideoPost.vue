@@ -11,6 +11,7 @@
             maxlength="150"
             class="post-textarea"
             placeholder="Please enter"
+            @focus="handleInputFocus"
           ></textarea>
           <div class="text-count">{{ text.length }}/150</div>
         </div>
@@ -47,6 +48,7 @@ import { useCurrentUserStore } from '@/stores/currentUser'
 import BackButton from '@/components/back.vue'
 import { uploadSingleImage, uploadVideo } from '@/utils/ossUpload'
 import { goBackOrClose } from '@/utils/iosBridge'
+import { preventGuestInput, requireLoginForGuest } from '@/utils/guest'
 
 const text = ref('')
 const selectedTheme = ref(0)
@@ -59,7 +61,16 @@ const currentUserStore = useCurrentUserStore()
 const uploadedVideo = ref(null)  // store the video file
 const videoFirstFrame = ref('') // store the preview image
 
+const handleInputFocus = (event) => {
+  preventGuestInput(event, currentUserStore, uiStore)
+}
+
 const handleAddVideo = async (event) => {
+  if (requireLoginForGuest(currentUserStore, uiStore)) {
+    event.target.value = ''
+    return
+  }
+
   const file = event.target.files[0];
   if (!file) return;
 
@@ -113,11 +124,15 @@ const getVideoInfo = async (videoUrl) => {
 };
 
 const handleRemoveVideo = () => {
+  if (requireLoginForGuest(currentUserStore, uiStore)) return
+
   uploadedVideo.value = null
   videoFirstFrame.value = ''
 }
 
 const handleRelease = async () => {
+  if (requireLoginForGuest(currentUserStore, uiStore)) return
+
   // 1. 判断文案是否为空
   if (!text.value.trim()) {
     uiStore.showToast('Please fill in the post text.')

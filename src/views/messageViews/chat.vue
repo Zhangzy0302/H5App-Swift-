@@ -20,7 +20,7 @@
             <input ref="imageInput" type="file" accept="image/*" style="display:none" @change="handleImageChange" />
             <img src="@/assets/chatvideoicon.png" class="icon" @click="openVideoCall" />
           </div>
-          <MoreButton @click="showReport = true" />
+          <MoreButton @click="handleOpenReport" />
         </div>
       </div>
 
@@ -43,7 +43,7 @@
     </div>
     <!-- 底部输入框 -->
     <div class="bottom-input">
-      <input type="text" placeholder="Say something" v-model="inputText" />
+      <input type="text" placeholder="Say something" v-model="inputText" @focus="handleInputFocus" />
       <img class="send-btn" src="@/assets/commentsend.png" alt="send" @click="sendMessage" />
     </div>
     <!-- Video Call Sheet -->
@@ -73,6 +73,7 @@ import VideoCall from '@/views/messageViews/videocall.vue'
 import ReportDialog from '@/components/reportChoose.vue'
 import { goBackOrClose } from '@/utils/iosBridge'
 import { uploadSingleImage } from '@/utils/ossUpload'
+import { preventGuestInput, requireLoginForGuest } from '@/utils/guest'
 
 const props = defineProps({
   chatId: String
@@ -113,13 +114,23 @@ function formatTime(timeStr) {
 
 const inputText = ref('')
 
+function handleInputFocus(event) {
+  preventGuestInput(event, currentUserStore, uiStore)
+}
+
 const imageInput = ref(null)
 
 function selectImage() {
+  if (requireLoginForGuest(currentUserStore, uiStore)) return
+
   imageInput.value && imageInput.value.click()
 }
 
 async function handleImageChange(e) {
+  if (requireLoginForGuest(currentUserStore, uiStore)) {
+    e.target.value = ''
+    return
+  }
 
   const file = e.target.files[0]
   if (!file) {
@@ -163,6 +174,8 @@ async function handleImageChange(e) {
 }
 
 function sendMessage() {
+  if (requireLoginForGuest(currentUserStore, uiStore)) return
+
   if(inputText.value.trim() !== '') {
     // 这里可以创建一条图片消息
     messagesStore.addMessage?.({
@@ -190,6 +203,8 @@ function sendMessage() {
 const showVideoCall = ref(false)
 
 function openVideoCall() {
+  if (requireLoginForGuest(currentUserStore, uiStore)) return
+
   showVideoCall.value = true
 }
 
@@ -198,6 +213,12 @@ function closeVideoCall() {
 }
 
 const showReport = ref(false)
+function handleOpenReport() {
+  if (requireLoginForGuest(currentUserStore, uiStore)) return
+
+  showReport.value = true
+}
+
 function reportSelect(value) {
   showReport.value = false
   if (value === 0) {

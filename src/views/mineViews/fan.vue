@@ -36,6 +36,7 @@ import { useUserStore } from '@/stores/user'
 import { useUIStore } from '@/stores/ui'
 import BackButton from '@/components/back.vue'
 import Empty from '@/components/empty.vue'
+import { requireLoginForGuest } from '@/utils/guest'
 
 const currentUserStore = useCurrentUserStore()
 const userStore = useUserStore()
@@ -50,6 +51,8 @@ const fans = computed(() => {
 })
 
 function cancelFollow(userId) {
+  if (requireLoginForGuest(currentUserStore, uiStore)) return
+
   if (uiStore.loading) return
   uiStore.showLoading()
   const currentUserId = currentUserStore.currentUser.userId
@@ -82,6 +85,8 @@ function cancelFollow(userId) {
 }
 
 function addFollow(userId) {
+  if (requireLoginForGuest(currentUserStore, uiStore)) return
+
   if (currentUserStore.currentUser.follow?.includes(userId)) {
     uiStore.showToast('You have already followed this user.')
     return

@@ -22,7 +22,7 @@
           :key="index"
           class="coin-item"
           :class="{ 'coin-item-selected': selectedIndex === index }"
-          @click="() => { selectedIndex = index; handleCoinClick(item) }"
+          @click="handleCoinClick(item, index)"
         >
           <div class="coin-left">
             <img src="@/assets/coin.png" class="coin-item-icon" />
@@ -47,15 +47,22 @@ import BackButton from '@/components/back.vue'
 import { useOtherStore } from '@/stores/other'
 import { useCurrentUserStore } from '@/stores/currentUser'
 import { useUserStore } from '@/stores/user'
+import { useUIStore } from '@/stores/ui'
 import { sendPaymentToIOS } from '@/utils/iosBridge'
+import { requireLoginForGuest } from '@/utils/guest'
 
 const otherStore =  useOtherStore()
 const currentUserStore = useCurrentUserStore()
 const userStore =  useUserStore()
+const uiStore = useUIStore()
 
 const selectedIndex = ref(-1)
 
-function handleCoinClick(item) {
+function handleCoinClick(item, index) {
+  if (requireLoginForGuest(currentUserStore, uiStore)) return
+
+  selectedIndex.value = index
+
   // item.key 或 item.id 作为支付标识
   const payKey = item.key
 

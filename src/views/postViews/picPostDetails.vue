@@ -20,7 +20,7 @@
         <!-- 顶部按钮 -->
         <div class="top-btn">
           <BackButton/>
-          <MoreButton v-if="post.userId !== currentUserStore.currentUser.userId" @click="showPostReport = true" />
+          <MoreButton v-if="post.userId !== currentUserStore.currentUser.userId" @click="handlePostReport" />
         </div>
       </div>
       <!-- 帖子内容 -->
@@ -80,7 +80,7 @@
       </div>
       <!-- 输入框 -->
       <div class="input-box">
-        <input type="text" placeholder="Say something" class="input-field" v-model="commentInput" />
+        <input type="text" placeholder="Say something" class="input-field" v-model="commentInput" @focus="handleCommentInputFocus" />
         <div class="send-btn" :style="{ backgroundImage: `url(${commentSendImage})` }" @click="sendComment"></div>
       </div>
     </div>
@@ -113,6 +113,7 @@ import commentSendImage from '@/assets/commentsend.png'
 import ReportDialog from '@/components/reportChoose.vue'
 import Empty from '@/components/empty.vue'
 import { goBackOrClose } from '@/utils/iosBridge'
+import { preventGuestInput, requireLoginForGuest } from '@/utils/guest'
 
 const { postId } = defineProps({
   postId: {
@@ -139,6 +140,10 @@ const comments = ref(commentsStore.getCommentsById(postId))
 // 评论输入框内容
 const commentInput = ref('')
 
+function handleCommentInputFocus(event) {
+  preventGuestInput(event, currentUserStore, uiStore)
+}
+
 const currentUserStore = useCurrentUserStore()
 
 const uiStore = useUIStore()
@@ -147,7 +152,18 @@ const router = useRouter()
 
 //帖子举报、拉黑
 const showPostReport = ref(false)
+function handlePostReport() {
+  if (requireLoginForGuest(currentUserStore, uiStore)) return
+
+  showPostReport.value = true
+}
+
 function postReportSelect(value) {
+  if (requireLoginForGuest(currentUserStore, uiStore)) {
+    showPostReport.value = false
+    return
+  }
+
   showPostReport.value = false
   if (value === 0) {
     router.push({ name: 'report' })
@@ -191,6 +207,8 @@ function goOtherHome(userId) {
 
 // 点赞逻辑
 function toggleLike() {
+  if (requireLoginForGuest(currentUserStore, uiStore)) return
+
   const postLikeIds = currentUserStore.currentUser.postLikeIds
   // 判断当前用户是否已经点赞
   const likedIndex = postLikeIds.indexOf(postId)
@@ -213,11 +231,18 @@ const reportCommentUserId = ref(null)
 const showCommentReport = ref(false)
 
 function handleCommentReport(userId) {
+  if (requireLoginForGuest(currentUserStore, uiStore)) return
+
   reportCommentUserId.value = userId
   showCommentReport.value = true
 }
 
 function commentReportSelect(value) {
+  if (requireLoginForGuest(currentUserStore, uiStore)) {
+    showCommentReport.value = false
+    return
+  }
+
   showCommentReport.value = false
 
   const userIdToBlock = reportCommentUserId.value
@@ -250,6 +275,8 @@ function commentReportSelect(value) {
 
 // 发送评论逻辑
 function sendComment() {
+  if (requireLoginForGuest(currentUserStore, uiStore)) return
+
   const content = commentInput.value.trim()
   if (!content) return // 输入为空直接返回
 
