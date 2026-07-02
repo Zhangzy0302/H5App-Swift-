@@ -123,7 +123,7 @@ function handleRechargeEvent(value) {
 }
 
 .top-section {
-  margin-top: calc(env(safe-area-inset-top) + 10px);
+  margin-top: calc(100vh * 58 / 812);
   margin-left: calc(100vw * 20 / 375);
   z-index: 100;
 }

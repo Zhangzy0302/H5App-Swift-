@@ -209,13 +209,13 @@ const saveProfile = async () => {
   display: flex;
   align-items: center;
   gap: calc(100vw * 16 / 375);
-  padding: calc(env(safe-area-inset-top) + 10px) calc(100vw * 20 / 375) 0;
+  padding: calc(100vh * 58 / 812) calc(100vw * 20 / 375) 0;
 }
 
 .content {
   position: relative;
   width: 100vw;
-  height: calc(100% - calc(100vh * 50 / 812) - env(safe-area-inset-top));
+  height: calc(100% - calc(100vh * 50 / 812) - calc(100vh * 48 / 812));
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;

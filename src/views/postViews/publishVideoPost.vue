@@ -200,7 +200,7 @@ const handleRelease = async () => {
 }
 
 .back {
-    padding-top: calc(env(safe-area-inset-top) + 10px);
+    padding-top: calc(100vh * 58 / 812);
     padding-left: calc(100vw * 20 / 375);
 }
 

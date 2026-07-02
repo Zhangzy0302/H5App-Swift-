@@ -355,7 +355,7 @@ function toPostDetail(dynamicId, dynamicType) {
 }
 
 .user-info {
-  padding-top: calc(100vh * 53 / 812 + env(safe-area-inset-top));
+  padding-top: calc(100vh * 101 / 812);
   padding-bottom: calc(100vh * 12 / 812);
   background: linear-gradient(90deg, rgba(10, 191, 102, 1) 0%, rgba(162, 238, 110, 1) 100%); /* 外渐变 */
 }
@@ -639,7 +639,7 @@ function toPostDetail(dynamicId, dynamicType) {
 
 .top-btn {
   position: absolute;
-  top: calc(env(safe-area-inset-top) + 10px); /* 10px是你额外想要的间距 */
+  top: calc(100vh * 58 / 812); /* 10px是你额外想要的间距 */
   left: calc(100vw * 20 / 375);
   right: calc(100vw * 20 / 375);
   display: flex;

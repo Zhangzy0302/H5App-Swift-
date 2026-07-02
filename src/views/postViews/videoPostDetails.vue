@@ -339,7 +339,7 @@ function commentReportSelect(value) {
   flex-direction: column;
   justify-content: space-between;
 
-  padding: calc(env(safe-area-inset-top) + 10px)
+  padding: calc(100vh * 58 / 812)
            calc(100vw * 20 / 375)
            calc(100vh * 120 / 812); /* 👈 把 bottom 偏移放到 padding */
 

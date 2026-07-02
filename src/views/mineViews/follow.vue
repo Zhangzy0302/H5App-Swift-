@@ -105,7 +105,7 @@ function cancelFollow(userId) {
   display: flex;
   align-items: center;
   gap: calc(100vw * 16 / 375);
-  padding: calc(env(safe-area-inset-top) + 10px) calc(100vw * 20 / 375) 0;
+  padding: calc(100vh * 58 / 812) calc(100vw * 20 / 375) 0;
 }
 
 .edit-title {
