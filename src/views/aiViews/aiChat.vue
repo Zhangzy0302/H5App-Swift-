@@ -45,7 +45,7 @@
     <!-- 底部输入框 -->
     <!-- bottom input box -->
     <div class="bottom-input">
-      <input type="text" placeholder="Say something" v-model="chatInput" />
+      <input type="text" placeholder="Say something" v-model="chatInput" @focus="handleInputFocus" />
       <img class="send-icon" src="@/assets/commentsend.png" alt="Send" @click="sendMessage" />
     </div>
   </div>
@@ -58,6 +58,7 @@ import { useCurrentUserStore } from '@/stores/currentUser'
 import { useUIStore } from '@/stores/ui'
 import { aiChat } from '@/utils/ai'
 import { decryptAES } from '@/utils/aes'
+import { preventGuestInput, requireLoginForGuest } from '@/utils/guest'
 
 const messages = ref([
   "I'm feeling great today.",
@@ -86,6 +87,8 @@ const bottomItems = ref([
 ])
 
 async function handleMessageClick(message) {
+  if (requireLoginForGuest(currentUserStore, uiStore)) return
+
   const now = new Date()
   const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
   bottomItems.value.push({
@@ -127,7 +130,13 @@ async function handleMessageClick(message) {
 
 const chatInput = ref('')
 
+function handleInputFocus(event) {
+  preventGuestInput(event, currentUserStore, uiStore)
+}
+
 async function sendMessage() {
+  if (requireLoginForGuest(currentUserStore, uiStore)) return
+
   const text = chatInput.value.trim()
   if (!text) return
 
@@ -215,7 +224,7 @@ async function sendMessage() {
 
 .top-section {
   position: relative;
-  margin-top: calc(env(safe-area-inset-top) + 12px);
+  margin-top: calc(100vh * 58 / 812);
   margin-left: calc(100vw * 20 / 375);
   z-index: 100;
 }

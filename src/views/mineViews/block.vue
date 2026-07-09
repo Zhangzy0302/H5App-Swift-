@@ -34,6 +34,7 @@ import { useUserStore } from '@/stores/user'
 import { useUIStore } from '@/stores/ui'
 import BackButton from '@/components/back.vue'
 import Empty from '@/components/empty.vue'
+import { requireLoginForGuest } from '@/utils/guest'
 
 const currentUserStore = useCurrentUserStore()
 const userStore = useUserStore()
@@ -48,6 +49,8 @@ const blocks = computed(() => {
 })
 
 function removeBlock(userId) {
+  if (requireLoginForGuest(currentUserStore, uiStore)) return
+
   const currentUser = currentUserStore.currentUser
   if (!currentUser || !currentUser.blockList) return
 
@@ -90,7 +93,7 @@ function removeBlock(userId) {
   display: flex;
   align-items: center;
   gap: calc(100vw * 16 / 375);
-  padding: calc(env(safe-area-inset-top) + 12px) calc(100vw * 20 / 375) 0;
+  padding: calc(100vh * 58 / 812) calc(100vw * 20 / 375) 0;
 }
 
 .edit-title {

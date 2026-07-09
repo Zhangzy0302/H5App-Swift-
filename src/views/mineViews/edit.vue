@@ -23,7 +23,7 @@
         <div class="second-section">
             <div class="label">Name</div>
             <div class="input-box">
-            <input v-model="name" type="text" placeholder="Please enter" />
+            <input v-model="name" type="text" placeholder="Please enter" @focus="handleInputFocus" />
             </div>
         </div>
       </div>
@@ -31,7 +31,7 @@
         <div class="third-section">
             <div class="label">About me</div>
             <div class="input-box about-me-box">
-            <textarea v-model="aboutMe" placeholder="Please enter"></textarea>
+            <textarea v-model="aboutMe" placeholder="Please enter" @focus="handleInputFocus"></textarea>
             </div>
         </div>
       </div>
@@ -50,6 +50,7 @@ import { useUserStore } from '@/stores/user'
 import BackButton from '@/components/back.vue'
 import { goBackOrClose } from '@/utils/iosBridge'
 import { uploadSingleImage } from '@/utils/ossUpload'
+import { preventGuestInput, requireLoginForGuest } from '@/utils/guest'
 
 // Use relative path for web build
 const topBlockImage = ref('/src/assets/avataricon.png')
@@ -64,13 +65,24 @@ const currentUserStore = useCurrentUserStore()
 const uiStore = useUIStore()
 const userStore =  useUserStore()
 
+const handleInputFocus = (event) => {
+  preventGuestInput(event, currentUserStore, uiStore)
+}
+
 const chooseAvatar = () => {
+  if (requireLoginForGuest(currentUserStore, uiStore)) return
+
   if (fileInput.value) {
     fileInput.value.click()
   }
 }
 
 const onFileChange = (e) => {
+  if (requireLoginForGuest(currentUserStore, uiStore)) {
+    e.target.value = ''
+    return
+  }
+
   const file = e.target.files[0]
   if (!file) return
 
@@ -85,6 +97,8 @@ const onFileChange = (e) => {
 }
 
 const saveProfile = async () => {
+  if (requireLoginForGuest(currentUserStore, uiStore)) return
+
   if (!name.value.trim()) {
     uiStore.showToast('Please enter name')
     return
@@ -160,7 +174,7 @@ background-color: rgba(253, 250, 213, 1);
   display: flex;
   align-items: center;
   gap: calc(100vw * 16 / 375);
-  padding: calc(env(safe-area-inset-top) + 12px) calc(100vw * 20 / 375) 0;
+  padding: calc(100vh * 58 / 812) calc(100vw * 20 / 375) 0;
 }
 
 .edit-title {

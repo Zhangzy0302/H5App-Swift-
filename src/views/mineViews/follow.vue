@@ -34,6 +34,7 @@ import { useUserStore } from '@/stores/user'
 import { useUIStore } from '@/stores/ui'
 import BackButton from '@/components/back.vue'
 import Empty from '@/components/empty.vue'
+import { requireLoginForGuest } from '@/utils/guest'
 
 const currentUserStore = useCurrentUserStore()
 const userStore = useUserStore()
@@ -48,6 +49,8 @@ const follows = computed(() => {
 })
 
 function cancelFollow(userId) {
+  if (requireLoginForGuest(currentUserStore, uiStore)) return
+
   if (uiStore.loading) return
   uiStore.showLoading()
   const currentUserId = currentUserStore.currentUser.userId
@@ -99,7 +102,7 @@ background-color: rgba(253, 250, 213, 1);
   display: flex;
   align-items: center;
   gap: calc(100vw * 16 / 375);
-  padding: calc(env(safe-area-inset-top) + 12px) calc(100vw * 20 / 375) 0;
+  padding: calc(100vh * 58 / 812) calc(100vw * 20 / 375) 0;
 }
 
 .edit-title {

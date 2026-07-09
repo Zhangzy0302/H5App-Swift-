@@ -30,7 +30,7 @@
       <!-- 顶部按钮 -->
       <div class="top-actions">
         <BackButton />
-        <MoreButton v-if="post.userId !== currentUserStore.currentUser.userId" @click="showPostReport = true" />
+        <MoreButton v-if="post.userId !== currentUserStore.currentUser.userId" @click="handlePostReport" />
       </div>
 
       <!-- 底部信息 -->
@@ -60,7 +60,7 @@
         <img v-else src="@/assets/dislikepic.png" alt="like" />
         <span>{{post.dynamicLikeCount}}</span>
       </div>
-      <div class="action-button" @click="uiStore.openComment()">
+      <div class="action-button" @click="openComment">
         <img src="@/assets/comment.png" alt="comment" />
         <span>{{ post.dynamicCommentCount }}</span>
       </div>
@@ -69,7 +69,7 @@
     <!-- 评论弹窗（底部弹出） -->
     <div v-if="uiStore.showComment" class="comment-overlay" @click.self="uiStore.closeComment()">
       <div class="comment-sheet">
-        <Comment :postId="postId" :reportAction="commentAction" @openCommentReport="showCommentReport = true" />
+        <Comment :postId="postId" :reportAction="commentAction" @openCommentReport="handleOpenCommentReport" />
       </div>
     </div>
     <ReportDialog v-if="showPostReport" @close="showPostReport = false" @select="postReportSelect" >
@@ -93,6 +93,7 @@ import MoreButton from '@/components/more.vue'
 import Comment from '@/views/postViews/comment.vue'
 import ReportDialog from '@/components/reportChoose.vue'
 import { goBackOrClose } from '@/utils/iosBridge'
+import { requireLoginForGuest } from '@/utils/guest'
 
 const { postId } = defineProps({
   postId: {
@@ -147,7 +148,18 @@ onBeforeUnmount(() => {
 
 //帖子举报、拉黑
 const showPostReport = ref(false)
+function handlePostReport() {
+  if (requireLoginForGuest(currentUserStore, uiStore)) return
+
+  showPostReport.value = true
+}
+
 function postReportSelect(value) {
+  if (requireLoginForGuest(currentUserStore, uiStore)) {
+    showPostReport.value = false
+    return
+  }
+
   showPostReport.value = false
   if (value === 0) {
     router.push({ name: 'report' })
@@ -185,6 +197,8 @@ function postReportSelect(value) {
 
 // Handle follow action
 function handleFollow() {
+  if (requireLoginForGuest(currentUserStore, uiStore)) return
+
   const currentUserId = currentUserStore.currentUser.userId
   const postUserId = post.userId
 
@@ -216,6 +230,8 @@ function goOtherHome(userId) {
 
 // 点赞逻辑
 function toggleLike() {
+  if (requireLoginForGuest(currentUserStore, uiStore)) return
+
   const postLikeIds = currentUserStore.currentUser.postLikeIds
   const likedIndex = postLikeIds.indexOf(postId)
 
@@ -256,7 +272,24 @@ function toggleLike() {
 const showCommentReport = ref(false)
 const commentAction = ref(null) // 保存 0 或 1
 
+function openComment() {
+  if (requireLoginForGuest(currentUserStore, uiStore)) return
+
+  uiStore.openComment()
+}
+
+function handleOpenCommentReport() {
+  if (requireLoginForGuest(currentUserStore, uiStore)) return
+
+  showCommentReport.value = true
+}
+
 function commentReportSelect(value) {
+  if (requireLoginForGuest(currentUserStore, uiStore)) {
+    showCommentReport.value = false
+    return
+  }
+
   commentAction.value = value  // 保存选择
   showCommentReport.value = false
 }
@@ -310,7 +343,7 @@ function commentReportSelect(value) {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: calc(env(safe-area-inset-top) + 12px) calc(100vw * 20 / 375) calc(100vh * 34 / 812);
+  padding: calc(100vh * 58 / 812) calc(100vw * 20 / 375) calc(100vh * 34 / 812);
   box-sizing: border-box;
   z-index: 3;
   pointer-events: none; /* allow clicks to pass through */

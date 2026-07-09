@@ -28,7 +28,7 @@
 
     <!-- Bottom input box -->
     <div class="bottom-input">
-      <input type="text" placeholder="Say something" v-model="inputText" />
+      <input type="text" placeholder="Say something" v-model="inputText" @focus="handleInputFocus" />
       <img class="send-btn" src="@/assets/commentsend.png" alt="send" @click="sendComment" />
     </div>
   </div>
@@ -45,6 +45,7 @@ import { useUIStore } from '@/stores/ui'
 import { usePostStore } from '@/stores/post'
 import ReportDialog from '@/components/reportChoose.vue'
 import Empty from '@/components/empty.vue'
+import { preventGuestInput, requireLoginForGuest } from '@/utils/guest'
 
 const props = defineProps({
   postId: {
@@ -76,7 +77,13 @@ function goOtherHome(userId) {
 
 const inputText = ref('')
 
+function handleInputFocus(event) {
+  preventGuestInput(event, currentUserStore, uiStore)
+}
+
 function sendComment() {
+  if (requireLoginForGuest(currentUserStore, uiStore)) return
+
   const content = inputText.value.trim()
   if (!content) return // 输入为空直接返回
 
@@ -106,6 +113,8 @@ const emit = defineEmits(['openCommentReport'])
 
 // 打开帖子举报
 function openComment(userId) {
+  if (requireLoginForGuest(currentUserStore, uiStore)) return
+
   reportCommentUserId.value = userId
   emit('openCommentReport')
 }
@@ -117,6 +126,7 @@ watch(
   () => props.reportAction,
   (newVal) => {
     if (newVal === null) return
+    if (requireLoginForGuest(currentUserStore, uiStore)) return
 
     if (newVal === 0) {
       router.push({ name: 'report' })

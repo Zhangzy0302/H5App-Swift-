@@ -27,6 +27,7 @@ import { useUserStore } from '@/stores/user'
 import { useCurrentUserStore } from '@/stores/currentUser'
 import BackButton from '@/components/back.vue'
 import { sendLogoutToIOS } from '@/utils/iosBridge'
+import { requireLoginForGuest } from '@/utils/guest'
 
 const options = ref([
   { text: 'Privacy Policy' },
@@ -42,6 +43,8 @@ const userStore =  useUserStore()
 const currentUserStore = useCurrentUserStore()
 
 function handleOption(index) {
+  if ([2, 3, 4].includes(index) && requireLoginForGuest(currentUserStore, uiStore)) return
+
   switch (index) {
     case 0:
       router.push({ name: 'privacyPolicy' })
@@ -64,6 +67,8 @@ function handleOption(index) {
 }
 
 function handleAction(isDelete) {
+  if (requireLoginForGuest(currentUserStore, uiStore)) return
+
   if (uiStore.loading) return
   uiStore.showLoading()
 
@@ -101,7 +106,7 @@ background-color: rgba(253, 250, 213, 1);
   display: flex;
   align-items: center;
   gap: calc(100vw * 16 / 375);
-  padding: calc(env(safe-area-inset-top) + 12px) calc(100vw * 20 / 375) 0;
+  padding: calc(100vh * 58 / 812) calc(100vw * 20 / 375) 0;
 }
 
 .title {

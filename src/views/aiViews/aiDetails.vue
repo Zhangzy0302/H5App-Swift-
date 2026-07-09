@@ -41,6 +41,7 @@ import { useUserStore } from '@/stores/user'
 import { useUIStore } from '@/stores/ui'
 import BackButton from '@/components/back.vue'
 import CoinNotDialog from '@/views/aiViews/coinNot.vue'
+import { requireLoginForGuest } from '@/utils/guest'
 
 const showCoinNot = ref(false)
 
@@ -48,6 +49,8 @@ const currentUserStore = useCurrentUserStore()
 const uiStore = useUIStore()
 const userStore =  useUserStore()
 function handlePurchaseClick() {
+  if (requireLoginForGuest(currentUserStore, uiStore)) return
+
   if (currentUserStore.currentUser.coins >= 200) {
     if (uiStore.loading) return
     uiStore.showLoading()
@@ -70,6 +73,8 @@ const router = useRouter()
 function handleRechargeEvent(value) {
   showCoinNot.value = false
   if (value === true) {
+    if (requireLoginForGuest(currentUserStore, uiStore)) return
+
     router.push({ name: 'coins' })
   }
 }
@@ -129,7 +134,7 @@ function handleRechargeEvent(value) {
 }
 
 .top-section {
-  margin-top: calc(env(safe-area-inset-top) + 12px);
+  margin-top: calc(100vh * 58 / 812);
   margin-left: calc(100vw * 20 / 375);
   z-index: 100;
 }
