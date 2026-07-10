@@ -49,8 +49,8 @@
           </div>
           <!-- 点赞内容 -->
           <div class="like-box" @click="toggleLike">
-            <img :src="currentUserStore.currentUser.postLikeIds.includes(postId.toString()) ? likeImage : disLikeImage" alt="like" class="like-icon" />
-            <div class="like-count">{{ post.dynamicLikeCount + (currentUserStore.currentUser.postLikeIds.includes(postId.toString()) ? 1 : 0) }}</div>
+            <img :src="isPostLiked(postId) ? likeImage : disLikeImage" alt="like" class="like-icon" />
+            <div class="like-count">{{ post.dynamicLikeCount + (isPostLiked(postId) ? 1 : 0) }}</div>
           </div>
         </div>
       </div>
@@ -152,6 +152,10 @@ const uiStore = useUIStore()
 
 const router = useRouter()
 
+function isPostLiked(postId) {
+  return currentUserStore.currentUser?.postLikeIds?.some(id => String(id) === String(postId)) || false
+}
+
 //帖子举报、拉黑
 const showPostReport = ref(false)
 function handlePostReport() {
@@ -213,11 +217,11 @@ function toggleLike() {
 
   const postLikeIds = currentUserStore.currentUser.postLikeIds
   // 判断当前用户是否已经点赞
-  const likedIndex = postLikeIds.indexOf(postId)
+  const likedIndex = postLikeIds.findIndex(id => String(id) === String(postId))
 
   if (likedIndex === -1) {
     // 未点赞，添加postId到postLikeIds
-    postLikeIds.push(postId)
+    postLikeIds.push(String(postId))
   } else {
     // 已点赞，移除postId
     postLikeIds.splice(likedIndex, 1)

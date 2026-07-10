@@ -56,7 +56,7 @@
     <!-- 喜欢、评论数 -->
     <div class="action-buttons">
       <div class="action-button" @click="toggleLike">
-        <img v-if="currentUserStore.currentUser.postLikeIds.includes(post.dynamicId)" src="@/assets/likepic.png" alt="like" />
+        <img v-if="isPostLiked(post.dynamicId)" src="@/assets/likepic.png" alt="like" />
         <img v-else src="@/assets/dislikepic.png" alt="like" />
         <span>{{post.dynamicLikeCount}}</span>
       </div>
@@ -114,6 +114,10 @@ const isPaused = ref(false)
 const currentUserStore = useCurrentUserStore()
 const router = useRouter()
 const uiStore = useUIStore()
+
+function isPostLiked(postId) {
+  return currentUserStore.currentUser?.postLikeIds?.some(id => String(id) === String(postId)) || false
+}
 
 function togglePlay() {
   const video = videoRef.value
@@ -233,12 +237,12 @@ function toggleLike() {
   if (requireLoginForGuest(currentUserStore, uiStore)) return
 
   const postLikeIds = currentUserStore.currentUser.postLikeIds
-  const likedIndex = postLikeIds.indexOf(postId)
+  const likedIndex = postLikeIds.findIndex(id => String(id) === String(postId))
 
   let isLike = false
 
   if (likedIndex === -1) {
-    postLikeIds.push(postId)
+    postLikeIds.push(String(postId))
     isLike = true
   } else {
     postLikeIds.splice(likedIndex, 1)

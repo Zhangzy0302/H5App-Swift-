@@ -55,13 +55,14 @@
                   </div>
                   <div class="post-username" :title="currentUser.name">{{ currentUser.name }}</div>
                   </div>
-                  <div class="post-report" v-if="userId !== currentUserStore.currentUser.userId" @click="showReport = true"></div>
+                  <div class="post-report" v-if="userId !== currentUserStore.currentUser.userId" @click.stop="handleOpenReport"></div>
               </div>
               <!-- Middle image -->
               <div class="post-image" :style="{ backgroundImage: `url(${post.dynamicPic[0]})` }">
+                <img v-if="post.dynamicType == 1" class="post-video-play" src="@/assets/videopluse.png" alt="play" />
                 <div class="post-image-overlay">
                   <div class="overlay-item">
-                    <div class="overlay-icon overlay-like"></div>
+                    <img class="overlay-like-icon" :src="isPostLiked(post.dynamicId) ? likeImage : disLikeImage" alt="like" />
                     <div class="overlay-count">{{ post.dynamicLikeCount || 0 }}</div>
                   </div>
                   <div class="overlay-item">
@@ -71,7 +72,7 @@
                 </div>
               </div>
               <!-- Bottom: post type -->
-              <div class="post-type"># {{ otherStore.getTagByIndex(post.dynamicTitleType) }}</div>
+              <div v-if="post.dynamicType != 1" class="post-type"># {{ otherStore.getTagByIndex(post.dynamicTitleType) }}</div>
             </div>
           </div>
         </template>
@@ -104,6 +105,8 @@ import BackButton from '@/components/back.vue'
 import MoreButton from '@/components/more.vue'
 import ReportDialog from '@/components/reportChoose.vue'
 import Empty from '@/components/empty.vue'
+import likeImage from '@/assets/likepic.png'
+import disLikeImage from '@/assets/dislikepic.png'
 import { goBackOrClose } from '@/utils/iosBridge'
 import { requireLoginForGuest } from '@/utils/guest'
 
@@ -127,6 +130,10 @@ const uiStore = useUIStore()
 const chatStore = useChatsStore()
 const router = useRouter()
 
+function isPostLiked(postId) {
+  return currentUserStore.currentUser?.postLikeIds?.some(id => String(id) === String(postId)) || false
+}
+
 const showReport = ref(false)
 function handleOpenReport() {
   if (requireLoginForGuest(currentUserStore, uiStore)) return
@@ -135,6 +142,11 @@ function handleOpenReport() {
 }
 
 function reportSelect(value) {
+  if (requireLoginForGuest(currentUserStore, uiStore)) {
+    showReport.value = false
+    return
+  }
+
   showReport.value = false
   if (value === 0) {
     router.push({ name: 'report' })
@@ -603,6 +615,17 @@ function toPostDetail(dynamicId, dynamicType) {
   gap: calc(100vw * 14 / 375);
 }
 
+.post-video-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: calc(100vw * 54 / 375);
+  height: calc(100vw * 54 / 375);
+  transform: translate(-50%, -50%);
+  object-fit: contain;
+  pointer-events: none;
+}
+
 .overlay-item {
   width: calc(100vw * 43 / 375);
   height: calc(100vw * 74 / 375);
@@ -624,8 +647,10 @@ function toPostDetail(dynamicId, dynamicType) {
   background-repeat: no-repeat;
 }
 
-.overlay-like {
-  background-image: url('@/assets/likepic.png');
+.overlay-like-icon {
+  width: calc(100vw * 36 / 375);
+  height: calc(100vw * 36 / 375);
+  object-fit: contain;
 }
 
 .overlay-comment {

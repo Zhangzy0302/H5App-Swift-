@@ -29,6 +29,7 @@
           <label
             v-if="uploadedImagesFiles.length < maxImages"
             class="upload-item"
+            @click="handleUploadClick"
           >
             <input type="file" accept="image/*" multiple style="display:none" @change="handleAddImage" />
             <div class="upload-add"></div>
@@ -75,6 +76,12 @@ const uploadedImagesFiles = ref([]) // store selected File objects (local previe
 
 const handleInputFocus = (event) => {
   preventGuestInput(event, currentUserStore, uiStore)
+}
+
+const handleUploadClick = (event) => {
+  if (requireLoginForGuest(currentUserStore, uiStore)) {
+    event.preventDefault()
+  }
 }
 
 const handleAddImage = (event) => {

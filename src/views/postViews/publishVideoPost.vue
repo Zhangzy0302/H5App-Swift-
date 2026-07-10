@@ -20,7 +20,7 @@
         <!-- 视频上传 -->
         <div class="upload-list">
           <!-- 添加视频按钮 -->
-          <label v-if="!uploadedVideo" class="upload-item">
+          <label v-if="!uploadedVideo" class="upload-item" @click="handleUploadClick">
             <input type="file" accept="video/*" style="display:none" @change="handleAddVideo" />
             <div class="upload-add"></div>
           </label>
@@ -63,6 +63,12 @@ const videoFirstFrame = ref('') // store the preview image
 
 const handleInputFocus = (event) => {
   preventGuestInput(event, currentUserStore, uiStore)
+}
+
+const handleUploadClick = (event) => {
+  if (requireLoginForGuest(currentUserStore, uiStore)) {
+    event.preventDefault()
+  }
 }
 
 const handleAddVideo = async (event) => {

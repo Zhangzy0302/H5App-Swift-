@@ -219,6 +219,11 @@ function handleOpenReport() {
 }
 
 function reportSelect(value) {
+  if (requireLoginForGuest(currentUserStore, uiStore)) {
+    showReport.value = false
+    return
+  }
+
   showReport.value = false
   if (value === 0) {
     router.push({ name: 'report' })

@@ -1,5 +1,8 @@
 export function isGuestUser(currentUserStore) {
-  return currentUserStore.currentUser?.isguest == 1
+  const currentUser = currentUserStore.currentUser
+  if (!currentUser) return true
+
+  return !String(currentUser.email || '').trim() || !String(currentUser.password || '').trim()
 }
 
 export function requireLoginForGuest(currentUserStore, uiStore) {
