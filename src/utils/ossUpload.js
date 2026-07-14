@@ -4,6 +4,25 @@ import axios from 'axios'
 let ossClient = null
 let cdnUrl = ""
 
+const trimSlashes = (value) => String(value || '').replace(/^\/+|\/+$/g, '')
+
+function buildUploadedFileUrl(result, objectKey) {
+    const cdnBase = String(cdnUrl || '').replace(/\/+$/, '')
+
+    if (cdnBase) {
+        const normalizedKey = trimSlashes(objectKey)
+        const cdnPath = trimSlashes(new URL(cdnBase).pathname)
+        const relativeKey = cdnPath && normalizedKey.startsWith(`${cdnPath}/`)
+            ? normalizedKey.slice(cdnPath.length + 1)
+            : normalizedKey
+
+        return `${cdnBase}/${relativeKey}`
+    }
+
+    if (result?.url) return result.url
+    throw new Error('OSS upload succeeded without a usable file URL')
+}
+
 /**
  * 获取临时 STS 凭证
  */
@@ -46,12 +65,14 @@ async function initOssClient() {
  * @returns {Promise<string>} 返回阿里云网络地址
  */
 export async function uploadSingleImage(file, folder = 'posts') {
+    if (!(file instanceof Blob)) throw new TypeError('请选择有效的图片文件')
     if (!ossClient) await initOssClient()
 
-    const filename = `${folder}/${Date.now()}-${file.name}`
+    const safeName = (file.name || 'avatar.jpg').replace(/[^a-zA-Z0-9._-]/g, '_')
+    const filename = `${trimSlashes(folder)}/${Date.now()}-${safeName}`
     const result = await ossClient.put(filename, file)
 
-    return `${cdnUrl}/template_development/${filename.split('/').pop()}`
+    return buildUploadedFileUrl(result, filename)
 }
 
 /**
@@ -77,5 +98,5 @@ export async function uploadVideo(file, folder = 'videos') {
     const filename = `${folder}/${Date.now()}-${file.name}`
     const result = await ossClient.put(filename, file)
 
-    return `${cdnUrl}/template_development/${filename.split('/').pop()}`
+    return buildUploadedFileUrl(result, filename)
 }

@@ -129,8 +129,14 @@ const chooseAvatar = () => {
 }
 
 const onFileChange = (e) => {
-  const file = e.target.files[0]
+  const file = e.target.files?.[0]
   if (!file) return
+
+  if (!file.type.startsWith('image/')) {
+    sendShowToastToIOS('Please select an image file.')
+    e.target.value = ''
+    return
+  }
 
   avatarFile.value = file
 
@@ -150,41 +156,28 @@ const saveProfile = async () => {
 
   sendShowLoadingToIOS(true)
 
-  let avatarUrl = topBlockImage.value
-  let avatarUploadFailed = false
-
   try {
-    if (avatarFile.value) {
-      try {
-        avatarUrl = await uploadSingleImage(avatarFile.value, 'template_development')
-      } catch (uploadError) {
-        console.error('avatar upload failed', uploadError)
-        avatarUrl = ''
-        avatarUploadFailed = true
-      }
-    }
+    const avatarUrl = avatarFile.value
+      ? await uploadSingleImage(avatarFile.value, 'template_development')
+      : ''
     
     const delay = Math.floor(Math.random() * 1500) + 500
 
     setTimeout(() => {
-      let newUserData = {
-        'avator': avatarUrl && avatarUrl.includes('template_development') ? avatarUrl : '',
+      const newUserData = {
+        'avator': avatarUrl,
         'name': name.value,
       }
 
       sendShowLoadingToIOS(false)
 
       sendNewUserDataToIOS(newUserData)
-      if (avatarUploadFailed) {
-        sendShowToastToIOS('Avatar upload failed, please try again later.')
-      }
-
     }, delay)
 
   } catch (e) {
-    console.error(e)
+    console.error('avatar upload failed', e)
     sendShowLoadingToIOS(false)
-    sendShowToastToIOS('Updated failed, please check your network.')
+    sendShowToastToIOS('Avatar upload failed, please check your network and try again.')
   }
 }
 
