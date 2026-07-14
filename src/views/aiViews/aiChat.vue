@@ -37,7 +37,7 @@
                     <div class="chat-content-rigth">
                     <div class="chat-message-rigth">{{ item.message }}</div>
                     <div class="chat-avatar-rigth">
-                      <img :src="currentUserStore.currentUser.avator" alt="AI Avatar" />
+                      <img :src="currentUserStore.currentUser.avator" loading="lazy" decoding="async" alt="AI Avatar" />
                     </div>
                 </div>
             </div>

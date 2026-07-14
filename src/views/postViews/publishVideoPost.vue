@@ -29,7 +29,7 @@
           <template v-if="uploadedVideo">
             <label class="upload-item">
               <img class="upload-video-preview" :src="videoFirstFrame" alt="video preview" />
-              <van-icon class="upload-remove" name="clear" size="20" @click="handleRemoveVideo" color="#fff"/>
+              <VanIcon class="upload-remove" name="clear" size="20" color="#fff" @click="handleRemoveVideo" />
             </label>
           </template>
         </div>
@@ -41,6 +41,8 @@
 
 <script setup>
 import { ref } from 'vue'
+import { Icon as VanIcon } from 'vant'
+import 'vant/es/icon/style'
 import { useOtherStore } from '@/stores/other'
 import { useUIStore } from '@/stores/ui'
 import { usePostStore } from '@/stores/post'

@@ -33,13 +33,13 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { defineAsyncComponent, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useCurrentUserStore } from '@/stores/currentUser'
 import { useUserStore } from '@/stores/user'
 import { useUIStore } from '@/stores/ui'
 import BackButton from '@/components/back.vue'
-import CoinNotDialog from '@/views/aiViews/coinNot.vue'
+const CoinNotDialog = defineAsyncComponent(() => import('@/views/aiViews/coinNot.vue'))
 import { requireLoginForGuest } from '@/utils/guest'
 
 const showCoinNot = ref(false)

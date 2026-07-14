@@ -1,0 +1,18 @@
+/*
+ * iOS Safari/WKWebView automatically zooms the page when a focused form
+ * control has a computed font size below 16px. Keep text controls at the
+ * minimum size on iOS while leaving desktop browsers and file inputs alone.
+ */
+@supports (-webkit-touch-callout: none) {
+  input:not([type='file']),
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+}
+
+html,
+body,
+#app {
+  touch-action: manipulation;
+}

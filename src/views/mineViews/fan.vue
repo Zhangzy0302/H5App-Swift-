@@ -12,7 +12,7 @@
                     <div class="user-info">
                         <div class="avatar-box">
                             <div class="avatar-inner">
-                                <img :src="item.avator" alt="avatar" />
+                                <img :src="item.avator" loading="lazy" decoding="async" alt="avatar" />
                             </div>
                         </div>
                         <div class="user-name">{{ item.name }}</div>

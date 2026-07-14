@@ -27,12 +27,12 @@
       <!-- 聊天内容 -->
       <div class="chat-content">
         <div v-for="msg in messages" :key="msg.msgId" :class="['chat-item', { 'own-message': msg.userId === currentUserId }]">
-          <img class="chat-avatar" @click="goOtherHome(msg.userId)" :src="getUserAvatar(msg.userId)" alt="avatar" />
+          <img class="chat-avatar" loading="lazy" decoding="async" @click="goOtherHome(msg.userId)" :src="getUserAvatar(msg.userId)" alt="avatar" />
           <div class="chat-right">
             <div class="chat-time">{{ formatTime(msg.sendTime) }}</div>
             <div v-if="msg.userId === currentUserId && msg.sendPicUrl" class="chat-message-image">
               <div class="image-container">
-                <img :src="msg.sendPicUrl" alt="send image" />
+                <img :src="msg.sendPicUrl" loading="lazy" decoding="async" alt="send image" />
               </div>
             </div>
             <div v-else class="chat-message" v-text="msg.sendContent"></div>
@@ -59,8 +59,7 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue'
-import { ref } from 'vue'
+import { defineAsyncComponent, defineProps, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useChatsStore } from '@/stores/chat'
 import { useUserStore } from '@/stores/user'
@@ -69,8 +68,8 @@ import { useCurrentUserStore } from '@/stores/currentUser'
 import { useUIStore } from '@/stores/ui'
 import BackButton from '@/components/back.vue'
 import MoreButton from '@/components/more.vue'
-import VideoCall from '@/views/messageViews/videocall.vue'
-import ReportDialog from '@/components/reportChoose.vue'
+const VideoCall = defineAsyncComponent(() => import('@/views/messageViews/videocall.vue'))
+const ReportDialog = defineAsyncComponent(() => import('@/components/reportChoose.vue'))
 import { goBackOrClose } from '@/utils/iosBridge'
 import { uploadSingleImage } from '@/utils/ossUpload'
 import { preventGuestInput, requireLoginForGuest } from '@/utils/guest'

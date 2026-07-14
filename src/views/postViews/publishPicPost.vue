@@ -44,7 +44,7 @@
                 class="upload-image"
                 :style="{ backgroundImage: file ? `url(${file.preview || file._previewUrl || URL.createObjectURL(file)})` : '' }"
               ></div>
-              <van-icon class="upload-remove" name="clear" size="20" @click="handleRemoveImage(index)" color="#fff"/>
+              <VanIcon class="upload-remove" name="clear" size="20" color="#fff" @click="handleRemoveImage(index)" />
             </label>
           </template>
         </div>
@@ -56,6 +56,8 @@
 
 <script setup>
 import { ref } from 'vue'
+import { Icon as VanIcon } from 'vant'
+import 'vant/es/icon/style'
 import { useOtherStore } from '@/stores/other'
 import { useUIStore } from '@/stores/ui'
 import { usePostStore } from '@/stores/post'

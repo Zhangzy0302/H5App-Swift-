@@ -12,7 +12,7 @@
           <div class="comment-top">
             <div class="comment-user" @click="goOtherHome(item.userId)">
               <div class="avatar">
-                <img :src="userStore.getUserById(item.userId).avator" alt="avatar" />
+                <img :src="userStore.getUserById(item.userId).avator" loading="lazy" decoding="async" alt="avatar" />
               </div>
               <div class="username">{{ userStore.getUserById(item.userId).name }}</div>
             </div>
@@ -33,15 +33,14 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { watch } from 'vue'
+import { defineAsyncComponent, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useCommentsStore } from '@/stores/comment'
 import { useUserStore } from '@/stores/user'
 import { useCurrentUserStore } from '@/stores/currentUser'
 import { useUIStore } from '@/stores/ui'
 import { usePostStore } from '@/stores/post'
-import ReportDialog from '@/components/reportChoose.vue'
+const ReportDialog = defineAsyncComponent(() => import('@/components/reportChoose.vue'))
 import Empty from '@/components/empty.vue'
 import { preventGuestInput, requireLoginForGuest } from '@/utils/guest'
 

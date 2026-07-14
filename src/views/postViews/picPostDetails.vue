@@ -3,10 +3,10 @@
     <div v-if="post" class="page-content">
       <!-- 顶部轮播图 -->
       <div class="swipe-wrapper">
-        <van-swipe lazy-render :loop="false" class="swipe-container">
-          <van-swipe-item v-for="image in images" :key="image" class="swipe-item">
-            <img :src="image" class="swipe-img" />
-          </van-swipe-item>
+        <VanSwipe lazy-render :loop="false" class="swipe-container">
+          <VanSwipeItem v-for="image in images" :key="image" class="swipe-item">
+            <img :src="image" class="swipe-img" loading="lazy" decoding="async" alt="Post image" />
+          </VanSwipeItem>
           <template #indicator="{ active, total }">
             <div class="indicator-wrapper">
               <span
@@ -16,7 +16,7 @@
               ></span>
             </div>
           </template>
-        </van-swipe>
+        </VanSwipe>
         <!-- 顶部按钮 -->
         <div class="top-btn">
           <BackButton/>
@@ -95,8 +95,10 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { computed } from 'vue'
+import { computed, defineAsyncComponent, ref } from 'vue'
+import { Swipe as VanSwipe, SwipeItem as VanSwipeItem } from 'vant'
+import 'vant/es/swipe/style'
+import 'vant/es/swipe-item/style'
 import { useRouter } from 'vue-router'
 import { usePostStore } from '@/stores/post'
 import { useUserStore } from '@/stores/user'
@@ -110,7 +112,7 @@ import likeImage from '@/assets/likepic.png'
 import disLikeImage from '@/assets/dislikepic.png'
 import commentMoreImage from '@/assets/postpiccommentreport.png'
 import commentSendImage from '@/assets/commentsend.png'
-import ReportDialog from '@/components/reportChoose.vue'
+const ReportDialog = defineAsyncComponent(() => import('@/components/reportChoose.vue'))
 import Empty from '@/components/empty.vue'
 import { goBackOrClose } from '@/utils/iosBridge'
 import { preventGuestInput, requireLoginForGuest } from '@/utils/guest'

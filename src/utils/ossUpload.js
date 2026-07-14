@@ -1,8 +1,6 @@
-import OSS from 'ali-oss'
-import axios from 'axios'
-
 let ossClient = null
 let cdnUrl = ""
+let ossConstructorPromise = null
 
 const trimSlashes = (value) => String(value || '').replace(/^\/+|\/+$/g, '')
 
@@ -27,16 +25,25 @@ function buildUploadedFileUrl(result, objectKey) {
  * 获取临时 STS 凭证
  */
 async function getOssSts() {
-    const { data } = await axios.get('https://api.wouldbeauty.com/sts/getkey')
+    const response = await fetch('https://api.wouldbeauty.com/sts/getkey')
+    if (!response.ok) throw new Error(`获取 STS 失败 (${response.status})`)
+    const data = await response.json()
     if (data.code !== '0000') throw new Error('获取 STS 失败')
     return data.result
+}
+
+async function getOssConstructor() {
+    if (!ossConstructorPromise) {
+        ossConstructorPromise = import('ali-oss').then(({ default: OSS }) => OSS)
+    }
+    return ossConstructorPromise
 }
 
 /**
  * 初始化 OSS 客户端，带自动刷新 STS Token
  */
 async function initOssClient() {
-    const sts = await getOssSts()
+    const [OSS, sts] = await Promise.all([getOssConstructor(), getOssSts()])
     const [https, endpoint] = sts.host.split(`${sts.bucket}.`)
     cdnUrl = sts.cdnUrl
     ossClient = new OSS({
@@ -46,12 +53,11 @@ async function initOssClient() {
         bucket: sts.bucket,
         endpoint,
         refreshSTSToken: async () => {
-            const { data } = await axios.get('https://api.wouldbeauty.com/sts/getkey')
-            if (data.code !== '0000') throw new Error('刷新 STS 失败')
+            const result = await getOssSts()
             return {
-                accessKeyId: data.result.AccessKeyId,
-                accessKeySecret: data.result.AccessKeySecret,
-                stsToken: data.result.SecurityToken
+                accessKeyId: result.AccessKeyId,
+                accessKeySecret: result.AccessKeySecret,
+                stsToken: result.SecurityToken
             }
         },
         refreshSTSTokenInterval: 900000 // 15分钟自动刷新一次，可根据需要调整
