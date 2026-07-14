@@ -88,7 +88,6 @@
     <ReportDialog v-if="showReport" @close="showReport = false" @select="reportSelect" >
     </ReportDialog>
   </div>
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 </template>
 
 <script setup>
@@ -276,6 +275,12 @@ function toPostDetail(dynamicId, dynamicType) {
   background-position: center; /* 居中显示 */
   background-repeat: no-repeat;
   pointer-events: none;
+}
+
+.avatar-bg,
+.top-btn,
+.user-info {
+  touch-action: pan-y;
 }
 
 .scroll-content {
