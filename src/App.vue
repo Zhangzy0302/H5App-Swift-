@@ -5,6 +5,7 @@ import { useUIStore } from '@/stores/ui'
 const ToLoginDialog = defineAsyncComponent(() => import('@/views/register/toLogin.vue'))
 
 const uiStore = useUIStore()
+const loadingIconSize = 'calc(100vw * 44 / 375)'
 </script>
 
 <template>
@@ -15,7 +16,7 @@ const uiStore = useUIStore()
     <!-- 全局 loading -->
     <div v-if="uiStore.loading" class="loading-mask">
       <div class="loading-box">
-        <van-loading type="spinner" size="44px" color="#fff" />
+        <van-loading type="circular" :size="loadingIconSize" color="#fff" />
         <div class="loading-text">Loading...</div>
       </div>
     </div>
@@ -34,7 +35,7 @@ const uiStore = useUIStore()
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.001);
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -42,26 +43,30 @@ const uiStore = useUIStore()
 }
 
 .loading-box {
-  width: 130px;
-  height: 130px;
+  width: calc(100vw * 130 / 375);
+  height: calc(100vw * 130 / 375);
   border: 1px solid #fff;
-  border-radius: 20px;
+  border-radius: calc(100vw * 20 / 375);
   background: rgba(0, 0, 0, 0.8);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 22px;
+  gap: calc(100vw * 22 / 375);
   box-sizing: border-box;
-  padding: 0 20px;
+  padding: 0 calc(100vw * 20 / 375);
 }
 
 .loading-text {
   color: #fff;
   font-family: 'JetBrainsMono', sans-serif;
-  font-size: 14px;
+  font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: 1;
+}
+
+.loading-box :deep(.van-loading__circular circle) {
+  stroke-width: 5;
 }
 
 .global-toast {

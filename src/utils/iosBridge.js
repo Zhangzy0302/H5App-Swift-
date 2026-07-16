@@ -210,3 +210,20 @@ export function sendToLoginToIOS() {
       console.error('sendToLoginToIOS error', e)
   }
 }
+
+// Ask iOS to resend the initial native data snapshot
+export function sendRequestNativeDataToIOS() {
+  try {
+      if (
+          window.webkit &&
+          window.webkit.messageHandlers &&
+          window.webkit.messageHandlers.requestNativeData
+      ) {
+          window.webkit.messageHandlers.requestNativeData.postMessage({})
+      } else {
+          console.warn('iOS handler requestNativeData not found')
+      }
+  } catch (e) {
+      console.error('sendRequestNativeDataToIOS error', e)
+  }
+}
