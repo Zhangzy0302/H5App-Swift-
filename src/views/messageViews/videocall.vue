@@ -4,7 +4,7 @@
     <!-- Top Avatar Container -->
     <div class="avatar-outer">
       <div class="avatar-inner">
-        <img :src="userInfo.avator" alt="User Avatar" />
+        <img :src="userInfo.avator" alt="User Avatar" loading="lazy" decoding="async" />
       </div>
     </div>
 

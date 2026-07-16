@@ -1,6 +1,6 @@
 <template>
   <div class="empty-container">
-    <img src="@/assets/empty.png" alt="empty" class="empty-image" />
+    <img src="@/assets/empty.png" alt="empty" class="empty-image" loading="lazy" decoding="async" />
     <div class="empty-text">NO Data</div>
   </div>
 </template>

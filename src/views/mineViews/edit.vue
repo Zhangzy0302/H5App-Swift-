@@ -49,7 +49,6 @@ import { useUIStore } from '@/stores/ui'
 import { useUserStore } from '@/stores/user'
 import BackButton from '@/components/back.vue'
 import { goBackOrClose } from '@/utils/iosBridge'
-import { uploadSingleImage } from '@/utils/ossUpload'
 import { preventGuestInput, requireLoginForGuest } from '@/utils/guest'
 
 // Use relative path for web build
@@ -116,6 +115,7 @@ const saveProfile = async () => {
 
   try {
     if (avatarFile.value) {
+      const { uploadSingleImage } = await import('@/utils/ossUpload')
       avatarUrl = await uploadSingleImage(avatarFile.value, 'template_development')
     }
 

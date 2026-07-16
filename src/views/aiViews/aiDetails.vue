@@ -34,14 +34,15 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { defineAsyncComponent, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useCurrentUserStore } from '@/stores/currentUser'
 import { useUserStore } from '@/stores/user'
 import { useUIStore } from '@/stores/ui'
 import BackButton from '@/components/back.vue'
-import CoinNotDialog from '@/views/aiViews/coinNot.vue'
 import { requireLoginForGuest } from '@/utils/guest'
+
+const CoinNotDialog = defineAsyncComponent(() => import('@/views/aiViews/coinNot.vue'))
 
 const showCoinNot = ref(false)
 
@@ -99,10 +100,6 @@ function handleRechargeEvent(value) {
   width: calc(100vw * 229 / 375);
   height: calc(100vh * 402 / 812);
   opacity: 1;
-  /* background-image: url('@/assets/aiusermodel.png'); 
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat; */
 }
 
 .aichatmodel {
@@ -118,10 +115,6 @@ function handleRechargeEvent(value) {
   color: #fff;
   text-align: right;
   font-style: italic;
-  /* background-image: url('@/assets/aichatmodel.png'); 
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat; */
 }
 
 .page-content {

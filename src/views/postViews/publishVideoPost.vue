@@ -28,7 +28,7 @@
           <!-- 已上传的视频第一帧显示 -->
           <template v-if="uploadedVideo">
             <label class="upload-item">
-              <img class="upload-video-preview" :src="videoFirstFrame" alt="video preview" />
+              <img class="upload-video-preview" :src="videoFirstFrame" alt="video preview" loading="lazy" decoding="async" />
               <van-icon class="upload-remove" name="clear" size="20" @click="handleRemoveVideo" color="#fff"/>
             </label>
           </template>
@@ -46,7 +46,6 @@ import { useUIStore } from '@/stores/ui'
 import { usePostStore } from '@/stores/post'
 import { useCurrentUserStore } from '@/stores/currentUser'
 import BackButton from '@/components/back.vue'
-import { uploadSingleImage, uploadVideo } from '@/utils/ossUpload'
 import { goBackOrClose } from '@/utils/iosBridge'
 import { preventGuestInput, requireLoginForGuest } from '@/utils/guest'
 
@@ -154,6 +153,8 @@ const handleRelease = async () => {
   uiStore.showLoading()
 
   try {
+    const { uploadSingleImage, uploadVideo } = await import('@/utils/ossUpload')
+
     // 2. 上传视频
     const videoUrl = await uploadVideo(uploadedVideo.value,'template_development')
     console.log('视频 URL:', videoUrl)

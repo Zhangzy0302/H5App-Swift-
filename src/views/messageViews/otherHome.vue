@@ -92,7 +92,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { defineAsyncComponent, ref } from 'vue'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
@@ -103,12 +103,13 @@ import { useUIStore } from '@/stores/ui'
 import { useChatsStore } from '@/stores/chat'
 import BackButton from '@/components/back.vue'
 import MoreButton from '@/components/more.vue'
-import ReportDialog from '@/components/reportChoose.vue'
 import Empty from '@/components/empty.vue'
 import likeImage from '@/assets/likepic.png'
 import disLikeImage from '@/assets/dislikepic.png'
 import { goBackOrClose } from '@/utils/iosBridge'
 import { requireLoginForGuest } from '@/utils/guest'
+
+const ReportDialog = defineAsyncComponent(() => import('@/components/reportChoose.vue'))
 
 const { userId } = defineProps({
   userId: {

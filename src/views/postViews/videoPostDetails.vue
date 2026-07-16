@@ -10,7 +10,7 @@
       loop
       playsinline
       webkit-playsinline
-      preload="auto"
+      preload="metadata"
       @click="togglePlay"
     ></video>
 
@@ -38,7 +38,7 @@
         <div class="user-left"> 
           <div class="avatar-wrap">
             <div class="avatar" @click="goOtherHome(post.userId)">
-              <img :src="postUser && postUser.avator" alt="avatar" />
+              <img :src="postUser && postUser.avator" alt="avatar" loading="lazy" decoding="async" />
             </div>
             <div class="follow" v-if="post.userId !== currentUserStore.currentUser.userId && !currentUserStore.currentUser.follow.includes(post.userId)" @click="handleFollow" >
               <img src="@/assets/follow.png" alt="follow" />
@@ -80,7 +80,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { defineAsyncComponent, ref } from 'vue'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { usePostStore } from '@/stores/post'
@@ -90,10 +90,11 @@ import { useUIStore } from '@/stores/ui'
 import { onMounted, onBeforeUnmount } from 'vue'
 import BackButton from '@/components/back.vue'
 import MoreButton from '@/components/more.vue'
-import Comment from '@/views/postViews/comment.vue'
-import ReportDialog from '@/components/reportChoose.vue'
 import { goBackOrClose } from '@/utils/iosBridge'
 import { requireLoginForGuest } from '@/utils/guest'
+
+const Comment = defineAsyncComponent(() => import('@/views/postViews/comment.vue'))
+const ReportDialog = defineAsyncComponent(() => import('@/components/reportChoose.vue'))
 
 const { postId } = defineProps({
   postId: {

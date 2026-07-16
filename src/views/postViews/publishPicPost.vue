@@ -62,7 +62,6 @@ import { useUIStore } from '@/stores/ui'
 import { usePostStore } from '@/stores/post'
 import { useCurrentUserStore } from '@/stores/currentUser'
 import BackButton from '@/components/back.vue'
-import { uploadMultipleImages } from '@/utils/ossUpload.js'
 import { goBackOrClose } from '@/utils/iosBridge'
 import { preventGuestInput, requireLoginForGuest } from '@/utils/guest'
 
@@ -131,6 +130,7 @@ const handleRelease = async () => {
 
   try {
     // 上传图片到 OSS
+    const { uploadMultipleImages } = await import('@/utils/ossUpload.js')
     const urls = await uploadMultipleImages(uploadedImagesFiles.value, 'template_development')
 
     // 构造新帖子对象

@@ -77,7 +77,6 @@
 import { ref } from 'vue'
 import BackButton from '@/components/back.vue'
 import { sendShowLoadingToIOS, sendShowToastToIOS, sendNewUserDataToIOS } from '@/utils/iosBridge'
-import { uploadSingleImage } from '@/utils/ossUpload'
 
 defineOptions({
   name: 'RegisterPage',
@@ -156,6 +155,7 @@ const saveProfile = async () => {
   try {
     if (avatarFile.value) {
       try {
+        const { uploadSingleImage } = await import('@/utils/ossUpload')
         avatarUrl = await uploadSingleImage(avatarFile.value, 'template_development')
       } catch (uploadError) {
         console.error('avatar upload failed', uploadError)

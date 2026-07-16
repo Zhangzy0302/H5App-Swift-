@@ -1,7 +1,5 @@
 <template>
   <div class="page">
-    <!-- <div class="aiusermodel"></div> -->
-    <!-- <div class="aichatmodel"></div> -->
     <div class="page-container">
       <!-- top -->
       <div class="top-section">
@@ -25,7 +23,7 @@
             <div class="chat-choose" v-if="item.sendId === '0'">
                 <div class="chat-time">{{ item.time }}</div>
                     <div class="chat-content">
-                    <img class="chat-avatar" src="@/assets/aiavator.png" alt="AI Avatar" />
+                    <img class="chat-avatar" src="@/assets/aiavator.png" alt="AI Avatar" loading="lazy" decoding="async" />
                     <div class="chat-message">{{ item.message }}</div>
                 </div>
             </div>
@@ -34,7 +32,7 @@
                     <div class="chat-content-rigth">
                     <div class="chat-message-rigth">{{ item.message }}</div>
                     <div class="chat-avatar-rigth">
-                      <img :src="currentUserStore.currentUser.avator" alt="AI Avatar" />
+                      <img :src="currentUserStore.currentUser.avator" alt="AI Avatar" loading="lazy" decoding="async" />
                     </div>
                 </div>
             </div>
@@ -192,34 +190,6 @@ async function sendMessage() {
   background-size: cover;
   background-position: top;
   background-repeat: no-repeat;
-}
-
-.aiusermodel {
-  position: absolute;
-  left: calc(100vw * 20 / 375);
-  top: calc(100vh * 40 / 812); /* adapt top spacing */
-  width: calc(100vw * 179 / 375);
-  height: calc(100vh * 314 / 812);
-  opacity: 1;
-  background-image: url('@/assets/aiusermodel.png'); 
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  z-index: 1;
-}
-
-.aichatmodel {
-  position: absolute;
-  left: calc(100vw * 181 / 375);
-  top: calc(100vh * 62 / 812);
-  width: calc(100vw * 104 / 375);
-  height: calc(100vh * 38 / 812);
-  opacity: 1;
-  background-image: url('@/assets/aichatmodel.png'); 
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  z-index: 1;
 }
 
 .top-section {

@@ -5,7 +5,7 @@
       <div class="swipe-wrapper">
         <van-swipe lazy-render :loop="false" class="swipe-container">
           <van-swipe-item v-for="image in images" :key="image" class="swipe-item">
-            <img :src="image" class="swipe-img" />
+            <img :src="image" class="swipe-img" loading="lazy" decoding="async" />
           </van-swipe-item>
           <template #indicator="{ active, total }">
             <div class="indicator-wrapper">
@@ -97,7 +97,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { defineAsyncComponent, ref } from 'vue'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { usePostStore } from '@/stores/post'
@@ -112,10 +112,11 @@ import likeImage from '@/assets/likepic.png'
 import disLikeImage from '@/assets/dislikepic.png'
 import commentMoreImage from '@/assets/more.png'
 import commentSendImage from '@/assets/commentsend.png'
-import ReportDialog from '@/components/reportChoose.vue'
 import Empty from '@/components/empty.vue'
 import { goBackOrClose } from '@/utils/iosBridge'
 import { preventGuestInput, requireLoginForGuest } from '@/utils/guest'
+
+const ReportDialog = defineAsyncComponent(() => import('@/components/reportChoose.vue'))
 
 const { postId } = defineProps({
   postId: {

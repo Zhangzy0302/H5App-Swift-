@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-    <img class="bg-img" src="../assets/bg.webp" alt="" />
+    <img class="bg-img" src="../assets/bg.webp" alt="" fetchpriority="high" decoding="async" />
 
     <div class="email-box">
       <div class="email">

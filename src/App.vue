@@ -1,6 +1,8 @@
 <script setup>
+import { defineAsyncComponent } from 'vue'
 import { useUIStore } from '@/stores/ui'
-import ToLoginDialog from '@/views/register/toLogin.vue'
+
+const ToLoginDialog = defineAsyncComponent(() => import('@/views/register/toLogin.vue'))
 
 const uiStore = useUIStore()
 </script>
