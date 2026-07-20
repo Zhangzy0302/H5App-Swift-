@@ -42,7 +42,7 @@ import optionsBgImage from '@/assets/reportchoosebgc.png'
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  border-radius: 24px 24px 0px 0px;
+  border-radius: calc(100vw * 24 / 375) calc(100vw * 24 / 375) 0 0;
   z-index: 1000;
   display: flex;
   justify-self: flex-end;
@@ -80,7 +80,7 @@ import optionsBgImage from '@/assets/reportchoosebgc.png'
   height: calc(100vh * 46 / 812);
   border-radius: calc(100vw * 40 / 375);
   background: rgba(255, 255, 255, 0.2);
-  box-shadow: 0px calc(100vw * 2 / 375) calc(100vw * 4 / 375) rgba(0, 0, 0, 0.1);
+  box-shadow: 0 calc(100vw * 2 / 375) calc(100vw * 4 / 375) rgba(0, 0, 0, 0.1);
   font-family: 'Poppins', sans-serif;
   font-size: 16;
   font-weight: 600;

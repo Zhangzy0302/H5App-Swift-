@@ -425,7 +425,7 @@ function commentReportSelect(value) {
   display: flex;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(calc(100vw * 10 / 375));
   cursor: pointer;
 }
 
@@ -456,7 +456,7 @@ function commentReportSelect(value) {
   font-family: 'Poppins', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
-  letter-spacing: 0px;
+  letter-spacing: 0;
   line-height: calc(100vw * 15.23 / 375);
   color: rgba(255, 255, 255, 1);
   white-space: nowrap;
@@ -503,7 +503,7 @@ function commentReportSelect(value) {
   font-weight: 600;
   line-height: calc(100vw * 17.41 / 375);
   color: rgba(255, 255, 255, 0.6);
-  padding-bottom: 2px;
+  padding-bottom: calc(100vw * 2 / 375);
 }
 
 .comment-overlay {

@@ -267,8 +267,8 @@ function toPostDetail(dynamicId, dynamicType) {
   position: absolute;
   left: 0;
   top: 0;
-  width: 100vw; /* 375px in design, scale to screen width */
-  height: calc(100vh * 348 / 812); /* 348px scaled */
+  width: 100vw; /* design width scales to screen width */
+  height: calc(100vh * 348 / 812); /* design height scaled */
   opacity: 1;
   /* background-image: linear-gradient(90deg, rgba(10, 191, 102, 1) 0%, rgba(162, 238, 110, 1) 100%); */
   background-size: cover; /* 等比缩放覆盖 */
@@ -328,7 +328,7 @@ function toPostDetail(dynamicId, dynamicType) {
   width: calc(100vw * 24 / 375);
   height: calc(100vw * 24 / 375);
   border-radius: calc(100vw * 40 / 375);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(calc(100vw * 10 / 375));
   display: flex;
   justify-content: center;
   align-items: center;

@@ -53,7 +53,7 @@ function handleRecharge() {
   height: calc(100vh * 54 / 812);
   border-radius: calc(100vw * 40 / 375);
   background: linear-gradient(90deg, rgba(56, 243, 222, 1) 0%, rgba(27, 254, 134, 1) 100%);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(calc(100vw * 10 / 375));
 
   display: flex;
   justify-content: center;

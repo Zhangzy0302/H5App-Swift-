@@ -20,7 +20,7 @@
                     <div class="user-intro">{{ item.about }}</div>
                 </div>
                 <div class="block-right" @click="removeBlock(item.userId)">
-                  <img src="@/assets/xjwialkjc_close.png" alt="" width="24px">
+                  <img src="@/assets/xjwialkjc_close.png" alt="" class="block-action-icon">
                 </div>
             </div>
         </div>
@@ -203,6 +203,11 @@ function removeBlock(userId) {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.block-action-icon {
+  width: 100%;
+  height: 100%;
 }
 
 .empty {

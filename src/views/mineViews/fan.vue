@@ -20,7 +20,7 @@
                     <div class="user-intro">{{ item.about }}</div>
                 </div>
                 <div class="fan-right" @click="addFollow(item.userId)">
-                  <img src="@/assets/follow.png" alt="" width="24px">
+                  <img src="@/assets/follow.png" alt="" class="fan-action-icon">
                 </div>
             </div>
         </div>
@@ -200,7 +200,7 @@ function addFollow(userId) {
   width: calc(100vw * 32 / 375);
   height: calc(100vw * 32 / 375);
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.6);
+  border: calc(100vw * 1 / 375) solid rgba(255, 255, 255, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -250,6 +250,11 @@ function addFollow(userId) {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.fan-action-icon {
+  width: 100%;
+  height: 100%;
 }
 
 .empty {

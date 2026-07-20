@@ -389,7 +389,7 @@ function reportSelect(value) {
   line-height: calc(100vw * 17.41 / 375);
   color: rgba(255, 255, 255, 1);
   padding: calc(100vh * 10 / 812) calc(100vw * 10 / 375);
-  border-radius: 0px calc(100vw * 10 / 375) calc(100vw * 10 / 375) calc(100vw * 10 / 375);
+  border-radius: 0 calc(100vw * 10 / 375) calc(100vw * 10 / 375) calc(100vw * 10 / 375);
   background: linear-gradient(90deg, rgba(56, 243, 222, 1) 0%, rgba(27, 254, 134, 1) 100%);
 }
 
@@ -413,7 +413,7 @@ function reportSelect(value) {
 }
 
 .chat-item.own-message .chat-message {
-  border-radius: calc(100vw * 10 / 375) 0px calc(100vw * 10 / 375) calc(100vw * 10 / 375);
+  border-radius: calc(100vw * 10 / 375) 0 calc(100vw * 10 / 375) calc(100vw * 10 / 375);
   background: rgba(67, 64, 68, 1);
 }
 
@@ -439,7 +439,7 @@ function reportSelect(value) {
   height: calc(100vw * 46 / 375);
   border-radius: calc(100vw * 40 / 375);
   background: rgba(255, 255, 255, 1);
-  box-shadow: 0px calc(100vw * 2 / 375) calc(100vw * 4 / 375) rgba(0, 0, 0, 0.1);
+  box-shadow: 0 calc(100vw * 2 / 375) calc(100vw * 4 / 375) rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(calc(100vw * 32 / 375));
   display: flex;
   align-items: center;

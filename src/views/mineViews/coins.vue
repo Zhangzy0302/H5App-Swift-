@@ -127,7 +127,7 @@ function handleCoinClick(item, index) {
   font-family: 'Poppins', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
-  letter-spacing: 0px;
+  letter-spacing: 0;
   line-height: calc(100vw * 20.79 / 375);
   color: rgba(0, 0, 0, 1);
 }
@@ -158,7 +158,7 @@ function handleCoinClick(item, index) {
   font-family: 'Poppins', sans-serif;
   font-size: calc(100vw * 24 / 375);
   font-weight: 600;
-  letter-spacing: 0px;
+  letter-spacing: 0;
   line-height: calc(100vw * 17.41 / 375);
   color: rgba(0, 0, 0, 1);
 }
@@ -191,7 +191,7 @@ function handleCoinClick(item, index) {
   height: calc(100vh * 100 / 812);
   border-radius: calc(100vw * 20 / 375);
   background: rgba(23, 23, 23, 1);
-  box-shadow: 0px calc(100vw * 2 / 375) calc(100vw * 4 / 375) rgba(0, 0, 0, 0.06);
+  box-shadow: 0 calc(100vw * 2 / 375) calc(100vw * 4 / 375) rgba(0, 0, 0, 0.06);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -267,7 +267,7 @@ function handleCoinClick(item, index) {
   height: calc(100vh * 54 / 812);
   border-radius: calc(100vw * 40 / 375);
   background: linear-gradient(90deg, rgba(56, 243, 222, 1) 0%, rgba(27, 254, 134, 1) 100%);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(calc(100vw * 10 / 375));
 
   display: flex;
   justify-content: center;

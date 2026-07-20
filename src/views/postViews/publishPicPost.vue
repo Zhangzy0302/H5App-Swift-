@@ -288,7 +288,7 @@ const handleRelease = async () => {
   flex-shrink: 0;
   border-radius: calc(100vw * 20 / 375);
   background: rgba(255, 255, 255, 0.16);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(calc(100vw * 12 / 375));
   display: flex;
   justify-content: center;
   align-items: center;

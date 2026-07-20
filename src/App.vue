@@ -53,31 +53,31 @@ const uiStore = useUIStore()
 }
 
 .loading-box {
-  width: 120px;
-  height: 120px;
-  border-radius: 20px;
+  width: calc(100vw * 120 / 375);
+  height: calc(100vw * 120 / 375);
+  border-radius: calc(100vw * 20 / 375);
   background: rgb(33, 33, 33);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 22px;
-  box-shadow: 0 2px 8px rgba(137, 255, 135, 0.75);
+  gap: calc(100vw * 22 / 375);
+  box-shadow: 0 calc(100vw * 2 / 375) calc(100vw * 8 / 375) rgba(137, 255, 135, 0.75);
 }
 
 .loading-text {
   color: #fff;
   font-family: 'Poppins', sans-serif;
-  font-size: 16px;
+  font-size: calc(100vw * 16 / 375);
   font-weight: 400;
   line-height: 1;
 }
 
 .loading-spinner {
-  width: 45px;
-  height: 45px;
+  width: calc(100vw * 45 / 375);
+  height: calc(100vw * 45 / 375);
   box-sizing: border-box;
-  border: 4px solid rgba(255, 255, 255, 0.28);
+  border: calc(100vw * 4 / 375) solid rgba(255, 255, 255, 0.28);
   border-top-color: #fff;
   border-radius: 50%;
   animation: loading-spin 0.8s linear infinite;

@@ -383,7 +383,7 @@ function sendComment() {
 .indicator.active {
   width: calc(100vw * 32 / 375);
   height: calc(100vh * 6 / 812);
-  border-radius: 45px;
+  border-radius: calc(100vw * 45 / 375);
   background: rgba(255, 255, 255, 1);
 }
 
@@ -622,7 +622,7 @@ function sendComment() {
   height: calc(100vw * 46 / 375);
   border-radius: calc(100vw * 40 / 375);
   background: rgba(255, 255, 255, 1);
-  box-shadow: 0px calc(100vw * 2 / 375) calc(100vw * 4 / 375) rgba(0, 0, 0, 0.1);
+  box-shadow: 0 calc(100vw * 2 / 375) calc(100vw * 4 / 375) rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(calc(100vw * 32 / 375));
   display: flex;
   align-items: center;

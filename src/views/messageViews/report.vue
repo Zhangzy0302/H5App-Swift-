@@ -122,7 +122,7 @@ function handleSubmit() {
   bottom: 0;
   width: calc(100vw * 32 / 375);
   height: calc(100vw * 32 / 375);
-  border-radius: calc(100vw * 8 / 375) 0px calc(100vw * 20 / 375) 0px;
+  border-radius: calc(100vw * 8 / 375) 0 calc(100vw * 20 / 375) 0;
   background: rgba(0, 0, 0, 0.12);
 }
 
@@ -168,7 +168,7 @@ function handleSubmit() {
   height: calc(100vh * 103 / 812);
   border-radius: calc(100vw * 16 / 375);
   background: rgba(23, 23, 23, 1);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(calc(100vw * 12 / 375));
   padding: calc(100vw * 12 / 375);
   box-sizing: border-box;
 }
